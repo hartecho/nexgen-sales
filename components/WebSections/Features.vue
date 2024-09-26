@@ -1,0 +1,186 @@
+<template>
+  <div class="services-offered">
+    <div class="header">
+      <h4>SERVICES</h4>
+      <h1>What We Offer</h1>
+      <p>
+        We provide comprehensive services to enhance and support your
+        door-to-door sales performance, covering everything from training to
+        ongoing support.
+      </p>
+    </div>
+
+    <div class="services-grid">
+      <!-- Left Column -->
+      <div class="services-column left">
+        <div class="service-item">
+          <div class="text-content">
+            <h3>Sales Strategy</h3>
+            <p>
+              We build custom strategies that ensure you overcome objections and
+              close deals.
+            </p>
+          </div>
+          <img src="/Support.webp" alt="Sales Strategy" />
+        </div>
+        <div class="service-item">
+          <div class="text-content">
+            <h3>Database Management</h3>
+            <p>
+              Efficient tools to help manage your client information and leads
+              for the best results.
+            </p>
+          </div>
+          <img src="/Support.webp" alt="Database Management" />
+        </div>
+        <div class="service-item">
+          <div class="text-content">
+            <h3>Technical Infrastructure</h3>
+            <p>
+              Robust tools and systems to support seamless sales operations.
+            </p>
+          </div>
+          <img src="/Support.webp" alt="Technical Infrastructure" />
+        </div>
+      </div>
+
+      <!-- Center Column (with large icon and text) -->
+      <div class="center-column">
+        <img src="/Features.webp" alt="Web Security" class="large-image" />
+        <h2>Reactive Services</h2>
+      </div>
+
+      <!-- Right Column -->
+      <div class="services-column right">
+        <div class="service-item">
+          <img src="/Support.webp" alt="Web Security" />
+          <div class="text-content">
+            <h3>Web Security</h3>
+            <p>
+              Keep your sales platform secure and free from vulnerabilities.
+            </p>
+          </div>
+        </div>
+        <div class="service-item">
+          <img src="/Support.webp" alt="Cloud Support" />
+          <div class="text-content">
+            <h3>Cloud Support</h3>
+            <p>Access tools and training material from anywhere at any time.</p>
+          </div>
+        </div>
+        <div class="service-item">
+          <img src="/Support.webp" alt="Monitoring Services" />
+          <div class="text-content">
+            <h3>Monitoring Services</h3>
+            <p>
+              We provide real-time monitoring to help track your sales
+              performance and leads.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+</script>
+
+<style scoped>
+.services-offered {
+  padding: 6rem 2rem 8rem 2rem;
+  background-color: #222;
+  color: white;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header h4 {
+  color: #0197b2;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.header p {
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 1rem;
+  color: #aaa;
+  line-height: 1.6;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  padding-top: 3rem;
+  max-width: 1400px;
+}
+
+.services-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.service-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.left .service-item {
+  text-align: right;
+}
+
+.right .service-item {
+  text-align: left;
+}
+
+.text-content {
+  max-width: 70%;
+}
+
+.service-item h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.service-item p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.service-item img {
+  height: 3rem;
+  width: 3rem;
+}
+
+.center-column {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.large-image {
+  height: 15rem;
+  width: 15rem;
+}
+
+.center-column h2 {
+  margin-top: 1rem;
+  font-size: 2rem;
+}
+</style>
