@@ -1,11 +1,18 @@
 <template>
   <div class="form-container">
-    <h2>Sign In</h2>
     <div class="form-content">
-      <button class="button sign-in-button" @click="onEmailSignIn">
-        <img src="/EmailLogo.svg" alt="Email Logo" class="icon" />
-        Sign in with Email
-      </button>
+      <NavFooterPreloadLoginForm
+        :isLoading="isLoading"
+        :loginError="loginError"
+        @emailLogin="handleEmailLogin"
+      />
+
+      <div class="divider">
+        <div class="divider-text">
+          <h4>Or continue with</h4>
+        </div>
+      </div>
+
       <GoogleSignInButton
         @success="handleGoogleLogin"
         @error="handleLoginError"
@@ -13,14 +20,26 @@
         class="google-button"
       ></GoogleSignInButton>
     </div>
+    <p>
+      Dont have an account?
+      <button @click="changeToSignUp">Create Account!</button>
+    </p>
   </div>
 </template>
   
   <script setup>
 import { GoogleSignInButton } from "vue3-google-signin";
 const config = useRuntimeConfig();
+const isLoading = ref(false);
+const loginError = ref({});
+const userStore = useUserStore();
 
-const emit = defineEmits(["emailSignIn", "googleLogin", "loginError"]);
+const emit = defineEmits([
+  "emailSignIn",
+  "googleLogin",
+  "signUp",
+  "loginError",
+]);
 
 const handleGoogleLogin = (response) => {
   emit("googleLogin", response);
@@ -30,14 +49,33 @@ const handleLoginError = (error) => {
   emit("loginError", error);
 };
 
-const onEmailSignIn = () => {
-  emit("emailSignIn");
+const changeToSignUp = () => {
+  emit("signUp");
+};
+
+const handleEmailLogin = async (loginData) => {
+  isLoading.value = true;
+  loginError.value = {};
+  try {
+    const response = await $fetch("/api/auth/login", {
+      method: "POST",
+      body: { email: loginData.email, password: loginData.password },
+    });
+    userStore.setToken(response.token);
+    userStore.setUser(response.user);
+  } catch (error) {
+    loginError.value = {
+      general: error.data.message || "Invalid email or password",
+    };
+  } finally {
+    isLoading.value = false;
+  }
 };
 </script>
   
 <style scoped>
 .form-container {
-  width: 48%;
+  width: 100%;
   position: relative;
 }
 
@@ -47,11 +85,29 @@ h2 {
 }
 
 .form-content {
-  min-height: 300px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.divider {
+  position: relative;
+  width: 100%;
+  border-bottom: 2px solid white;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+.divider-text {
+  position: absolute;
+  color: white;
+  background: black;
+  width: 12rem;
+  top: -0.35rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .button {
@@ -96,6 +152,26 @@ h2 {
   width: 20px;
   height: 20px;
   margin-right: 8px;
+}
+
+p {
+  margin-top: 1rem;
+  color: white;
+  width: 100%;
+  text-align: center;
+}
+
+button {
+  background: none;
+  color: #0197b2;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+button:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 @media (max-width: 480px) {

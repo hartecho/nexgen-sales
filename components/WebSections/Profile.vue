@@ -6,7 +6,11 @@
         :key="section.name"
         class="nav-item"
         :class="{ active: isActive(section.name) }"
-        @click="toggleDropdown(section.name)"
+        @click="
+          section.name === 'logout'
+            ? handleLogout()
+            : toggleDropdown(section.name)
+        "
       >
         <div class="section-title">
           <img :src="getImageSrc(section.icon, section.name)" alt="Icon" />
@@ -32,16 +36,18 @@
       </div>
     </div>
     <div class="content-section">
-      <component :is="currentSection" />
+      <ProfileDashboard v-if="currentSection == 'dashboard'" />
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref } from "vue";
 
 const currentSection = ref("dashboard");
 const dropdowns = ref({});
+const userStore = useUserStore();
 
 const sections = [
   { name: "dashboard", hasDropdown: false, title: "Dashboard", icon: "Dash" },
@@ -94,6 +100,11 @@ const toggleDropdown = (section) => {
   }
 };
 
+// Handle the logout action
+const handleLogout = () => {
+  userStore.logout();
+};
+
 // Helper function to dynamically get arrow source based on dropdown and active state
 const getArrowSrc = (section) => {
   const isDropdownOpen = dropdowns.value[section];
@@ -125,9 +136,14 @@ const setActiveSection = (section) => {
   });
 };
 
+watch(currentSection, (newSection) => {
+  console.log("Current section changed to:", newSection);
+});
+
 const emit = defineEmits(["hide-loading"]);
 emit("hide-loading");
 </script>
+
 
 
 <style scoped>
@@ -138,8 +154,8 @@ emit("hide-loading");
 }
 
 .sidebar {
-  width: 325px;
-  background-color: #4a4a4a;
+  width: 300px;
+  background-color: black;
   padding: 1rem 0;
   color: white;
   height: 100vh;
@@ -207,12 +223,13 @@ h3 {
 
 .sub-item:hover,
 .nav-item:hover {
-  background-color: #555;
+  background-color: #111;
 }
 
 .content-section {
   flex: 1;
-  padding: 2rem;
+  /* padding: 2rem; */
+  border-top: 2px solid white;
   background-color: #f0f0f0;
   height: 100vh;
   overflow-y: auto;

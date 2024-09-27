@@ -17,11 +17,16 @@ export const useUserStore = defineStore('userStore', () => {
     user.value = null;
   };
 
+  const setImage = (image) => {
+    user.profilePicture = image;
+  };
+
   return {
     token,
     user,
     setToken,
     setUser,
+    setImage,
     logout,
   };
 }, {

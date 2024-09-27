@@ -52,7 +52,6 @@ export default defineEventHandler(async (event) => {
             // Update user info in case any details have changed
             user.googleId = payload.sub;
             user.name = payload.name;
-            user.profilePicture = payload.picture; // Ensure this field exists in your schema
             await user.save();
         }
 

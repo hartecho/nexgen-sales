@@ -2,29 +2,36 @@ import User from '~/server/models/User.js';
 import Item from '~/server/models/Item.js'; // Assuming products are called "Item"
 import { connectDB } from '~/server/utils/dbConnect';
 import { disconnectDB } from '~/server/utils/dbDisconnect';
+import mongoose from 'mongoose'; // Import mongoose to validate ObjectId
 
 export default defineEventHandler(async (event) => {
   await connectDB();
+  
+  // Extract userId from request parameters
   const userId = event.context.params.id;
-  const body = await readBody(event);
-
-  if (!userId) {
-    console.error('Error: Missing userId in the request');
-    throw createError({ statusCode: 400, message: 'Bad Request: Missing userId' });
+  
+  // Validate the extracted userId
+  if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
+    console.error('Error: Invalid or missing userId in the request');
+    await disconnectDB();
+    throw createError({ statusCode: 400, message: 'Bad Request: Invalid or missing userId' });
   }
 
+  // Read the body of the request
+  const body = await readBody(event);
+
   try {
-    // Retrieve the current user
+    // Retrieve the current user by id
     const existingUser = await User.findById(userId);
 
     if (!existingUser) {
       console.error(`Error: User with id ${userId} not found`);
+      await disconnectDB();
       throw createError({ statusCode: 404, message: 'User not found' });
     }
 
     // Handle cart updates if provided
     if (Array.isArray(body.cart)) {
-      // Ensure no duplicate products in the cart
       const uniqueCart = [...new Set(body.cart.map(item => item.product))];
       const updatedCart = uniqueCart.map((productId, index) => ({
         product: productId,
@@ -56,18 +63,21 @@ export default defineEventHandler(async (event) => {
     // Update basic fields
     existingUser.name = body.name || existingUser.name;
     existingUser.email = body.email || existingUser.email;
+
+    // Update password if provided
     if (body.password) {
-      // Only update password if it's provided (assuming proper hashing in pre-save hook)
       existingUser.password = body.password;
     }
+
     existingUser.profilePicture = body.profilePicture || existingUser.profilePicture;
     existingUser.bio = body.bio || existingUser.bio;
 
-    // Save updated user
+    // Save the updated user
     const updatedUser = await existingUser.save();
 
     if (!updatedUser) {
       console.error(`Error: User with id ${userId} not found after update`);
+      await disconnectDB();
       throw createError({ statusCode: 404, message: 'User not found after update' });
     }
 

@@ -1,17 +1,11 @@
 <template>
-  <button
-    :disabled="isLoading"
-    class="honey-button loading-button"
-    @click="handleClick"
-  >
+  <button :disabled="isLoading" class="loading-button" @click="handleClick">
     <span v-if="!isLoading">{{ text }}</span>
     <span v-else class="spinner"></span>
   </button>
 </template>
-    
-    <script setup>
-import { ref } from "vue";
 
+<script setup>
 const props = defineProps({
   text: {
     type: String,
@@ -29,26 +23,30 @@ const handleClick = () => {
   emit("submit");
 };
 </script>
-    
-    <style scoped>
+
+<style scoped>
+.wrapper {
+  color: white;
+}
+
 .loading-button {
-  position: relative;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #cbd2df;
+  background: #0197b2;
+  border-radius: 10px;
   font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s, color 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 3.1rem;
+  color: white;
+  transition: all 0.2s ease-in-out;
+  font-weight: bold;
 }
 
 .loading-button:hover {
-  /* background-color: #0056b3; */
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  color: black;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .loading-button:disabled {
@@ -56,13 +54,15 @@ const handleClick = () => {
   cursor: not-allowed;
 }
 
+/* Spinner styling */
 .spinner {
+  display: inline-block;
   width: 24px;
   height: 24px;
   border: 4px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   border-top-color: white;
-  animation: spin 1s ease-in-out infinite;
+  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
@@ -71,4 +71,3 @@ const handleClick = () => {
   }
 }
 </style>
-    

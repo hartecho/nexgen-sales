@@ -1,46 +1,14 @@
 <template>
   <div class="nav-links">
     <div class="nav-link">
-      <NuxtLink to="/" class="nav-link-content" @click="toggleMobileNav">
-        <span>Home</span>
-      </NuxtLink>
-    </div>
-    <div class="nav-link">
-      <NuxtLink
-        to="/products"
-        class="nav-link-content"
-        @click="toggleMobileNav"
-      >
-        <span>Training</span>
-      </NuxtLink>
-    </div>
-    <div class="nav-link">
       <NuxtLink to="/blog" class="nav-link-content" @click="toggleMobileNav">
         <span>Blog</span>
       </NuxtLink>
     </div>
-
-    <div
-      v-if="hydrated && !isLoggedIn"
-      class="nav-link"
-      @click="openLoginModal"
-    >
-      <div class="nav-link-content" @click="toggleMobileNav">
-        <span>Login</span>
-      </div>
-    </div>
-    <div
-      v-if="hydrated && isLoggedIn"
-      class="nav-link"
-      @click="toggleMobileNav"
-    >
-      <NuxtLink to="/profile" class="nav-link-content">
-        <span>Profile</span>
+    <div class="nav-link">
+      <NuxtLink to="/portal" class="nav-link-content" @click="toggleMobileNav">
+        <span>Client Portal</span>
       </NuxtLink>
-    </div>
-    <!-- Login Modal -->
-    <div :class="['modal-wrapper', { 'is-visible': showLoginModal }]">
-      <NavFooterPreloadLoginModal @close="closeLoginModal" />
     </div>
   </div>
 </template>

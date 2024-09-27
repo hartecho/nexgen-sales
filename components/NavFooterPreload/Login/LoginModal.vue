@@ -1,22 +1,26 @@
 <template>
   <div class="modal-overlay" @click.self="closeModal">
     <div class="modal" key="modal">
-      <button @click="closeModal" class="close-button">×</button>
       <transition name="fade" mode="out-in">
         <div v-if="!emailSignIn" key="signInOptions" class="content-wrapper">
-          <h2>Join to Leave Reviews</h2>
           <div class="form-wrapper">
-            <NavFooterPreloadLoginSignInForm
-              @emailSignIn="handleEmailSignIn"
-              @googleLogin="handleGoogleLogin"
-              @loginError="handleLoginError"
-              @closeModal="closeModal"
-            />
-            <NavFooterPreloadLoginSignUpForm
-              :isLoading="isLoading"
-              :signUpError="signUpError"
-              @signUp="handleSignUp"
-            />
+            <transition name="fade" mode="out-in">
+              <NavFooterPreloadLoginSignInForm
+                v-if="loginForm"
+                @emailSignIn="handleEmailSignIn"
+                @googleLogin="handleGoogleLogin"
+                @loginError="handleLoginError"
+                @signUp="switchToSignUp"
+                @closeModal="closeModal"
+              />
+              <NavFooterPreloadLoginSignUpForm
+                v-else
+                :isLoading="isLoading"
+                :signUpError="signUpError"
+                @signUp="handleSignUp"
+                @signIn="switchToSignIn"
+              />
+            </transition>
           </div>
         </div>
         <div v-else key="emailSignIn">
@@ -39,6 +43,7 @@ const email = ref("");
 const password = ref("");
 const showModal = ref(false);
 const isLoading = ref(false);
+const loginForm = ref(true);
 
 const loginError = ref({});
 const signUpError = ref({});
@@ -47,6 +52,14 @@ const emit = defineEmits(["close"]);
 
 const closeModal = () => {
   emit("close");
+};
+
+const switchToSignUp = () => {
+  loginForm.value = false;
+};
+
+const switchToSignIn = () => {
+  loginForm.value = true;
 };
 
 const handleEmailSignIn = () => {
@@ -139,12 +152,12 @@ onMounted(() => {
 
 <style scoped>
 .modal-overlay {
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  /* background: rgba(0, 0, 0, 0.8); */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -152,23 +165,15 @@ onMounted(() => {
 }
 
 .modal {
-  background: url("/Car2.png") no-repeat center top;
+  /* background: url("/Car2.png") no-repeat center top; */
   background-size: cover;
-  padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
   max-width: 90%;
-  max-height: 70vh; /* Set to 70% of the viewport height */
   min-height: 70vh;
-  width: 50rem;
+  width: 25rem;
   text-align: center;
   position: relative;
-  transition: transform 0.3s ease;
   overflow-y: auto; /* Allows scrolling if content exceeds modal height */
-}
-
-.modal:hover {
-  transform: scale(1.02);
 }
 
 h1 {

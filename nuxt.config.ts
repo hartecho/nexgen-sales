@@ -60,6 +60,10 @@ export default defineNuxtConfig({
     DB_URI: process.env.DB_URI,
     GOOGLE_LOGIN_URI: process.env.GOOGLE_LOGIN_URI,
     GOOGLE_LOGIN_URI_TEST: process.env.GOOGLE_LOGIN_URI_TEST,
+    NUXT_AWS_ACCESS_KEY: process.env.NUXT_AWS_ACCESS_KEY,
+    NUXT_AWS_SECRET_KEY: process.env.NUXT_AWS_SECRET_KEY,
+    NUXT_AWS_REGION: process.env.NUXT_AWS_REGION,
+    NUXT_S3_BUCKET: process.env.NUXT_S3_BUCKET,
       
     public: {
       // DB_URI: process.env.DB_URI,

@@ -1,5 +1,6 @@
 <template>
   <div class="password-input-wrapper input-wrapper">
+    <label>{{ placeholder }}</label>
     <input
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
@@ -8,7 +9,6 @@
       class="input"
       placeholder=" "
     />
-    <label>{{ placeholder }}</label>
     <span @click="togglePasswordVisibility" class="eye-icon">
       <img
         :src="passwordVisible ? '/Eye2Black.svg' : '/Eye1Black.svg'"
@@ -43,48 +43,57 @@ const togglePasswordVisibility = () => {
 .input-wrapper {
   position: relative;
   width: 100%;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
   color: black;
 }
 
 .input {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border: 2px solid #cbd2df;
+  background: #0197b2;
+  border-radius: 10px;
   font-size: 1rem;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 3.2rem;
+  color: white;
 }
 
 .input:focus {
-  border-color: #4caf50;
+  /* border-color: #4caf50; */
   outline: none;
 }
 
 label {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  color: black;
-  text-shadow: none;
+  position: static;
   font-size: 1rem;
-  transition: all 0.2s ease;
   pointer-events: none;
+  width: 100%;
+  text-align: left;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
-.input:not(:placeholder-shown) + label,
-.input:focus + label {
-  top: -10px;
-  left: 5px;
-  font-size: 1rem;
-  color: white;
-  text-shadow: 2px 2px 0px black;
+/* Target the placeholder */
+input::placeholder {
+  color: #ccc; /* Change the color */
+  font-size: 16px; /* Change the font size */
+  opacity: 1; /* Ensure the opacity is 100% (default can be less) */
+}
+
+/* Target the placeholder in different input states (optional) */
+input:focus::placeholder {
+  color: #aaa; /* Change color when input is focused */
+}
+
+input:disabled::placeholder {
+  color: #888; /* Placeholder style for disabled inputs */
 }
 
 .eye-icon {
   position: absolute;
-  top: 50%;
+  top: 70%;
   right: 10px;
   transform: translateY(-50%);
   cursor: pointer;

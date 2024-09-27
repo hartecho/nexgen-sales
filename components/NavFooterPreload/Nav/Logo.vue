@@ -1,7 +1,7 @@
 <template>
   <div class="brand">
     <NuxtLink to="/" class="nav-logo-box">
-      <img src="/NexgenLogo.webp" alt="Company Logo" class="nav-logo" />
+      <img src="/Nexgen.webp" alt="Company Logo" class="nav-logo" />
     </NuxtLink>
   </div>
 </template>
@@ -15,7 +15,7 @@
   overflow: hidden;
 }
 .nav-logo-box {
-  width: 300px;
+  width: 250px;
   height: auto;
 }
 .nav-logo {

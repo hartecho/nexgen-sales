@@ -1,26 +1,26 @@
 <template>
   <div class="form-container">
-    <h2>Sign Up</h2>
-    <form @submit.prevent="handleSignUp">
+    <h2>Sign Up and Watch Your Sales Skills Grow</h2>
+    <form @submit.prevent="handleSignUp" class="sign-up-form-content">
       <div class="input-wrapper">
+        <label>Name</label>
         <input
           v-model="signUpName"
           type="text"
-          placeholder=" "
+          placeholder="John Doe"
           required
           class="input"
         />
-        <label>Name</label>
       </div>
       <div class="input-wrapper">
+        <label>Email</label>
         <input
           v-model="signUpEmail"
           type="email"
-          placeholder=" "
+          placeholder="Example@email.com"
           required
           class="input"
         />
-        <label>Email</label>
       </div>
       <NavFooterPreloadLoginPasswordInput
         v-model="signUpPassword"
@@ -32,44 +32,35 @@
         placeholder="Confirm Password"
       />
       <div class="password-requirements-toggle">
-        <button
-          type="button"
-          @click="toggleRequirements"
-          class="requirements-button"
-        >
-          Password Requirements
-        </button>
-        <transition name="fade">
-          <div v-if="showRequirements" class="password-requirements">
-            <div
-              :class="{
-                valid: passwordValidLength,
-                invalid: !passwordValidLength,
-              }"
-            >
-              <span v-if="passwordValidLength">✔ </span>
-              <span v-else>✘ </span>
-              8 characters minimum
-            </div>
-            <div
-              :class="{
-                valid: passwordHasUppercase,
-                invalid: !passwordHasUppercase,
-              }"
-            >
-              <span v-if="passwordHasUppercase">✔ </span>
-              <span v-else>✘ </span>
-              At least one uppercase letter
-            </div>
-            <div
-              :class="{ valid: passwordHasNumber, invalid: !passwordHasNumber }"
-            >
-              <span v-if="passwordHasNumber">✔ </span>
-              <span v-else>✘ </span>
-              At least one number
-            </div>
+        <div class="password-requirements">
+          <div
+            :class="{
+              valid: passwordValidLength,
+              invalid: !passwordValidLength,
+            }"
+          >
+            <span v-if="passwordValidLength">✔ </span>
+            <span v-else>✘ </span>
+            8 characters minimum
           </div>
-        </transition>
+          <div
+            :class="{
+              valid: passwordHasUppercase,
+              invalid: !passwordHasUppercase,
+            }"
+          >
+            <span v-if="passwordHasUppercase">✔ </span>
+            <span v-else>✘ </span>
+            At least one uppercase letter
+          </div>
+          <div
+            :class="{ valid: passwordHasNumber, invalid: !passwordHasNumber }"
+          >
+            <span v-if="passwordHasNumber">✔ </span>
+            <span v-else>✘ </span>
+            At least one number
+          </div>
+        </div>
       </div>
       <SubcomponentsLoadingButton
         :isLoading="isLoading"
@@ -78,12 +69,17 @@
         text="Sign Up"
         class="sign-up-button"
       />
+
       <transition name="fade">
         <div v-if="signUpError.general" class="error-message">
           {{ signUpError.general }}
         </div>
       </transition>
     </form>
+    <p>
+      Already have an account?
+      <button @click="changeToSignIn">Sign In!</button>
+    </p>
   </div>
 </template>
 
@@ -101,7 +97,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["signUp"]);
+const emit = defineEmits(["signUp", "signIn"]);
 
 const signUpName = ref("");
 const signUpEmail = ref("");
@@ -123,6 +119,10 @@ const validatePassword = () => {
 
 const toggleRequirements = () => {
   showRequirements.value = !showRequirements.value;
+};
+
+const changeToSignIn = () => {
+  emit("signIn");
 };
 
 const handleSignUp = async () => {
@@ -164,7 +164,7 @@ const isFormValid = computed(() => {
 
 <style scoped>
 .form-container {
-  width: 48%;
+  width: 100%;
   position: relative;
   margin: 0 auto; /* Center the form container */
   height: auto;
@@ -173,53 +173,69 @@ const isFormValid = computed(() => {
 h2 {
   margin-bottom: 1.5rem;
   color: white;
-  text-decoration: underline;
+}
+
+.sign-up-form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .input-wrapper {
   position: relative;
-  margin-bottom: 1.5rem; /* Adjust this if needed for vertical spacing */
-  text-shadow: none;
+  /* margin-bottom: 1rem; */
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-.input-wrapper input {
+.input {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ddd;
-  text-shadow: none;
-  border-radius: 5px;
+  border: 2px solid #cbd2df;
+  background: #0197b2;
+  border-radius: 10px;
   font-size: 1rem;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 3.2rem;
+  color: white;
 }
 
-.input-wrapper input:focus {
-  border-color: #4caf50;
+.input:focus {
+  /* border-color: #4caf50; */
   outline: none;
 }
 
-.input-wrapper label {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  color: black;
+label {
+  position: static;
   font-size: 1rem;
-  transition: all 0.2s ease;
   pointer-events: none;
+  width: 100%;
+  text-align: left;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
-.input-wrapper input:not(:placeholder-shown) + label,
-.input-wrapper input:focus + label {
-  top: -10px;
-  left: 5px;
-  font-size: 1rem;
-  color: white;
-  background: transparent;
-  text-shadow: 2px 2px 0px black;
+/* Target the placeholder */
+input::placeholder {
+  color: #ccc; /* Change the color */
+  font-size: 16px; /* Change the font size */
+  opacity: 1; /* Ensure the opacity is 100% (default can be less) */
+}
+
+/* Target the placeholder in different input states (optional) */
+input:focus::placeholder {
+  color: #aaa; /* Change color when input is focused */
+}
+
+input:disabled::placeholder {
+  color: #888; /* Placeholder style for disabled inputs */
 }
 
 .password-requirements-toggle {
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
   text-align: center;
 }
 
@@ -245,7 +261,7 @@ h2 {
   background: rgba(0, 0, 0, 0.9);
   text-shadow: none;
   border-radius: 10px;
-  padding: 1rem;
+  /* padding: 1rem; */
   /* margin-top: 1rem; */
 }
 
@@ -303,6 +319,26 @@ h2 {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+p {
+  margin-top: 1rem;
+  color: white;
+  width: 100%;
+  text-align: center;
+}
+
+button {
+  background: none;
+  color: #0197b2;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+button:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 @media (max-width: 480px) {

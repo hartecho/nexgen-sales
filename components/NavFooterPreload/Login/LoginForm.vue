@@ -1,16 +1,16 @@
 <template>
   <div class="login-form-container full-width">
-    <h2>Login</h2>
+    <h2>Welcome Back to Your Training Portal</h2>
     <form @submit.prevent="handleEmailLogin" class="login-form-content">
       <div class="input-wrapper">
+        <label>Email</label>
         <input
           v-model="email"
           type="email"
-          placeholder=" "
+          placeholder="Example@email.com"
           required
           class="input"
         />
-        <label>Email</label>
       </div>
       <NavFooterPreloadLoginPasswordInput
         v-model="password"
@@ -28,12 +28,6 @@
         </div>
       </transition>
     </form>
-    <img
-      :src="backArrowSrc"
-      alt="Back Arrow"
-      @click="handleBackClick"
-      class="back-button"
-    />
   </div>
 </template>
 
@@ -74,63 +68,83 @@ const isFormValid = computed(() => {
 
 <style scoped>
 .login-form-container {
-  padding: 2rem;
-  min-height: 100%;
+  /* padding: 1rem; */
+  width: 100%;
 }
 
 h2 {
   color: white;
+  text-shadow: none;
+  font-size: 1.6rem;
   margin-bottom: 2rem;
 }
 
 .full-width {
   width: 100%;
-  position: absolute;
+  /* position: absolute; */
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
 }
 
+.login-form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .input-wrapper {
   position: relative;
-  margin-bottom: 1.5rem;
+  /* margin-bottom: 1rem; */
   color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .input {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border: 2px solid #cbd2df;
+  background: #0197b2;
+  border-radius: 10px;
   font-size: 1rem;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 3.2rem;
+  color: white;
 }
 
 .input:focus {
-  border-color: #4caf50;
+  /* border-color: #4caf50; */
   outline: none;
 }
 
 label {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  color: black;
-  text-shadow: none;
+  position: static;
   font-size: 1rem;
-  transition: all 0.2s ease;
   pointer-events: none;
+  width: 100%;
+  text-align: left;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
-.input:not(:placeholder-shown) + label,
-.input:focus + label {
-  top: -10px;
-  left: 5px;
-  font-size: 1rem;
-  color: white;
-  text-shadow: 2px 2px 0px black;
+/* Target the placeholder */
+input::placeholder {
+  color: #ccc; /* Change the color */
+  font-size: 16px; /* Change the font size */
+  opacity: 1; /* Ensure the opacity is 100% (default can be less) */
+}
+
+/* Target the placeholder in different input states (optional) */
+input:focus::placeholder {
+  color: #aaa; /* Change color when input is focused */
+}
+
+input:disabled::placeholder {
+  color: #888; /* Placeholder style for disabled inputs */
 }
 
 .error-message {
