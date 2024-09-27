@@ -93,12 +93,12 @@
     </div>
 
     <!-- Contact Banner -->
-    <SubcomponentsContactBanner
+    <!-- <SubcomponentsContactBanner
       graphicPath="ContactBannerGraphic.svg"
       buttonClass="contact-button"
       buttonPath="/contact"
       backgroundPath="ContactBannerBG.svg"
-    />
+    /> -->
   </div>
 </template>
 

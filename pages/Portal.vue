@@ -35,20 +35,20 @@ emit("hide-loading");
   /* background: url("/introBG.webp") no-repeat; */
   background: black;
   /* background: black; */
-  background-position: center center;
+  /* background-position: center center; */
 }
 
 .login-form {
   display: flex;
   justify-content: space-between;
-  min-width: 100vw;
+  /* min-width: 100vw; */
   /* align-items: center; */
   /* max-width: 1400px; */
   /* background: blue; */
 }
 
 .left {
-  min-height: 100vh;
+  /* min-height: 100vh; */
 }
 
 .image-wrapper {

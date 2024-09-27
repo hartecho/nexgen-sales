@@ -1,6 +1,9 @@
 <template>
   <div class="dashboard">
     <div class="sidebar">
+      <div class="logo-wrapper">
+        <img src="/NexgenLogo.webp" alt="" />
+      </div>
       <div
         v-for="section in sections"
         :key="section.name"
@@ -36,7 +39,10 @@
       </div>
     </div>
     <div class="content-section">
-      <ProfileDashboard v-if="currentSection == 'dashboard'" />
+      <transition name="fade" mode="out-in">
+        <ProfileDashboard v-if="currentSection == 'dashboard'" />
+        <ProfilePreferences v-else-if="currentSection == 'profile'" />
+      </transition>
     </div>
   </div>
 </template>
@@ -53,14 +59,9 @@ const sections = [
   { name: "dashboard", hasDropdown: false, title: "Dashboard", icon: "Dash" },
   {
     name: "profile",
-    hasDropdown: true,
+    hasDropdown: false,
     title: "Profile & Preferences",
     icon: "Profile",
-    subSections: [
-      { name: "edit-profile", title: "Edit Profile" },
-      { name: "change-password", title: "Change Password" },
-      { name: "notifications", title: "Manage Notifications" },
-    ],
   },
   {
     name: "orders",
@@ -161,6 +162,24 @@ emit("hide-loading");
   height: 100vh;
   border-top: 2px solid white;
   border-bottom: 2px solid white;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  /* align-items: center; */
+}
+
+.logo-wrapper {
+  width: 60%;
+  /* height: 12rem; */
+  /* aspect-ratio: 1/1; */
+  display: flex;
+  align-self: center;
+  justify-self: center;
+}
+
+.logo-wrapper img {
+  width: 100%;
+  height: 100%;
 }
 
 img {

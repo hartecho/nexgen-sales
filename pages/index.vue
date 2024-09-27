@@ -42,10 +42,17 @@
 
     <section class="contact-section">
       <!-- prettier-ignore -->
+      <WebSectionsContact/>
     </section>
 
     <section class="blog-section">
       <!-- prettier-ignore -->
+      <WebSectionsNews/>
+    </section>
+
+    <section class="free-section">
+      <!-- prettier-ignore -->
+      <WebSectionsFree/>
     </section>
   </div>
 </template>
@@ -75,7 +82,8 @@ emit("hide-loading");
 .testimonials-section,
 .about-us-section,
 .contact-section,
-.blog-section {
+.blog-section,
+.free-section {
   width: 100%;
   height: auto;
   display: flex;

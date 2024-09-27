@@ -155,8 +155,8 @@
     </div>
   </div>
 </template>
-  
-  <script setup>
+    
+    <script setup>
 const userStore = useUserStore();
 const fileInput = ref(null);
 const password = ref("");
@@ -274,8 +274,8 @@ const showNotification = (message, type) => {
   notificationType.value = type;
 };
 </script>
-  
-  <style scoped>
+    
+    <style scoped>
 .wrapper {
   position: relative;
 }
@@ -417,4 +417,4 @@ const showNotification = (message, type) => {
   background-color: #45a049;
 }
 </style>
-  
+    

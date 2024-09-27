@@ -1,23 +1,9 @@
 <template>
   <div>
     <NavFooterPreloadTopNav />
-    <!-- <NavFooterPreloadDropDownNav /> -->
-
     <div>
       <slot />
     </div>
-    <!-- <div class="divider">
-        <svg
-          width="100%"
-          height="100"
-          viewBox="0 0 100 10"
-          preserveAspectRatio="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect width="100" height="10" fill="" />
-          <path d="M 0 0 Q 0 10 25 10 L 100 10 L 100 0 Z" fill="white" />
-        </svg>
-      </div> -->
     <NavFooterPreloadNAHFooter />
   </div>
 </template>
@@ -153,6 +139,13 @@ footer {
   .image-overflow-hidden {
     height: 25vh;
   }
+}
+</style>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
 }
 </style>
 

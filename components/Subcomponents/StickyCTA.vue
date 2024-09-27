@@ -46,7 +46,7 @@ onMounted(() => {
 }
 
 .cta-sidebar.large {
-  top: 5rem;
+  top: 1rem;
 }
 
 .cta-sidebar.small {

@@ -85,7 +85,7 @@ onMounted(() => {
 }
 
 .sidebar.large {
-  top: 5rem;
+  top: 1rem;
 }
 
 .sidebar.small {

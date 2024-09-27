@@ -1,6 +1,7 @@
 <template>
   <div>
-    <NuxtLayout>
+    <!-- Conditionally render layout based on route -->
+    <NuxtLayout v-if="!isPortalRoute">
       <!-- Page content with transition -->
       <transition name="fade" mode="out-in">
         <div class="page-wrapper">
@@ -14,15 +15,25 @@
         <p>Loading, please wait...</p>
       </div>
     </NuxtLayout>
+
+    <!-- If route is /portal, render just the page content without the layout -->
+    <div v-else>
+      <transition name="fade" mode="out-in">
+        <div class="page-wrapper">
+          <NuxtPage @hide-loading="hideLoadingScreen" />
+        </div>
+      </transition>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, provide } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 const isLoading = ref(false);
 const router = useRouter();
+const route = useRoute();
 
 // Function to show the loading screen
 function showLoadingScreen() {
@@ -36,6 +47,9 @@ function hideLoadingScreen() {
 
 // Provide the showLoadingScreen function so that child components (pages) can use it
 provide("showLoadingScreen", showLoadingScreen);
+
+// Check if the current route is '/portal'
+const isPortalRoute = computed(() => route.path === "/portal");
 
 // Handle route changes to initially show the loading screen
 router.beforeEach((to, from, next) => {
@@ -157,7 +171,8 @@ form button {
 @import "./css/ButtonStyles/ContactBannerButton.css";
 @import "./css/Transitions/Fade.css";
 
-* {
+*,
+html {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
