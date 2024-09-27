@@ -2,12 +2,18 @@
   <div class="trial-section-wrapper">
     <div class="trial-section">
       <div class="trial-section-content">
-        <h2>Still Confused About Our Features? Get A Free Trial 7 Days</h2>
+        <h2>
+          Still Confused About Our Features? Sign Up To Access Free Course
+          Material!
+        </h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
           volutpat, leo sit amet.
         </p>
-        <a href="#" class="cta-button">Get Free Trial</a>
+        <button type="submit" class="cta-button">
+          <img src="/LinkIcon.svg" alt="" />
+          SIGN UP
+        </button>
       </div>
       <div class="trial-section-image"></div>
     </div>
@@ -18,8 +24,8 @@
 .trial-section-wrapper {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-image: url("/BlogPics/BlogPic5.webp");
+  justify-content: center;
+  background-image: url("/BlogPics/BlogPic7.webp");
   background-size: cover;
   background-position: center;
   height: 400px;
@@ -29,15 +35,18 @@
 
 .trial-section {
   display: flex;
-  max-width: 1300px;
+  justify-content: space-between;
+  max-width: 1400px;
+  width: 1200px;
+  height: 100%;
 }
 
 .trial-section-content {
   background-color: rgba(0, 0, 0, 0.8);
-  padding: 2rem;
+  padding: 3rem;
   width: 40%;
   height: 100%;
-  margin-left: 2rem;
+  /* margin-left: 2rem; */
 }
 
 .trial-section-content h2 {
@@ -46,27 +55,35 @@
 }
 
 .trial-section-content p {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   color: #ccc;
 }
 
 .cta-button {
   display: inline-block;
-  background-color: #01d1b2;
-  color: white;
-  padding: 0.75rem 2rem;
-  text-decoration: none;
+  background-color: #0197b2;
+  color: black;
   font-weight: bold;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
+  padding: 1rem;
+  border: none;
+  /* border-radius: 4px; */
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .cta-button:hover {
-  background-color: #0197b2;
+  background-color: white;
+  /* transform: scale(1.01); */
 }
 
 .trial-section-image {
   flex-grow: 1;
+}
+
+.cta-button img {
+  height: 1rem;
+  width: 1rem;
 }
 </style>
   

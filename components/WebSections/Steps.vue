@@ -74,7 +74,7 @@ export default {
 
 .service-card:hover {
   box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.4);
-  transform: scale(1.01);
+  /* transform: scale(1.01); */
 }
 
 .icon {

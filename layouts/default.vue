@@ -4,7 +4,7 @@
     <div>
       <slot />
     </div>
-    <NavFooterPreloadNAHFooter />
+    <NavFooterPreloadNexgenFooter />
   </div>
 </template>
   

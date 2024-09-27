@@ -101,7 +101,7 @@ button {
 
 button:hover {
   background: white;
-  transform: scale(1.01);
+  /* transform: scale(1.01); */
 }
 
 .testimonials-grid {

@@ -90,11 +90,12 @@ const submitForm = () => {
 }
 
 .contact-page {
-  max-width: 1400px;
+  max-width: 1300px;
   margin: 0 auto;
   padding: 4rem 2rem;
   display: flex;
   justify-content: space-between;
+  gap: 1rem;
 }
 
 .contact-info {
@@ -148,7 +149,7 @@ const submitForm = () => {
 
 .contact-form {
   flex: 1;
-  padding: 2rem;
+  padding: 2rem 0;
   border-radius: 0px;
 }
 
@@ -188,7 +189,7 @@ const submitForm = () => {
   font-weight: bold;
   padding: 1rem 2rem;
   border: none;
-  border-radius: 4px;
+  /* border-radius: 4px; */
   font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -196,7 +197,7 @@ const submitForm = () => {
 
 .submit-button:hover {
   background-color: white;
-  transform: scale(1.01);
+  /* transform: scale(1.01); */
 }
 
 .submit-button img {
