@@ -82,6 +82,18 @@ const userSchema = new mongoose.Schema({
     enum: ['customer', 'admin'],
     default: 'customer',
   },
+  enrolledCourses: [
+    {
+      course: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course', // Assuming you have a 'Course' model
+      },
+      currentLessonIndex: {
+        type: Number,
+        default: 0, // Tracks the current lesson in the course
+      },
+    },
+  ],
   created_at: {
     type: Date,
     default: Date.now,

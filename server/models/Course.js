@@ -9,6 +9,8 @@ const quizSchema = new mongoose.Schema({
 
 const courseSchema = new mongoose.Schema({
     name: { type: String, required: true },
+    description: String,
+    image: String,
     trainings: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Training', // Referencing the TrainingModule schema

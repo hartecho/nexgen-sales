@@ -24,6 +24,11 @@ export default defineEventHandler(async (event) => {
     // Retrieve the current user by id
     const existingUser = await User.findById(userId);
 
+    if (!existingUser.enrolledCourses) {
+      existingUser.enrolledCourses = []; // Initialize if it doesn't exist
+    }
+    
+
     if (!existingUser) {
       console.error(`Error: User with id ${userId} not found`);
       await disconnectDB();
@@ -59,6 +64,16 @@ export default defineEventHandler(async (event) => {
     if (Array.isArray(body.paymentMethods)) {
       existingUser.paymentMethods = body.paymentMethods;
     }
+
+   // Handle enrolled courses updates if provided
+if (Array.isArray(body.enrolledCourses)) {
+  const updatedEnrolledCourses = body.enrolledCourses.map((course) => ({
+    course: course.course, // Use the existing course ID directly
+    currentLessonIndex: course.currentLessonIndex || 0,
+  }));
+  existingUser.enrolledCourses = updatedEnrolledCourses;
+}
+
 
     // Update basic fields
     existingUser.name = body.name || existingUser.name;

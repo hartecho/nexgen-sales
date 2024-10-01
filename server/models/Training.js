@@ -106,10 +106,6 @@ const trainingSchema = new mongoose.Schema({
   thumbnail: String,
   preview: String,
   tags: [String],
-  structuredData: {
-    type: Object, // Keeping structuredData as a plain object
-    default: {},
-  },
   updated: updateSchema,
   numCompleted: { type: Number, default: 0 },
   comments: [commentSchema], // Array of comments

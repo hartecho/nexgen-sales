@@ -150,13 +150,6 @@
       />
     </div>
 
-    <!-- Structured Data Subcomponent -->
-    <EditTrainingStructuredData
-      v-if="selectedTraining"
-      :training="selectedTraining"
-      @updateStructuredData="updateStructuredData"
-    />
-
     <!-- Notification Popup -->
     <SubcomponentsNotificationPopup
       v-if="notificationMessage"

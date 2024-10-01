@@ -42,6 +42,7 @@
       <transition name="fade" mode="out-in">
         <ProfileDashboard v-if="currentSection == 'dashboard'" />
         <ProfilePreferences v-else-if="currentSection == 'profile'" />
+        <ProfileCourses v-else-if="currentSection == 'courses'" />
       </transition>
     </div>
   </div>
@@ -64,22 +65,21 @@ const sections = [
     icon: "Profile",
   },
   {
-    name: "orders",
+    name: "courses",
+    hasDropdown: false,
+    title: "Courses",
+    icon: "wishlist",
+  },
+  {
+    name: "merch",
     hasDropdown: true,
-    title: "Orders & Returns",
+    title: "Get Merch",
     icon: "Orders",
     subSections: [
+      { name: "shop", title: "Shop" },
       { name: "recent-orders", title: "Recent Orders" },
-      { name: "returns", title: "Return Items" },
-    ],
-  },
-  { name: "wishlist", hasDropdown: false, title: "Wishlist", icon: "Wishlist" },
-  {
-    name: "payment",
-    hasDropdown: true,
-    title: "Payment & Shipping",
-    icon: "Payment",
-    subSections: [
+      // { name: "returns", title: "Return Items" },
+      { name: "wishlist", title: "Wishlist" },
       { name: "payment-methods", title: "Payment Methods" },
       { name: "shipping-address", title: "Shipping Address" },
     ],
@@ -157,7 +157,6 @@ emit("hide-loading");
 .sidebar {
   width: 300px;
   background-color: black;
-  padding: 1rem 0;
   color: white;
   height: 100vh;
   border-top: 2px solid white;
@@ -169,7 +168,7 @@ emit("hide-loading");
 }
 
 .logo-wrapper {
-  width: 60%;
+  width: 100%;
   /* height: 12rem; */
   /* aspect-ratio: 1/1; */
   display: flex;
