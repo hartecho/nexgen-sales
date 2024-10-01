@@ -155,7 +155,7 @@ emit("hide-loading");
 }
 
 .sidebar {
-  width: 300px;
+  width: 275px;
   background-color: black;
   color: white;
   height: 100vh;

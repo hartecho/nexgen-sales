@@ -90,10 +90,6 @@ function isEnrolled(courseId) {
     return false;
   }
 
-  console.log(
-    "Enrolled courses: " + JSON.stringify(userStore.user.enrolledCourses)
-  );
-
   return userStore.user.enrolledCourses.some(
     (enrolled) => enrolled.course && enrolled.course === courseId
   );
@@ -207,7 +203,7 @@ const onImageLoad = (index) => {
 
 .course-entry__thumbnail {
   height: 15rem;
-  min-width: 20rem;
+  width: 20rem;
   overflow: hidden;
   cursor: pointer;
 }
@@ -233,6 +229,7 @@ const onImageLoad = (index) => {
   padding: 10px 20px;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 .course-entry__title {
@@ -273,12 +270,14 @@ const onImageLoad = (index) => {
   margin-top: 1rem;
   display: flex;
   align-items: center;
+  justify-content: space-between; /* This ensures the percentage and completion text are on the same line */
+  width: 100%;
 }
 
 .progress-bar {
   background-color: #f0f0f0;
   border-radius: 5px;
-  width: 100%;
+  width: 75%; /* Adjust width so that percentage text and 'Completed' are aligned */
   height: 10px;
   margin-right: 10px;
 }
@@ -292,15 +291,17 @@ const onImageLoad = (index) => {
 .progress-percentage {
   font-size: 0.9rem;
   color: #333;
+  white-space: nowrap;
 }
 
 .completed-status {
   color: green;
   font-weight: bold;
-  margin-top: 1rem;
+  margin-left: 10px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1100px) {
+  /* Pixels changed to be proportional with sidebar taking up some screen width */
   .course-entry {
     flex-direction: column;
     align-items: center;
