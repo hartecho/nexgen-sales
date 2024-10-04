@@ -5,7 +5,7 @@
         <NuxtLink to="/">Home</NuxtLink>
       </li>
       <li class="breadcrumb-item">
-        <NuxtLink to="/training">Training</NuxtLink>
+        <NuxtLink to="/portal">Training</NuxtLink>
       </li>
       <li class="breadcrumb-item active" aria-current="page">
         {{ currentTrainingTitle }}

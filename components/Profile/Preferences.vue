@@ -9,25 +9,27 @@
 
     <!-- Profile Image and Edit Section -->
     <div class="top-image-banner">
-      <div class="profile-image-wrapper" @click="triggerFileInput">
-        <img
-          class="profile-image"
-          :src="
-            userStore.user.profilePicture || 'https://via.placeholder.com/150'
-          "
-          alt="Profile Image"
-        />
-        <div class="edit-icon">
-          <img src="/Support.webp" alt="Edit Icon" />
+      <div class="overlay">
+        <div class="profile-image-wrapper" @click="triggerFileInput">
+          <img
+            class="profile-image"
+            :src="
+              userStore.user.profilePicture || 'https://via.placeholder.com/150'
+            "
+            alt="Profile Image"
+          />
+          <div class="edit-icon">
+            <img src="/Support.webp" alt="Edit Icon" />
+          </div>
+          <!-- Hidden file input for selecting images -->
+          <input
+            type="file"
+            ref="fileInput"
+            class="file-input"
+            @change="uploadImage"
+            accept="image/*"
+          />
         </div>
-        <!-- Hidden file input for selecting images -->
-        <input
-          type="file"
-          ref="fileInput"
-          class="file-input"
-          @change="uploadImage"
-          accept="image/*"
-        />
       </div>
     </div>
 
@@ -39,7 +41,6 @@
     <!-- Manage Your Account Fields (Two Columns) -->
     <div class="account-section">
       <div class="input-grid two-columns">
-        <!-- Email Field (grayed out) -->
         <div class="input-field">
           <label for="email">Email</label>
           <input
@@ -51,7 +52,6 @@
           />
         </div>
 
-        <!-- Password Update Fields -->
         <div class="input-field">
           <label for="new-password">New Password</label>
           <input type="password" id="new-password" v-model="password" />
@@ -155,8 +155,8 @@
     </div>
   </div>
 </template>
-    
-    <script setup>
+
+<script setup>
 const userStore = useUserStore();
 const fileInput = ref(null);
 const password = ref("");
@@ -170,19 +170,16 @@ const triggerFileInput = () => {
 };
 
 // Upload the image to S3 via the API route
-// Upload the image to S3 via the API route and delete the old image if successful
 const uploadImage = async (event) => {
   const file = event.target.files[0];
   if (!file) return;
 
-  // Get the current profile picture to delete it later if upload is successful
   const oldProfilePicture = userStore.user.profilePicture;
 
   try {
     const formData = new FormData();
     formData.append("file", file);
 
-    // Upload the new image to S3
     const response = await $fetch("/api/aws/upload", {
       method: "POST",
       body: formData,
@@ -191,23 +188,20 @@ const uploadImage = async (event) => {
     if (response?.url) {
       const newImageUrl = response.url;
 
-      // Update the user profile with the new image
       try {
         const userResponse = await $fetch(`/api/users/${userStore.user._id}`, {
           method: "PUT",
           body: { profilePicture: newImageUrl },
         });
 
-        // Set the updated user information in the store
         userStore.setUser(userResponse);
 
-        // If the user had an old profile picture, delete it
         if (oldProfilePicture) {
           try {
-            const oldKey = oldProfilePicture.split("/").pop(); // Extract the key from the URL
+            const oldKey = oldProfilePicture.split("/").pop();
             await $fetch("/api/aws/upload", {
               method: "DELETE",
-              body: { key: oldKey }, // Send the key of the old image
+              body: { key: oldKey },
             });
             console.log(
               `Old profile picture (${oldKey}) deleted successfully.`
@@ -239,7 +233,6 @@ const uploadImage = async (event) => {
 
 // Save Account Changes
 const saveAccountChanges = async () => {
-  // Save account (password) changes here
   if (password.value == confirmPassword.value) {
     try {
       const userResponse = await $fetch(`/api/users/${userStore.user._id}`, {
@@ -252,19 +245,17 @@ const saveAccountChanges = async () => {
       showNotification("Error updating account changes.", "error");
     }
   } else {
-    showNotification("Passwords don't match", "success");
+    showNotification("Passwords don't match", "error");
   }
 };
 
 // Save Personal Changes
 const savePersonalChanges = async () => {
-  // Save personal details here
   showNotification("Personal details updated successfully!", "success");
 };
 
 // Save Contact Changes
 const saveContactChanges = async () => {
-  // Save contact details here
   showNotification("Contact details updated successfully!", "success");
 };
 
@@ -274,8 +265,8 @@ const showNotification = (message, type) => {
   notificationType.value = type;
 };
 </script>
-    
-    <style scoped>
+
+<style scoped>
 .wrapper {
   position: relative;
 }
@@ -284,21 +275,34 @@ const showNotification = (message, type) => {
 .top-image-banner {
   width: 100%;
   height: 20rem;
-  background: rgba(1, 151, 178, 1);
+  background: url("/IntroBG.webp") center center/cover no-repeat;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.overlay {
+  background-color: rgba(1, 151, 178, 0.3); /* Adjust the tint as needed */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Profile image styling */
 .profile-image-wrapper {
   position: relative;
   cursor: pointer;
-  width: 12rem !important; /* Ensure it's a square */
-  height: 12rem !important; /* Ensure it's a square */
+  width: 12rem !important;
+  height: 12rem !important;
   transition: transform 0.3s ease-in-out;
-  overflow: hidden; /* To ensure no overflow distorts the layout */
-  aspect-ratio: 1 / 1; /* Enforce a 1:1 aspect ratio */
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -352,7 +356,6 @@ const showNotification = (message, type) => {
   text-align: left;
   padding: 0.5rem 1rem;
   font-weight: bold;
-  /* margin-top: 1rem; */
 }
 
 /* Input Section Styles */
@@ -417,4 +420,3 @@ const showNotification = (message, type) => {
   background-color: #45a049;
 }
 </style>
-    

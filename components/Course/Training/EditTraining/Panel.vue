@@ -60,6 +60,14 @@
           placeholder="Enter thumbnail URL"
         />
 
+        <input
+          type="text"
+          v-model="editableTraining.mainVideo"
+          @input="updateBasicInfo"
+          class="input"
+          placeholder="Enter video URL"
+        />
+
         <label for="preview-text">Preview Text</label>
         <textarea
           v-model="editableTraining.preview"

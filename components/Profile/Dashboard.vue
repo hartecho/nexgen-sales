@@ -1,31 +1,34 @@
 <template>
-  <div v-if="loading">
+  <div v-if="loading" class="dashboard-loading">
     <p>Loading...</p>
   </div>
-  <div v-else>
-    <h2>Your Enrolled Courses</h2>
-    <div v-if="enrolledCourses.length === 0">
+  <div v-else class="dashboard-container">
+    <h2 class="dashboard-title">Your Enrolled Courses</h2>
+    <div v-if="enrolledCourses.length === 0" class="no-courses">
       <p>You are not enrolled in any courses.</p>
     </div>
-    <div v-else>
+    <div v-else class="course-list">
       <div
         v-for="(course, index) in enrolledCourses"
         :key="course._id"
-        class="course-item"
+        class="course-card"
       >
-        <!-- Course Image -->
-        <img
-          v-if="course.image"
-          :src="course.image"
-          alt="Course Image"
-          class="course-image"
-        />
+        <div class="course-header">
+          <!-- Course Image -->
+          <img
+            v-if="course.image"
+            :src="`/CoursePics/${course.image}`"
+            alt="Course Image"
+            class="course-image"
+          />
+          <div class="course-summary">
+            <h3>{{ course.name }}</h3>
+            <p>{{ course.description }}</p>
+          </div>
+        </div>
 
-        <div class="course-details">
-          <h3>{{ course.name }}</h3>
-          <p>{{ course.description }}</p>
-
-          <div v-if="course.trainings.length">
+        <div class="course-body">
+          <div v-if="course.trainings.length" class="progress-section">
             <!-- Progress Bar -->
             <div class="progress-container">
               <div
@@ -33,20 +36,26 @@
                 :style="{ width: `${completionPercentage(course)}%` }"
               ></div>
             </div>
-            <p>{{ completionPercentage(course) }}% Complete</p>
-
-            <p>
-              Next Training:
-              {{
-                getNextTraining(course)?.mainTitle || "All Trainings Completed"
-              }}
+            <p class="progress-text">
+              {{ completionPercentage(course) }}% Complete
             </p>
-            <img
-              v-if="getNextTrainingImage(course)"
-              :src="getNextTrainingImage(course)"
-              alt="Next training thumbnail"
-              class="training-thumbnail"
-            />
+
+            <!-- Next Training Info -->
+            <div class="next-training-section">
+              <p>
+                Next Training:
+                {{
+                  getNextTraining(course)?.mainTitle ||
+                  "All Trainings Completed"
+                }}
+              </p>
+              <img
+                v-if="getNextTrainingImage(course)"
+                :src="getNextTrainingImage(course)"
+                alt="Next training thumbnail"
+                class="training-thumbnail"
+              />
+            </div>
 
             <!-- Resume Course Button -->
             <button
@@ -58,13 +67,14 @@
             </button>
           </div>
           <div v-else>
-            <p>No trainings available for this course.</p>
+            <p class="no-trainings">No trainings available for this course.</p>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
@@ -142,11 +152,11 @@ const getNextTrainingImage = (course) => {
   return `/TrainingPics/${nextTraining?.thumbnail}` || null;
 };
 
-// Resume the next available training in the course
 const resumeCourse = (course) => {
   const nextTraining = getNextTraining(course);
   if (nextTraining && nextTraining._id) {
-    router.push(`/training/${nextTraining._id}`);
+    // Pass both the training ID and the course ID as query parameters
+    router.push(`/training/${nextTraining._id}?courseId=${course._id}`);
   }
 };
 
@@ -158,6 +168,7 @@ const getCurrentTrainingIndex = (course) => {
   );
   if (!enrollment || !course.trainings.length) return null;
 
+  console.log("index: " + enrollment.currentTrainingIndex);
   return enrollment.currentTrainingIndex;
 };
 
@@ -166,43 +177,81 @@ const completionPercentage = (course) => {
   const currentTrainingIndex = getCurrentTrainingIndex(course);
   if (currentTrainingIndex === null || !course.trainings.length) return 0;
 
-  const completed = currentTrainingIndex + 1; // Assuming 0-based index
+  const completed = currentTrainingIndex; // Assuming 0-based index
   const total = course.trainings.length;
   return ((completed / total) * 100).toFixed(2);
 };
 </script>
 
 <style scoped>
-.course-item {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #ccc;
+.dashboard-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 20px;
-  margin-bottom: 20px;
+  /* background-color: #f5f5f5; */
+  /* border-radius: 10px; */
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #333;
+}
+
+.course-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.course-card {
+  background-color: white;
   border-radius: 10px;
-  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.course-card:hover {
+  transform: scale(1.02);
+}
+
+.course-header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: #007bff;
+  color: white;
 }
 
 .course-image {
-  width: 100%;
-  height: auto;
-  max-height: 200px;
+  width: 80px;
+  height: 80px;
   object-fit: cover;
-  margin-bottom: 15px;
-  border-radius: 8px;
+  border-radius: 50%;
+  margin-right: 15px;
 }
 
-.course-details {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.course-summary h3 {
+  margin: 0;
+  font-size: 1.25rem;
 }
 
-.training-thumbnail {
-  width: 100px;
-  height: auto;
+.course-summary p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: #f1f1f1;
+}
+
+.course-body {
+  padding: 20px;
+}
+
+.progress-section {
   margin-bottom: 15px;
-  border-radius: 5px;
 }
 
 .progress-container {
@@ -214,8 +263,29 @@ const completionPercentage = (course) => {
 }
 
 .progress-bar {
-  height: 10px;
-  background-color: #007bff;
+  height: 8px;
+  background-color: #28a745;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.next-training-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.training-thumbnail {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-left: 10px;
 }
 
 .resume-btn {
@@ -226,18 +296,18 @@ const completionPercentage = (course) => {
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s ease;
+  width: 100%;
+  margin-top: 15px;
 }
 
 .resume-btn:hover {
   background-color: #0056b3;
 }
 
-h3 {
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-p {
-  margin: 5px 0;
+.no-courses,
+.no-trainings {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #888;
 }
 </style>

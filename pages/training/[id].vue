@@ -49,13 +49,24 @@
       <div class="training-content-wrapper">
         <!-- Main Training Content -->
         <div class="training-post" v-if="post">
-          <!-- Training Image -->
+          <!-- Conditional rendering for Video or Image -->
           <div class="left">
-            <CourseTrainingImageWrapper
-              :imageSrc="post.image"
-              :altText="post.mainTitle + ' picture'"
-              class="training-image"
-            />
+            <div v-if="post.mainVideo" class="training-video">
+              <iframe
+                :src="getYoutubeEmbedUrl(post.mainVideo)"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                class="training-embed"
+              ></iframe>
+            </div>
+            <div v-else>
+              <CourseTrainingImageWrapper
+                :imageSrc="post.image"
+                :altText="post.mainTitle + ' picture'"
+                class="training-image"
+              />
+            </div>
             <div class="under-photo">
               <!-- Left Sticky Column (Optional Table of Contents or Ad space) -->
               <div class="left-sticky-column">
@@ -96,29 +107,133 @@
     </div>
 
     <!-- Contact Banner -->
-    <SubcomponentsContactBanner
+    <!-- <SubcomponentsContactBanner
       graphicPath="ContactBannerGraphic.svg"
       buttonClass="contact-button"
       buttonPath="/contact"
       backgroundPath="ContactBannerBG.svg"
-    />
+    /> -->
   </div>
 </template>
 
 <script setup>
+import { ref, onMounted } from "vue";
 const route = useRoute();
+const userStore = useUserStore();
+const courseId = route.query.courseId; // Get course ID from the query parameter
+const isPlayerReady = ref(false);
+let player; // Keep track of the player instance
+
+// Fetch the training data
 const { data: post } = await useFetch(`/api/trainings?_id=${route.params.id}`);
 
-// console.log(
-//   "Word Count and reading time: " + post.value.structuredData.wordCount,
-//   " + ",
-//   post.value.structuredData.readingTime
-// );
+// Function to mark the training as complete
+const markTrainingAsComplete = async () => {
+  console.log("markTrainingAsComplete called"); // Debugging log
+  try {
+    const userResponse = await $fetch(`/api/users/${userStore.user._id}`, {
+      method: "PUT",
+      body: { courseId: courseId },
+    });
 
-const formattedDate = (date) => {
-  return new Date(date).toLocaleDateString();
+    userStore.setUser(userResponse); // Update user in the store
+    console.log("Training marked as completed!");
+  } catch (error) {
+    console.error("Failed to mark training as complete:", error);
+  }
 };
 
+// Load YouTube IFrame API
+const loadYouTubeAPI = () => {
+  return new Promise((resolve) => {
+    if (window.YT && window.YT.Player) {
+      console.log("YouTube API already loaded"); // Debugging log
+      resolve(); // If API is already loaded
+    } else {
+      console.log("Loading YouTube API"); // Debugging log
+      const script = document.createElement("script");
+      script.src = "https://www.youtube.com/iframe_api";
+      document.head.appendChild(script);
+
+      window.onYouTubeIframeAPIReady = function () {
+        console.log("YouTube API ready"); // Debugging log
+        isPlayerReady.value = true;
+        resolve(); // Resolve once the API is ready
+      };
+    }
+  });
+};
+
+// Initialize YouTube Player
+const initYouTubePlayer = async () => {
+  await loadYouTubeAPI(); // Wait for YouTube API to load
+
+  const videoId = getYoutubeEmbedUrl(post.value.mainVideo)?.split("/").pop();
+  console.log("Initializing player with video ID:", videoId); // Debugging log
+
+  // Make sure you have the correct ID of the iframe
+  player = new YT.Player("videoPlayer", {
+    videoId: videoId,
+    events: {
+      onStateChange: onPlayerStateChange,
+    },
+  });
+};
+
+// Handle YouTube player state change
+const onPlayerStateChange = (event) => {
+  const playerStates = {
+    "-1": "UNSTARTED",
+    0: "ENDED",
+    1: "PLAYING",
+    2: "PAUSED",
+    3: "BUFFERING",
+    5: "CUED",
+  };
+
+  const state = playerStates[event.data] || "UNKNOWN STATE";
+  console.log(`Player state changed: ${state} (${event.data})`); // Debugging log
+
+  if (event.data === YT.PlayerState.ENDED) {
+    console.log("Video ended"); // Debugging log
+    markTrainingAsComplete(); // Call the completion logic
+  }
+};
+
+// Convert YouTube link to embed URL
+const getYoutubeEmbedUrl = (videoUrl) => {
+  let videoId;
+  if (videoUrl.includes("youtube.com")) {
+    const urlParams = new URLSearchParams(new URL(videoUrl).search);
+    videoId = urlParams.get("v");
+  } else if (videoUrl.includes("youtu.be")) {
+    videoId = videoUrl.split("/").pop().split("?")[0];
+  }
+  return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
+};
+
+// Mounted lifecycle hook
+onMounted(async () => {
+  post.value.views++;
+  await updateContent();
+  if (post.value.mainVideo) {
+    await initYouTubePlayer(); // Initialize the YouTube player
+  }
+});
+
+// Update content (like views or comments)
+const updateContent = async () => {
+  try {
+    await $fetch(`/api/trainings/${post.value._id}`, {
+      method: "PUT",
+      body: post.value,
+    });
+  } catch (error) {
+    console.error("Failed to update the training post:", error);
+  }
+};
+
+// Function to add a comment
 const addComment = async (newComment) => {
   if (newComment.name && newComment.comment) {
     post.value.comments.push({
@@ -133,36 +248,17 @@ const addComment = async (newComment) => {
   }
 };
 
-onMounted(async () => {
-  post.value.views++;
-  updateContent();
-});
-
-const updateContent = async () => {
-  try {
-    await $fetch(`/api/trainings/${post.value._id}`, {
-      method: "PUT",
-      body: post.value,
-    });
-  } catch (error) {
-    console.error("Failed to update the training post:", error);
-  }
+// Function to format the date for display
+const formattedDate = (date) => {
+  return new Date(date).toLocaleDateString();
 };
-
-useSeoMeta({
-  title: post.value.metaTitle + " || HARTECHO",
-  ogTitle: "Ads - #1 Utah-based Marketing Agency || HARTECHO",
-  description:
-    "Boost traffic and sales with Facebook and Google Ads! Reach a vast audience, engage with precise targeting, and use analytics with our Utah marketing services.",
-  ogDescription:
-    "Boost traffic and sales with Facebook and Google Ads! Reach a vast audience, engage with precise targeting, and use analytics with our Utah marketing services.",
-  ogImage: "/HARTECHOLogo.webp",
-  twitterCard: "/HARTECHOLogo.webp",
-});
 
 const emit = defineEmits(["hide-loading"]);
 emit("hide-loading");
 </script>
+
+
+
 
 <style scoped>
 /* Main Training Page Wrapper */
@@ -212,7 +308,6 @@ emit("hide-loading");
 .author-info {
   display: flex;
   align-items: center;
-  /* gap: 1rem; */
 }
 
 .author-image {
@@ -260,10 +355,16 @@ emit("hide-loading");
   gap: 2rem;
 }
 
-.training-image {
+.training-image,
+.training-embed {
   margin-bottom: 1.5rem;
   height: auto;
   width: 100%;
+}
+
+.training-embed {
+  aspect-ratio: 16 / 9;
+  border: none;
 }
 
 .training-body {

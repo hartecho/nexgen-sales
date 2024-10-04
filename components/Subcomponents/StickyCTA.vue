@@ -10,7 +10,14 @@
         subscription. Enjoy unlimited edits and keep your site free for as long
         as you’re subscribed.
       </p>
-      <NuxtLink to="/pricing" class="cta-button">Get A Quote</NuxtLink>
+      <a
+        href="https://hartecho.com/websites"
+        class="cta-button"
+        target="_blank"
+        rel="noopener"
+      >
+        Get A Quote
+      </a>
     </div>
   </div>
 </template>

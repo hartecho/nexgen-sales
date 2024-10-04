@@ -24,15 +24,14 @@ export default defineEventHandler(async (event) => {
     // Retrieve the current user by id
     const existingUser = await User.findById(userId);
 
-    if (!existingUser.enrolledCourses) {
-      existingUser.enrolledCourses = []; // Initialize if it doesn't exist
-    }
-    
-
     if (!existingUser) {
       console.error(`Error: User with id ${userId} not found`);
       await disconnectDB();
       throw createError({ statusCode: 404, message: 'User not found' });
+    }
+
+    if (!existingUser.enrolledCourses) {
+      existingUser.enrolledCourses = []; // Initialize if it doesn't exist
     }
 
     // Handle cart updates if provided
@@ -65,15 +64,29 @@ export default defineEventHandler(async (event) => {
       existingUser.paymentMethods = body.paymentMethods;
     }
 
-   // Handle enrolled courses updates if provided
-if (Array.isArray(body.enrolledCourses)) {
-  const updatedEnrolledCourses = body.enrolledCourses.map((course) => ({
-    course: course.course, // Use the existing course ID directly
-    currentTrainingIndex: course.currentTrainingIndex || 0,
-  }));
-  existingUser.enrolledCourses = updatedEnrolledCourses;
-}
+    // Handle enrolled courses updates if provided
+    if (Array.isArray(body.enrolledCourses)) {
+      const updatedEnrolledCourses = body.enrolledCourses.map((course) => ({
+        course: course.course, // Use the existing course ID directly
+        currentTrainingIndex: course.currentTrainingIndex || 0,
+      }));
+      existingUser.enrolledCourses = updatedEnrolledCourses;
+    }
 
+    // Increment the current training index for the specific course if courseId is provided
+    if (body.courseId) {
+      const courseIndex = existingUser.enrolledCourses.findIndex(
+        (course) => course.course.toString() === body.courseId
+      );
+
+      if (courseIndex > -1) {
+        existingUser.enrolledCourses[courseIndex].currentTrainingIndex += 1; // Increment index
+      } else {
+        console.error(`Error: Course with id ${body.courseId} not found in enrolledCourses`);
+        await disconnectDB();
+        throw createError({ statusCode: 404, message: 'Course not found in enrolledCourses' });
+      }
+    }
 
     // Update basic fields
     existingUser.name = body.name || existingUser.name;
