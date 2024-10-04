@@ -1,13 +1,18 @@
 <template>
-  <div class="course-hero">
-    <h1>{{ course.name }}</h1>
-    <button v-if="isEnrolled" @click="resumeCourse" class="resume-button">
-      {{ isCourseCompleted ? "Restart Course" : "Resume Course" }}
-    </button>
+  <div
+    class="course-hero"
+    :style="{ backgroundImage: `url(/CoursePics/${image})` }"
+  >
+    <div class="overlay">
+      <h1>{{ course?.name || "Loading..." }}</h1>
+      <button v-if="isEnrolled" @click="resumeCourse" class="resume-button">
+        {{ isCourseCompleted ? "Restart Course" : "Resume Course" }}
+      </button>
+    </div>
   </div>
 </template>
-  
-  <script setup>
+
+<script setup>
 const props = defineProps({
   course: {
     type: Object,
@@ -16,6 +21,9 @@ const props = defineProps({
   isEnrolled: {
     type: Boolean,
     required: true,
+  },
+  image: {
+    type: String,
   },
   isCourseCompleted: {
     type: Boolean,
@@ -29,13 +37,33 @@ const resumeCourse = () => {
   emit("resume-course");
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .course-hero {
-  background-color: #007bff;
-  color: white;
+  background-size: cover;
+  background-position: center;
+  position: relative;
   padding: 2rem;
   text-align: center;
+  color: white;
+  height: 300px; /* Adjust height as needed */
+}
+
+.overlay {
+  background-color: rgba(1, 151, 178, 0.7); /* Transparent overlay */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+h1 {
+  margin-bottom: 2rem;
 }
 
 .resume-button {
@@ -44,7 +72,6 @@ const resumeCourse = () => {
   border: none;
   padding: 10px 20px;
   cursor: pointer;
-  border-radius: 5px;
+  font-weight: bold;
 }
 </style>
-  

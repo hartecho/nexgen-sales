@@ -107,8 +107,8 @@ function calculateCompletion(courseId) {
 
   if (!enrolledCourse || !totalTrainings) return 0;
 
-  const currentLessonIndex = enrolledCourse.currentLessonIndex;
-  const completion = (currentLessonIndex / totalTrainings) * 100;
+  const currentTrainingIndex = enrolledCourse.currentTrainingIndex;
+  const completion = (currentTrainingIndex / totalTrainings) * 100;
 
   return completion > 100 ? 100 : Math.round(completion); // Cap at 100%
 }
@@ -126,7 +126,7 @@ async function enrollInCourse(courseId) {
     // Create or update the enrolledCourses array, adding a new course with its correct ID
     const updatedEnrolledCourses = [
       ...enrolledCourses,
-      { course: courseId, currentLessonIndex: 0 }, // Pass the correct courseId
+      { course: courseId, currentTrainingIndex: 0 }, // Pass the correct courseId
     ];
 
     // Update user with the new course

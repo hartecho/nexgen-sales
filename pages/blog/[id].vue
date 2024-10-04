@@ -264,6 +264,7 @@ emit("hide-loading");
 }
 
 .blog-body {
+  flex: 3;
   line-height: 1.8;
   color: #444;
   padding-right: 2rem;

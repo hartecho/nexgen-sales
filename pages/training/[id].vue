@@ -3,7 +3,7 @@
     <!-- Training Title -->
     <div class="content">
       <div class="heading">
-        <TrainingSearchBreadcrumbs
+        <CourseTrainingSearchBreadcrumbs
           :currentTrainingTitle="post.tags[0] || 'All Posts'"
         />
         <h1 class="training-title">{{ post.mainTitle }}</h1>
@@ -36,9 +36,9 @@
                   alt="Clock icon"
                   class="meta-icon"
                 />
-                <span>{{
-                  post.structuredData.readingTime || "Reading time unavailable"
-                }}</span>
+                <!-- <span>{{
+                   post.structuredData.readingTime || "Reading time unavailable"
+                }}</span> -->
               </div>
             </div>
           </div>
@@ -51,7 +51,7 @@
         <div class="training-post" v-if="post">
           <!-- Training Image -->
           <div class="left">
-            <TrainingImageWrapper
+            <CourseTrainingImageWrapper
               :imageSrc="post.image"
               :altText="post.mainTitle + ' picture'"
               class="training-image"
@@ -68,13 +68,13 @@
                   v-for="(section, index) in post.sections"
                   :key="'section-' + index"
                 >
-                  <TrainingPostContent
+                  <CourseTrainingPostContent
                     :title="section.title"
                     :contents="section.content"
                     @updatePoll="updateContent()"
                   />
                 </div>
-                <TrainingReferences :references="post.references" />
+                <CourseTrainingReferences :references="post.references" />
               </div>
             </div>
           </div>
@@ -89,7 +89,10 @@
 
     <!-- Comments Section -->
     <div class="comments">
-      <TrainingComments :comments="post.comments" @addComment="addComment" />
+      <CourseTrainingComments
+        :comments="post.comments"
+        @addComment="addComment"
+      />
     </div>
 
     <!-- Contact Banner -->
@@ -106,11 +109,11 @@
 const route = useRoute();
 const { data: post } = await useFetch(`/api/trainings?_id=${route.params.id}`);
 
-console.log(
-  "Word Count and reading time: " + post.value.structuredData.wordCount,
-  " + ",
-  post.value.structuredData.readingTime
-);
+// console.log(
+//   "Word Count and reading time: " + post.value.structuredData.wordCount,
+//   " + ",
+//   post.value.structuredData.readingTime
+// );
 
 const formattedDate = (date) => {
   return new Date(date).toLocaleDateString();
@@ -264,6 +267,7 @@ emit("hide-loading");
 }
 
 .training-body {
+  flex: 3;
   line-height: 1.8;
   color: #444;
   padding-right: 2rem;

@@ -1,6 +1,6 @@
 <template>
   <div class="training-page">
-    <TrainingImageWrapper
+    <CourseTrainingImageWrapper
       v-if="selectedTraining && selectedTraining.image"
       :imageSrc="selectedTraining.image"
       :altText="selectedTraining.mainTitle + ' picture'"
@@ -10,7 +10,7 @@
         <h1 contenteditable @input="updateTitle">
           {{ selectedTraining.mainTitle }}
         </h1>
-        <EditTrainingPostHeader
+        <CourseTrainingEditTrainingPostHeader
           v-if="selectedTraining.author && selectedTraining.date"
           :author="selectedTraining.author"
           :date="selectedTraining.date"
@@ -50,7 +50,7 @@
           :key="'section-' + index"
           class="section-wrapper"
         >
-          <EditTrainingPostContent
+          <CourseTrainingEditTrainingPostContent
             :title="section.title"
             :contents="section.content"
             @updateContent="updateSection(index, $event)"
@@ -65,7 +65,7 @@
           Add Section
         </button>
 
-        <EditTrainingReferences
+        <CourseTrainingEditTrainingReferences
           v-if="selectedTraining.references"
           :references="selectedTraining.references"
           @updateReferences="updateReferences"
@@ -138,7 +138,7 @@
           </button>
         </div>
       </div>
-      <EditTrainingPanel
+      <CourseTrainingEditTrainingPanel
         :trainings="trainings"
         :selectedTraining="selectedTraining"
         @selectTraining="setSelectedTraining"

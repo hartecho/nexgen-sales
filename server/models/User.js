@@ -88,9 +88,9 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course', // Assuming you have a 'Course' model
       },
-      currentLessonIndex: {
+      currentTrainingIndex: {
         type: Number,
-        default: 0, // Tracks the current lesson in the course
+        default: 0, // Tracks the current training in the course
       },
     },
   ],

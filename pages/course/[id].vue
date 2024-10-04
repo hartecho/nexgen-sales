@@ -1,38 +1,40 @@
 <template>
   <div class="course-page-wrapper">
-    <div class="course-page" v-if="course">
-      <!-- Course Hero Section -->
-      <CourseHero
-        :course="course"
-        :isEnrolled="isEnrolled"
-        :isCourseCompleted="isCourseCompleted"
-        @resume-course="resumeCourse"
-      />
-
+    <CourseHero
+      :course="course"
+      :isEnrolled="isEnrolled"
+      :isCourseCompleted="isCourseCompleted"
+      :image="course?.image"
+      @resume-course="resumeCourse"
+      :loading="loading"
+    />
+    <div class="course-page">
       <div class="course-content">
-        <!-- Course Contents and Trainings -->
         <div class="course-details">
-          <h2>{{ course.name }}</h2>
+          <h2 class="title">{{ course?.name || "Loading..." }}</h2>
           <CourseTrainings
             :trainings="trainings"
-            :resolvedImgPath="resolvedImgPath"
-            :isTrainingCompleted="isTrainingCompleted"
+            :currentTrainingIndex="currentTrainingIndex"
+            :loading="loading"
           />
         </div>
 
-        <!-- Course Progress and Instructor Info -->
-        <CourseSidebar
-          :completedTrainings="completedTrainings"
-          :totalTrainings="totalTrainings"
-          :completionPercentage="completionPercentage"
-          :instructor="course.instructor"
-        />
+        <div class="sidebar">
+          <CourseSidebar
+            :completedTrainings="completedTrainings"
+            :totalTrainings="totalTrainings"
+            :completionPercentage="completionPercentage"
+            :instructor="course?.instructor"
+            :image="getNextTrainingImage"
+            :loading="loading"
+          />
+        </div>
       </div>
     </div>
   </div>
 </template>
-  
-  <script setup>
+
+<script setup>
 const course = ref(null);
 const courseId = ref(null);
 const completedTrainings = ref(0);
@@ -40,74 +42,86 @@ const trainings = ref([]);
 const courseStore = useCourseStore();
 const userStore = useUserStore();
 const router = useRouter();
+const loading = ref(true);
 
-// Get the specific course from the store
-const loading = ref(true); // Add a loading state
+onMounted(async () => {
+  courseId.value = router.currentRoute.value.params.id;
+  await fetchAndSetCourses();
+  loading.value = false;
+});
 
-// Fetch and set courses if needed based on cache duration
 const fetchAndSetCourses = async () => {
-  loading.value = true; // Start loading
+  loading.value = true;
 
-  // Check if courses need to be fetched based on cache duration
   if (
     !courseStore.lastFetchTime ||
     Date.now() - courseStore.lastFetchTime >= courseStore.CACHE_DURATION
   ) {
     try {
-      // Fetch all courses from the API if cache is expired
       const courses = await $fetch("/api/courses");
-      courseStore.setCourses(courses); // Set courses and update lastFetchTime in the store
-      course.value = courseStore.getCourseById(courseId.value); // Get the specific course from the store
-      await fetchAndSetTrainings(); // Fetch trainings after courses are fetched
+      courseStore.setCourses(courses);
+      course.value = courseStore.getCourseById(courseId.value);
+      await fetchAndSetTrainings();
     } catch (error) {
       console.error("Error fetching courses:", error);
     }
   } else {
-    // Use cached courses from the store if cache is still valid
     course.value = courseStore.getCourseById(courseId.value);
-    await fetchAndSetTrainings(); // Fetch trainings even if courses are cached
+    await fetchAndSetTrainings();
   }
 
-  loading.value = false; // End loading
+  loading.value = false;
 };
 
-// Fetch and set trainings if needed based on cache duration
 const fetchAndSetTrainings = async () => {
-  loading.value = true; // Start loading
+  loading.value = true;
 
-  // Check if trainings need to be fetched based on cache duration
   if (
     !courseStore.lastFetchTime ||
     Date.now() - courseStore.lastFetchTime >= courseStore.CACHE_DURATION
   ) {
     try {
-      // Fetch all trainings from the API if cache is expired
       const trainingsData = await $fetch("/api/trainings");
-      courseStore.setTrainings(trainingsData); // Set trainings and update lastFetchTime in the store
+      courseStore.setTrainings(trainingsData);
     } catch (error) {
       console.error("Error fetching trainings:", error);
     }
   }
 
-  // Always set specific trainings from the store based on the course's training IDs
   if (course.value && course.value.trainings.length > 0) {
     trainings.value = course.value.trainings.map((id) =>
       courseStore.getTrainingById(id)
     );
   }
 
-  loading.value = false; // End loading
+  loading.value = false;
 };
 
-// Initialize the component and fetch data if necessary
-onMounted(async () => {
-  courseId.value = router.currentRoute.value.params.id;
+// Updated getNextTraining computed property
+const getNextTraining = computed(() => {
+  if (
+    !course.value ||
+    currentTrainingIndex.value === null ||
+    !course.value.trainings.length
+  ) {
+    return null;
+  }
 
-  // Fetch and set courses and trainings, depending on cache
-  await fetchAndSetCourses();
+  const nextTrainingId = course.value.trainings[currentTrainingIndex.value];
+  if (!nextTrainingId) {
+    return null;
+  }
+
+  const nextTraining = courseStore.getTrainingById(nextTrainingId);
+  return nextTraining;
 });
 
-// Is the user enrolled in the course?
+const resumeCourse = () => {
+  if (getNextTraining.value && getNextTraining.value._id) {
+    router.push(`/training/${getNextTraining.value._id}`);
+  }
+};
+
 const isEnrolled = computed(() => {
   const user = userStore.user;
   if (!user || !user.enrolledCourses) return false;
@@ -116,45 +130,67 @@ const isEnrolled = computed(() => {
   );
 });
 
-// Compute the total number of trainings
-const totalTrainings = computed(() => trainings.value?.length || 0);
-
-// Calculate the completion percentage
 const completionPercentage = computed(() => {
   if (totalTrainings.value === 0) return 0;
   return (completedTrainings.value / totalTrainings.value) * 100;
 });
 
-// Determine if a training is completed
-const isTrainingCompleted = (index) => {
-  return completedTrainings.value > index;
-};
-
-// Resume or restart course
-const resumeCourse = () => {
-  const nextLesson = completedTrainings.value;
-  router.push(`/course/${courseId.value}/lesson/${nextLesson}`);
-};
-
-// Check if the course is completed
 const isCourseCompleted = computed(() => {
   return completedTrainings.value === totalTrainings.value;
 });
 
-// Utility function for resolving image paths
-function resolvedImgPath(path) {
-  return path ? `/images/${path}` : "/defaultImage.webp";
-}
+const currentTrainingIndex = computed(() => {
+  const user = userStore.user;
+
+  const enrollment = user?.enrolledCourses?.find(
+    (enrollment) => enrollment.course === courseId.value
+  );
+
+  if (!enrollment || !course.value || !course.value.trainings.length) {
+    return null;
+  }
+
+  return enrollment.currentTrainingIndex;
+});
+
+const totalTrainings = computed(() => trainings.value?.length || 0);
+
+const getNextTrainingImage = computed(() => {
+  const training = getNextTraining.value;
+  return training?.thumbnail || null;
+});
 
 const emit = defineEmits(["hide-loading"]);
 emit("hide-loading");
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .course-page-wrapper {
+  background: #ebebeb;
+}
+
+.course-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+}
+
+.course-content {
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.course-details {
+  flex: 2;
+}
+
+.title {
+  background: white;
+  padding: 2rem;
+}
+
+.sidebar {
+  flex: 1;
 }
 </style>
-  

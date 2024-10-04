@@ -69,7 +69,7 @@ export default defineEventHandler(async (event) => {
 if (Array.isArray(body.enrolledCourses)) {
   const updatedEnrolledCourses = body.enrolledCourses.map((course) => ({
     course: course.course, // Use the existing course ID directly
-    currentLessonIndex: course.currentLessonIndex || 0,
+    currentTrainingIndex: course.currentTrainingIndex || 0,
   }));
   existingUser.enrolledCourses = updatedEnrolledCourses;
 }

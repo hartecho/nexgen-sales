@@ -1,5 +1,14 @@
 <template>
   <div class="course-sidebar">
+    <!-- Display the image at the top if provided -->
+    <div class="sidebar-image" v-if="image">
+      <img :src="`/TrainingPics/${image}`" alt="Course Image" />
+    </div>
+
+    <div v-else class="sidebar-image">
+      <div class="spinner"></div>
+    </div>
+
     <div class="progress-section">
       <h3>
         {{ completedTrainings }} of {{ totalTrainings }} Lessons Completed
@@ -22,8 +31,8 @@
     </div>
   </div>
 </template>
-  
-  <script setup>
+
+<script setup>
 const props = defineProps({
   completedTrainings: {
     type: Number,
@@ -41,16 +50,46 @@ const props = defineProps({
     type: Object,
     required: false,
   },
+  image: {
+    type: String,
+  },
+  loading: {
+    type: Boolean,
+    required: true,
+  },
 });
+
+console.log("Image: " + props.image);
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .course-sidebar {
-  width: 30%;
+  width: 100%;
+  background: white;
+}
+
+.sidebar-image {
+  /* margin-bottom: 2rem; */
+  min-height: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.sidebar-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
 .progress-section {
   margin-bottom: 2rem;
+  padding: 1.5rem;
+}
+
+h3 {
+  margin-bottom: 1rem;
 }
 
 .progress-bar {
@@ -84,5 +123,21 @@ const props = defineProps({
   height: 80px;
   margin-bottom: 1rem;
 }
+
+/* Spinner styling */
+.spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: black;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 </style>
-  

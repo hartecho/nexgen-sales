@@ -43,6 +43,7 @@
         <ProfileDashboard v-if="currentSection == 'dashboard'" />
         <ProfilePreferences v-else-if="currentSection == 'profile'" />
         <ProfileCourses v-else-if="currentSection == 'courses'" />
+        <ProfileShop v-else-if="currentSection == 'shop'" />
       </transition>
     </div>
   </div>

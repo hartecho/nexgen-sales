@@ -20,6 +20,7 @@ const props = defineProps({
 const imageLoaded = ref(false);
 
 const resolvedImgPath = (path) => {
+  // console.log("Path: " + path);
   return path ? "/TrainingPics/" + path : "/HARTECHOLogo.webp";
 };
 
