@@ -179,7 +179,7 @@ const completionPercentage = (course) => {
 
   const completed = currentTrainingIndex; // Assuming 0-based index
   const total = course.trainings.length;
-  return ((completed / total) * 100).toFixed(2);
+  return ((completed / total) * 100).toFixed(0);
 };
 </script>
 
@@ -243,7 +243,7 @@ const completionPercentage = (course) => {
 .course-summary p {
   margin: 5px 0;
   font-size: 0.9rem;
-  color: #f1f1f1;
+  color: #ddd;
 }
 
 .course-body {

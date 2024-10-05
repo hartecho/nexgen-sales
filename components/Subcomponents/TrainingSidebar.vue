@@ -1,41 +1,68 @@
 <template>
   <div class="sidebar" :class="{ large: isLarge, small: !isLarge }">
-    <h2>Popular Posts</h2>
-    <div class="sidebar-post" v-for="(post, index) in otherPosts" :key="index">
-      <NuxtLink :to="`/training/${post._id}`">
+    <h2>Next Training</h2>
+    <div v-if="nextTraining" class="sidebar-post">
+      <NuxtLink :to="`/training/${nextTraining._id}`">
         <div class="img-wrapper">
           <NuxtImg
-            :src="resolvedImgPath(post.image)"
-            :alt="post.mainTitle + ' picture'"
-            :placeholder="generatePlaceholderUrl(post.image)"
+            :src="resolvedImgPath(nextTraining.image)"
+            :alt="nextTraining.mainTitle + ' picture'"
+            :placeholder="generatePlaceholderUrl(nextTraining.image)"
             loading="lazy"
-            @load="onImageLoad(index)"
-            :class="{ 'image-loaded': loadedImages[index] }"
+            @load="onImageLoad(0)"
+            :class="{ 'image-loaded': loadedImages[0] }"
           />
         </div>
-        <h3>{{ post.mainTitle }}</h3>
-        <p>{{ truncatePreview(post.preview) }}</p>
+        <h3>{{ nextTraining.mainTitle }}</h3>
+        <p>{{ truncatePreview(nextTraining.preview) }}</p>
       </NuxtLink>
+      <button
+        :disabled="!isTrainingComplete"
+        class="next-training-button"
+        :class="{ active: isTrainingComplete }"
+        @click="goToNextTraining"
+      >
+        Go to Next Training
+      </button>
     </div>
+    <p v-else>No more trainings available</p>
   </div>
 </template>
 
 <script setup>
-// Fetch data during build
-const { data: otherPosts } = await useAsyncData("popularPosts", () =>
-  $fetch("/api/trainings/popular")
-);
+import { ref, onMounted, computed } from "vue";
+
+const props = defineProps({
+  courseId: {
+    type: String,
+    required: true,
+  },
+  trainingId: {
+    type: String,
+    required: true,
+  },
+  nextTraining: {
+    type: Object,
+    required: true,
+  },
+  isTrainingComplete: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const loadedImages = ref({});
 
 const truncatePreview = (text) => {
-  if (!text) return;
+  if (!text) return "";
   const sentences = text.match(/[^.!?]+[.!?]+/g);
   return sentences ? sentences[0] : text;
 };
 
 const generatePlaceholderUrl = (url) => {
-  if (!url) return;
+  if (!url) return "";
   const lastDotIndex = url.lastIndexOf(".");
-  if (lastDotIndex === -1) return url; // If no extension found, return original URL
+  if (lastDotIndex === -1) return url;
 
   const extension = url.slice(lastDotIndex);
   const baseUrl = url.slice(0, lastDotIndex);
@@ -44,33 +71,22 @@ const generatePlaceholderUrl = (url) => {
 
 const resolvedImgPath = (path) => {
   if (path) {
-    return "/TrainingPics/" + path;
+    return `/TrainingPics/${path}`;
   }
   return "/HARTECHOLogo.webp";
-};
-
-const lastScrollTop = ref(0);
-const isLarge = ref(true);
-const loadedImages = ref({});
-
-//  THIS WILL ADJUST THE STICKY POSITIONING IF THE NAV SHIFTS ON SCROLL
-const handleScroll = () => {
-  // const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  // if (scrollTop > lastScrollTop.value) {
-  //   isLarge.value = false;
-  // } else {
-  //   isLarge.value = true;
-  // }
-  // lastScrollTop.value = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
 };
 
 const onImageLoad = (index) => {
   loadedImages.value = { ...loadedImages.value, [index]: true };
 };
 
-onMounted(() => {
-  window.addEventListener("scroll", handleScroll);
-});
+const goToNextTraining = () => {
+  if (props.nextTraining.value) {
+    useRouter().push(
+      `/training/${props.nextTraining.value._id}?courseId=${props.courseId}`
+    );
+  }
+};
 </script>
 
 <style scoped>
@@ -85,11 +101,11 @@ onMounted(() => {
 }
 
 .sidebar.large {
-  top: 5rem;
+  top: 2rem;
 }
 
 .sidebar.small {
-  top: 5rem;
+  top: 2rem;
 }
 
 .sidebar h2 {
@@ -135,6 +151,27 @@ onMounted(() => {
   font-size: 1rem;
   font-family: "Merriweather", serif;
   color: #666;
+}
+
+.next-training-button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background-color: #cccccc;
+  border: none;
+  border-radius: 5px;
+  cursor: not-allowed;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.next-training-button.active {
+  background-color: #4caf50;
+  cursor: pointer;
+}
+
+.next-training-button:disabled {
+  background-color: #cccccc;
 }
 
 @media (max-width: 768px) {

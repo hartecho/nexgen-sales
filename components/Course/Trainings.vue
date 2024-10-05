@@ -7,7 +7,10 @@
         :key="training._id"
         class="training-entry"
       >
-        <NuxtLink :to="`/training/${training._id}`" class="training-link">
+        <NuxtLink
+          :to="`/training/${training._id}?courseId=${courseId}`"
+          class="training-link"
+        >
           <div class="training-thumbnail">
             <NuxtImg
               :src="resolvedImgPath(training.thumbnail)"
@@ -38,6 +41,10 @@ const props = defineProps({
   },
   currentTrainingIndex: {
     type: Number,
+    required: true,
+  },
+  courseId: {
+    type: String,
     required: true,
   },
   loading: {

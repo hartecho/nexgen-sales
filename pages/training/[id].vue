@@ -93,7 +93,12 @@
 
         <!-- Right Sticky Column (e.g., Related Links or Ads) -->
         <div class="right-sticky-column">
-          <SubcomponentsTrainingSidebar />
+          <SubcomponentsTrainingSidebar
+            :courseId="courseId"
+            :trainingId="post._id"
+            :isTrainingComplete="isTrainingComplete"
+            :nextTraining="nextTraining"
+          />
         </div>
       </div>
     </div>
@@ -120,12 +125,89 @@
 import { ref, onMounted } from "vue";
 const route = useRoute();
 const userStore = useUserStore();
+const courseStore = useCourseStore();
 const courseId = route.query.courseId; // Get course ID from the query parameter
 const isPlayerReady = ref(false);
 let player; // Keep track of the player instance
 
 // Fetch the training data
 const { data: post } = await useFetch(`/api/trainings?_id=${route.params.id}`);
+
+const isTrainingComplete = computed(() => {
+  // Fetch the course from the store using the courseId
+  const course = courseStore.allCourses.find((c) => c._id === courseId);
+
+  if (!course || !post.value) {
+    return false; // If the course or the current post is not available, return false
+  }
+
+  // Find the index of the current training (post._id) in the course's trainings array
+  const currentTrainingIndex = course.trainings.findIndex(
+    (training) => training._id === post.value._id
+  );
+
+  // If training not found in the course, return false
+  if (currentTrainingIndex === -1) {
+    return false;
+  }
+
+  // Find the user's progress in the enrolledCourses array
+  const userCourseProgress = userStore.user.enrolledCourses.find(
+    (enrolledCourse) => enrolledCourse.course.toString() === courseId
+  );
+
+  // If the user is not enrolled in this course, return false
+  if (!userCourseProgress) {
+    return false;
+  }
+
+  // Compare the user's current training index with the current training's index
+  return userCourseProgress.currentTrainingIndex > currentTrainingIndex;
+});
+
+const nextTraining = computed(() => {
+  // Fetch the course from the store using the courseId
+  const course = courseStore.getCourseById(courseId);
+
+  console.log("HEREEEEEEEEEEE");
+
+  if (!course || !post.value) {
+    console.log("HEREEEEEEEEEEE1");
+    return null; // If the course or the current post is not available, return null
+  }
+
+  // Use JSON.stringify to safely compare IDs
+  const currentTrainingId = post.value._id ? post.value._id.toString() : "";
+  console.log("Post.value._id (stringified):", currentTrainingId);
+
+  // Check if course.trainings contains the ID strings directly
+  const currentTrainingIndex = course.trainings.findIndex((trainingId) => {
+    console.log("Training ID (stringified):", trainingId);
+    return trainingId === currentTrainingId;
+  });
+
+  console.log("Course trainings: " + JSON.stringify(course.trainings));
+  console.log("Post.value._id: " + JSON.stringify(post.value._id));
+  console.log("Current Training Index:", currentTrainingIndex);
+
+  // If training not found in the course, return null
+  if (currentTrainingIndex === -1) {
+    console.log("HEREEEEEEEEEEE2");
+    return null;
+  }
+
+  // Check if there's a next training in the course
+  const nextTrainingIndex = currentTrainingIndex + 1;
+  if (nextTrainingIndex < course.trainings.length) {
+    console.log("HEREEEEEEEEEEE3");
+    // Fetch the next training object using getTrainingById
+    return courseStore.getTrainingById(course.trainings[nextTrainingIndex]);
+  } else {
+    console.log("HEREEEEEEEEEEE4");
+    // No next training (last one in the course)
+    return null;
+  }
+});
 
 // Function to mark the training as complete
 const markTrainingAsComplete = async () => {
@@ -256,9 +338,6 @@ const formattedDate = (date) => {
 const emit = defineEmits(["hide-loading"]);
 emit("hide-loading");
 </script>
-
-
-
 
 <style scoped>
 /* Main Training Page Wrapper */

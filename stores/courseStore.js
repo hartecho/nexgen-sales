@@ -5,8 +5,8 @@ export const useCourseStore = defineStore('courseStore', () => {
   const allCourses = ref([]);
   const allTrainings = ref([]);
   const lastFetchTime = ref(0); // Store last fetch time as a ref
-  const CACHE_DURATION = 1000 * 60 * 2;
-  // const CACHE_DURATION = 0;
+  // const CACHE_DURATION = 1000 * 60 * 2;
+  const CACHE_DURATION = 0;
 
   // Set courses
   const setCourses = (newCourses) => {

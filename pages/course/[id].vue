@@ -16,6 +16,7 @@
             :trainings="trainings"
             :currentTrainingIndex="currentTrainingIndex"
             :loading="loading"
+            :courseId="courseId"
           />
         </div>
 
