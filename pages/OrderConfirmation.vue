@@ -41,12 +41,12 @@
     </section>
     <section class="FAQ">
       <WebSectionsFAQ />
-      <SubcomponentsContactBanner
+      <!-- <SubcomponentsContactBanner
         graphicPath="ContactBannerGraphic.svg"
         buttonClass="contact-button"
         buttonPath="/contact"
         backgroundPath="ContactBannerBG.svg"
-      />
+      /> -->
     </section>
   </div>
 </template>
@@ -104,7 +104,7 @@ emit("hide-loading");
   margin-top: 0rem;
   padding: 6rem 3rem;
   color: white;
-  background: url("/ProductsBG.webp") no-repeat;
+  background: url("/Backgrounds/Car1.webp") no-repeat;
   background-size: cover;
   border-radius: 10px;
   box-shadow: 0 0 5px rgba(255, 255, 255, 1);

@@ -7,7 +7,7 @@
     <!--prettier-ignore-->
     <section class="FAQ">
       <WebSectionsFAQ />
-      <SubcomponentsContactBanner graphicPath="ContactBannerGraphic.svg" buttonClass="contact-button" buttonPath="/contact" backgroundPath="ContactBannerBG.svg"/>
+      <!-- <SubcomponentsContactBanner graphicPath="ContactBannerGraphic.svg" buttonClass="contact-button" buttonPath="/contact" backgroundPath="ContactBannerBG.svg"/> -->
     </section>
   </div>
 </template>
@@ -31,7 +31,7 @@ emit("hide-loading");
 .checkout-section {
   min-height: 65rem;
   padding: 4rem 0;
-  background: url("/Car5.png") no-repeat;
+  background: url("/Backgrounds/Car5.png") no-repeat;
   background-size: cover;
 }
 </style>
