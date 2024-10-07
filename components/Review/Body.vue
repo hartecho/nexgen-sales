@@ -59,7 +59,7 @@
           <p class="review-comment">{{ item.comment }}</p>
           <div v-if="item.isBusinessReply && isPro" class="update-tag">
             <img
-              src="/GoldenCheck.webp"
+              src="/Graphics/GoldenCheck.webp"
               alt="Verified Pro"
               class="verified-tag"
             />

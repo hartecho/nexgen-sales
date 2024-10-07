@@ -77,7 +77,7 @@
               }}
               <img
                 v-if="item.isBusinessReply && isPro"
-                src="/GoldenCheck.webp"
+                src="/Graphics/GoldenCheck.webp"
                 alt="Verified Pro"
                 class="verified-tag"
               />
