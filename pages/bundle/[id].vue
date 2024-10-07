@@ -104,7 +104,7 @@ emit("hide-loading");
 }
 
 .bundle-wrapper {
-  background: url("/HoneyCombBG.svg") no-repeat;
+  background: url("/Backgrounds/IntroBG.svg") no-repeat;
   background-size: cover;
   color: #f1b55c;
   font-family: Montserrat, cursive;

@@ -140,7 +140,7 @@ emit("hide-loading");
 }
 
 .item-wrapper {
-  background: url("/HoneyCombBG.svg") no-repeat;
+  background: url("/Backgrounds/IntroBG.webp") no-repeat;
   background-size: cover;
   color: #f1b55c;
   font-family: Montserrat, cursive;
