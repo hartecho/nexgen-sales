@@ -2,7 +2,7 @@
   <div class="course-sidebar">
     <!-- Display the image at the top if provided -->
     <div class="sidebar-image" v-if="image">
-      <img :src="`/Graphics/TrainingPics/${image}`" alt="Course Image" />
+      <img :src="`/TrainingPics/${image}`" alt="Course Image" />
     </div>
 
     <div v-else class="sidebar-image">

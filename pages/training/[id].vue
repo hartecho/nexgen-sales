@@ -24,7 +24,7 @@
             <div class="meta-info">
               <div class="meta-date">
                 <NuxtImg
-                  src="/calendar-icon.svg"
+                  src="/Graphics/calendar-icon.svg"
                   alt="Date icon"
                   class="meta-icon"
                 />
@@ -32,13 +32,10 @@
               </div>
               <div class="meta-reading-time">
                 <NuxtImg
-                  src="/clock-icon.svg"
+                  src="/Graphics/clock-icon.svg"
                   alt="Clock icon"
                   class="meta-icon"
                 />
-                <!-- <span>{{
-                   post.structuredData.readingTime || "Reading time unavailable"
-                }}</span> -->
               </div>
             </div>
           </div>
@@ -53,6 +50,7 @@
           <div class="left">
             <div v-if="post.mainVideo" class="training-video">
               <iframe
+                id="videoPlayer"
                 :src="getYoutubeEmbedUrl(post.mainVideo)"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -110,115 +108,68 @@
         @addComment="addComment"
       />
     </div>
-
-    <!-- Contact Banner -->
-    <!-- <SubcomponentsContactBanner
-      graphicPath="ContactBannerGraphic.svg"
-      buttonClass="contact-button"
-      buttonPath="/contact"
-      backgroundPath="ContactBannerBG.svg"
-    /> -->
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 const route = useRoute();
 const userStore = useUserStore();
 const courseStore = useCourseStore();
 const courseId = route.query.courseId; // Get course ID from the query parameter
-const isPlayerReady = ref(false);
 let player; // Keep track of the player instance
 
 // Fetch the training data
 const { data: post } = await useFetch(`/api/trainings?_id=${route.params.id}`);
 
 const isTrainingComplete = computed(() => {
-  // Fetch the course from the store using the courseId
   const course = courseStore.allCourses.find((c) => c._id === courseId);
-
   if (!course || !post.value) {
-    return false; // If the course or the current post is not available, return false
+    return false;
   }
-
-  // Find the index of the current training (post._id) in the course's trainings array
   const currentTrainingIndex = course.trainings.findIndex(
     (training) => training._id === post.value._id
   );
-
-  // If training not found in the course, return false
   if (currentTrainingIndex === -1) {
     return false;
   }
-
-  // Find the user's progress in the enrolledCourses array
   const userCourseProgress = userStore.user.enrolledCourses.find(
     (enrolledCourse) => enrolledCourse.course.toString() === courseId
   );
-
-  // If the user is not enrolled in this course, return false
   if (!userCourseProgress) {
     return false;
   }
-
-  // Compare the user's current training index with the current training's index
   return userCourseProgress.currentTrainingIndex > currentTrainingIndex;
 });
 
 const nextTraining = computed(() => {
-  // Fetch the course from the store using the courseId
   const course = courseStore.getCourseById(courseId);
-
-  console.log("HEREEEEEEEEEEE");
-
   if (!course || !post.value) {
-    console.log("HEREEEEEEEEEEE1");
-    return null; // If the course or the current post is not available, return null
-  }
-
-  // Use JSON.stringify to safely compare IDs
-  const currentTrainingId = post.value._id ? post.value._id.toString() : "";
-  console.log("Post.value._id (stringified):", currentTrainingId);
-
-  // Check if course.trainings contains the ID strings directly
-  const currentTrainingIndex = course.trainings.findIndex((trainingId) => {
-    console.log("Training ID (stringified):", trainingId);
-    return trainingId === currentTrainingId;
-  });
-
-  console.log("Course trainings: " + JSON.stringify(course.trainings));
-  console.log("Post.value._id: " + JSON.stringify(post.value._id));
-  console.log("Current Training Index:", currentTrainingIndex);
-
-  // If training not found in the course, return null
-  if (currentTrainingIndex === -1) {
-    console.log("HEREEEEEEEEEEE2");
     return null;
   }
-
-  // Check if there's a next training in the course
+  const currentTrainingId = post.value._id ? post.value._id.toString() : "";
+  const currentTrainingIndex = course.trainings.findIndex((trainingId) => {
+    return trainingId === currentTrainingId;
+  });
+  if (currentTrainingIndex === -1) {
+    return null;
+  }
   const nextTrainingIndex = currentTrainingIndex + 1;
   if (nextTrainingIndex < course.trainings.length) {
-    console.log("HEREEEEEEEEEEE3");
-    // Fetch the next training object using getTrainingById
     return courseStore.getTrainingById(course.trainings[nextTrainingIndex]);
   } else {
-    console.log("HEREEEEEEEEEEE4");
-    // No next training (last one in the course)
     return null;
   }
 });
 
 // Function to mark the training as complete
 const markTrainingAsComplete = async () => {
-  console.log("markTrainingAsComplete called"); // Debugging log
   try {
     const userResponse = await $fetch(`/api/users/${userStore.user._id}`, {
       method: "PUT",
       body: { courseId: courseId },
     });
-
-    userStore.setUser(userResponse); // Update user in the store
+    userStore.setUser(userResponse);
     console.log("Training marked as completed!");
   } catch (error) {
     console.error("Failed to mark training as complete:", error);
@@ -229,57 +180,65 @@ const markTrainingAsComplete = async () => {
 const loadYouTubeAPI = () => {
   return new Promise((resolve) => {
     if (window.YT && window.YT.Player) {
-      console.log("YouTube API already loaded"); // Debugging log
-      resolve(); // If API is already loaded
+      console.log("YouTube API already loaded");
+      resolve();
     } else {
-      console.log("Loading YouTube API"); // Debugging log
+      console.log("Loading YouTube API");
       const script = document.createElement("script");
       script.src = "https://www.youtube.com/iframe_api";
       document.head.appendChild(script);
 
       window.onYouTubeIframeAPIReady = function () {
-        console.log("YouTube API ready"); // Debugging log
-        isPlayerReady.value = true;
-        resolve(); // Resolve once the API is ready
+        console.log("YouTube API is ready");
+        resolve();
       };
     }
   });
 };
 
-// Initialize YouTube Player
 const initYouTubePlayer = async () => {
-  await loadYouTubeAPI(); // Wait for YouTube API to load
+  await loadYouTubeAPI();
+  console.log("YouTube API loaded");
+
+  // Wait until next tick to ensure everything is rendered
+  await new Promise((resolve) => setTimeout(resolve, 100));
 
   const videoId = getYoutubeEmbedUrl(post.value.mainVideo)?.split("/").pop();
-  console.log("Initializing player with video ID:", videoId); // Debugging log
+  console.log("Video ID for YouTube Player:", videoId);
 
-  // Make sure you have the correct ID of the iframe
+  if (!videoId) {
+    console.error("No valid video ID found");
+    return;
+  }
+
   player = new YT.Player("videoPlayer", {
     videoId: videoId,
     events: {
-      onStateChange: onPlayerStateChange,
+      onReady: (event) => {
+        console.log("Player ready:", event);
+        onPlayerReady(event);
+      },
+      onStateChange: (event) => {
+        console.log("State change event triggered:", event);
+        onPlayerStateChange(event);
+      },
     },
   });
+
+  console.log("YouTube Player instance created:", player);
 };
 
-// Handle YouTube player state change
+// Function to handle state changes
 const onPlayerStateChange = (event) => {
-  const playerStates = {
-    "-1": "UNSTARTED",
-    0: "ENDED",
-    1: "PLAYING",
-    2: "PAUSED",
-    3: "BUFFERING",
-    5: "CUED",
-  };
-
-  const state = playerStates[event.data] || "UNKNOWN STATE";
-  console.log(`Player state changed: ${state} (${event.data})`); // Debugging log
-
+  console.log("Player state changed:", event.data);
   if (event.data === YT.PlayerState.ENDED) {
-    console.log("Video ended"); // Debugging log
-    markTrainingAsComplete(); // Call the completion logic
+    markTrainingAsComplete();
   }
+};
+
+// Optional: Handle when the player is ready
+const onPlayerReady = (event) => {
+  console.log("Player is ready");
 };
 
 // Convert YouTube link to embed URL
@@ -338,6 +297,7 @@ const formattedDate = (date) => {
 const emit = defineEmits(["hide-loading"]);
 emit("hide-loading");
 </script>
+
 
 <style scoped>
 /* Main Training Page Wrapper */

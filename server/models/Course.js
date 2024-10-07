@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import Training from '~/server/models/Graphics/Training.js';
+import Training from '~/server/models/Training.js';
 
 const quizSchema = new mongoose.Schema({
     question: String,

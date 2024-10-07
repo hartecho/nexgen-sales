@@ -88,15 +88,15 @@
           {{ content.image.caption }}
         </p>
       </div>
-      <EditTrainingInteractiveQuiz
+      <CourseTrainingEditTrainingInteractiveQuiz
         v-if="content.type === 'quiz'"
         :quiz="content.quiz"
       />
-      <EditTrainingInteractivePoll
+      <CourseTrainingEditTrainingInteractivePoll
         v-if="content.type === 'poll'"
         :poll="content.poll"
       />
-      <EditTrainingInteractiveVideoContent
+      <CourseTrainingEditTrainingInteractiveVideoContent
         v-if="content.type === 'video'"
         :video="content.video"
       />
@@ -138,7 +138,7 @@ const editableTitle = ref(props.title);
 const editableContents = ref([...props.contents]);
 
 const resolvedImgPath = (path) => {
-  return path ? "/Graphics/TrainingPics/" + path : "/Logos/HARTECHOLogo.webp";
+  return path ? "/TrainingPics/" + path : "/Logos/HARTECHOLogo.webp";
 };
 
 // Watch title and contents and emit updates

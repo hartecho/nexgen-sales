@@ -149,7 +149,7 @@ const getNextTraining = (course) => {
 // Get the thumbnail image of the next training
 const getNextTrainingImage = (course) => {
   const nextTraining = getNextTraining(course);
-  return `/Graphics/TrainingPics/${nextTraining?.thumbnail}` || null;
+  return `/TrainingPics/${nextTraining?.thumbnail}` || null;
 };
 
 const resumeCourse = (course) => {

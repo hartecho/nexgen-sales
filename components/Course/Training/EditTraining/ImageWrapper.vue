@@ -34,7 +34,7 @@ watch(
 );
 
 const resolvedImgPath = (path) => {
-  return path ? "/Graphics/TrainingPics/" + path : "/Logos/HARTECHOLogo.webp";
+  return path ? "/TrainingPics/" + path : "/Logos/HARTECHOLogo.webp";
 };
 
 const generatePlaceholderUrl = (url) => {

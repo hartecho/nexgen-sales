@@ -24,7 +24,7 @@
             <div class="meta-info">
               <div class="meta-date">
                 <NuxtImg
-                  src="/calendar-icon.svg"
+                  src="/Graphics/calendar-icon.svg"
                   alt="Date icon"
                   class="meta-icon"
                 />
@@ -32,7 +32,7 @@
               </div>
               <div class="meta-reading-time">
                 <NuxtImg
-                  src="/clock-icon.svg"
+                  src="/Graphics/clock-icon.svg"
                   alt="Clock icon"
                   class="meta-icon"
                 />

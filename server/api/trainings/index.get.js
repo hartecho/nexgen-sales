@@ -1,4 +1,4 @@
-import Training from '~/server/models/Graphics/Training.js';
+import Training from '~/server/models/Training.js';
 import { connectDB } from '~/server/utils/dbConnect';
 import { disconnectDB } from '~/server/utils/dbDisconnect';
 

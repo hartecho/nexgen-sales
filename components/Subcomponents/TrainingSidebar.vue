@@ -1,5 +1,9 @@
 <template>
-  <div class="sidebar" :class="{ large: isLarge, small: !isLarge }">
+  <div
+    class="sidebar"
+    :class="{ large: isLarge, small: !isLarge }"
+    v-if="hydrated"
+  >
     <h2>Next Training</h2>
     <div v-if="nextTraining" class="sidebar-post">
       <NuxtLink :to="`/training/${nextTraining._id}`">
@@ -30,7 +34,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+const isLarge = ref(true);
+const hydrated = ref(false);
 
 const props = defineProps({
   courseId: {
@@ -71,7 +76,7 @@ const generatePlaceholderUrl = (url) => {
 
 const resolvedImgPath = (path) => {
   if (path) {
-    return `/Graphics/TrainingPics/${path}`;
+    return `/TrainingPics/${path}`;
   }
   return "/Logos/HARTECHOLogo.webp";
 };
@@ -87,6 +92,10 @@ const goToNextTraining = () => {
     );
   }
 };
+
+onMounted(() => {
+  hydrated.value = true;
+});
 </script>
 
 <style scoped>

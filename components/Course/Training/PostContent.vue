@@ -23,16 +23,16 @@
         />
         <p class="image-caption">{{ content.image.caption }}</p>
       </div>
-      <TrainingInteractiveQuiz
+      <CourseTrainingInteractiveQuiz
         v-if="content.type === 'quiz'"
         :quiz="content.quiz"
       />
-      <TrainingInteractivePoll
+      <CourseTrainingInteractivePoll
         v-if="content.type === 'poll'"
         :poll="content.poll"
         @updatePoll="updatePoll($event, index)"
       />
-      <TrainingInteractiveVideoContent
+      <CourseTrainingInteractiveVideoContent
         v-if="content.type === 'video'"
         :video="content.video"
       />
@@ -49,7 +49,7 @@ const props = defineProps({
 const emit = defineEmits(["updatePoll"]);
 
 const resolvedImgPath = (path) => {
-  return path ? "/Graphics/TrainingPics/" + path : "/Logos/HARTECHOLogo.webp";
+  return path ? "/TrainingPics/" + path : "/Logos/HARTECHOLogo.webp";
 };
 
 const updatePoll = () => {
