@@ -11,7 +11,7 @@
           volutpat, leo sit amet.
         </p>
         <button type="submit" class="cta-button">
-          <img src="/LinkIcon.svg" alt="" />
+          <img src="/Graphics/LinkIcon.svg" alt="" />
           SIGN UP
         </button>
       </div>

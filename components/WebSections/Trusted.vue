@@ -12,22 +12,22 @@
     </div>
     <div class="logo-grid">
       <div class="logo">
-        <img src="/ExampleLogo.png" alt="Piccaso Logo" />
+        <img src="/Logos/ExampleLogo.png" alt="Piccaso Logo" />
       </div>
       <div class="logo">
-        <img src="/ExampleLogo.png" alt="Piccaso Logo" />
+        <img src="/Logos/ExampleLogo.png" alt="Piccaso Logo" />
       </div>
       <div class="logo">
-        <img src="/ExampleLogo.png" alt="Piccaso Logo" />
+        <img src="/Logos/ExampleLogo.png" alt="Piccaso Logo" />
       </div>
       <div class="logo">
-        <img src="/ExampleLogo.png" alt="Piccaso Logo" />
+        <img src="/Logos/ExampleLogo.png" alt="Piccaso Logo" />
       </div>
       <div class="logo">
-        <img src="/ExampleLogo.png" alt="Piccaso Logo" />
+        <img src="/Logos/ExampleLogo.png" alt="Piccaso Logo" />
       </div>
       <div class="logo">
-        <img src="/ExampleLogo.png" alt="Piccaso Logo" />
+        <img src="/Logos/ExampleLogo.png" alt="Piccaso Logo" />
       </div>
     </div>
   </div>

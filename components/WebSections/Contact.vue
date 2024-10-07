@@ -10,7 +10,7 @@
         </p>
         <div class="info-box">
           <div class="icon-wrap">
-            <img src="/Support.webp" alt="location icon" class="icon" />
+            <img src="/Graphics/Support.webp" alt="location icon" class="icon" />
           </div>
           <div class="text-wrap">
             <h4>Our Location</h4>
@@ -19,7 +19,7 @@
         </div>
         <div class="info-box">
           <div class="icon-wrap">
-            <img src="/Sales.webp" alt="phone icon" class="icon" />
+            <img src="/Graphics/Sales.webp" alt="phone icon" class="icon" />
           </div>
           <div class="text-wrap">
             <h4>Our Number</h4>
@@ -28,7 +28,7 @@
         </div>
         <div class="info-box">
           <div class="icon-wrap">
-            <img src="/Privacy.webp" alt="mail icon" class="icon" />
+            <img src="/Graphics/Privacy.webp" alt="mail icon" class="icon" />
           </div>
           <div class="text-wrap">
             <h4>Our Mail</h4>
@@ -58,7 +58,7 @@
             <textarea placeholder="Your Message" v-model="formData.message"></textarea>
           </div>
           <button type="submit" class="submit-button">
-            <img src="/LinkIcon.svg" alt="" />
+            <img src="/Graphics/LinkIcon.svg" alt="" />
             SEND EMAIL
           </button>
         </form>

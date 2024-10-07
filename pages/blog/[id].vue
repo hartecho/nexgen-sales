@@ -11,7 +11,7 @@
         <!-- Blog Metadata -->
         <div class="blog-metadata">
           <NuxtImg
-            src="/HARTECHOLogo.webp"
+            src="/Logos/HARTECHOLogo.webp"
             alt="Author image"
             class="author-image"
           />
@@ -153,8 +153,8 @@ useSeoMeta({
     "Boost traffic and sales with Facebook and Google Ads! Reach a vast audience, engage with precise targeting, and use analytics with our Utah marketing services.",
   ogDescription:
     "Boost traffic and sales with Facebook and Google Ads! Reach a vast audience, engage with precise targeting, and use analytics with our Utah marketing services.",
-  ogImage: "/HARTECHOLogo.webp",
-  twitterCard: "/HARTECHOLogo.webp",
+  ogImage: "/Logos/HARTECHOLogo.webp",
+  twitterCard: "/Logos/HARTECHOLogo.webp",
 });
 
 const emit = defineEmits(["hide-loading"]);

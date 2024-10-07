@@ -49,7 +49,7 @@ const props = defineProps({
 const emit = defineEmits(["updatePoll"]);
 
 const resolvedImgPath = (path) => {
-  return path ? "/TrainingPics/" + path : "/HARTECHOLogo.webp";
+  return path ? "/Graphics/TrainingPics/" + path : "/Logos/HARTECHOLogo.webp";
 };
 
 const updatePoll = () => {

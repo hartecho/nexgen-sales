@@ -2,7 +2,7 @@
   <div class="services-section">
     <div class="service-card">
       <div class="icon">
-        <img src="/Support.webp" alt="" />
+        <img src="/Graphics/Support.webp" alt="" />
       </div>
       <h3>24/7 Support</h3>
       <p>
@@ -13,7 +13,7 @@
 
     <div class="service-card">
       <div class="icon">
-        <img src="/Sales.webp" alt="" />
+        <img src="/Graphics/Sales.webp" alt="" />
       </div>
       <h3>Sales Strategies</h3>
       <p>
@@ -24,7 +24,7 @@
 
     <div class="service-card">
       <div class="icon">
-        <img src="/Privacy.webp" alt="" />
+        <img src="/Graphics/Privacy.webp" alt="" />
       </div>
       <h3>Data Privacy</h3>
       <p>
@@ -35,7 +35,7 @@
 
     <div class="service-card">
       <div class="icon">
-        <img src="/Training.webp" alt="" />
+        <img src="/Graphics/Training.webp" alt="" />
       </div>
       <h3>Certified Training</h3>
       <p>

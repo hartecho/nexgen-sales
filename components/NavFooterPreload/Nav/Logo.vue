@@ -1,7 +1,7 @@
 <template>
   <div class="brand">
     <NuxtLink to="/" class="nav-logo-box">
-      <img src="/Nexgen.webp" alt="Company Logo" class="nav-logo" />
+      <img src="/Logos/Nexgen.webp" alt="Company Logo" class="nav-logo" />
     </NuxtLink>
   </div>
 </template>

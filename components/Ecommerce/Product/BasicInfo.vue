@@ -32,9 +32,9 @@ const props = defineProps({
 
 // Helper function to get the star images
 const getStarImages = (rating) => {
-  const fullStar = "/FullStar.svg";
-  const halfStar = "/HalfStar.svg";
-  const emptyStar = "/EmptyStar.svg";
+  const fullStar = "/Graphics/FullStar.svg";
+  const halfStar = "/Graphics/HalfStar.svg";
+  const emptyStar = "/Graphics/EmptyStar.svg";
   const starImages = [];
 
   const roundedRating = Math.round(rating * 2) / 2;

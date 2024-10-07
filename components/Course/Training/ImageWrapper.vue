@@ -21,7 +21,7 @@ const imageLoaded = ref(false);
 
 const resolvedImgPath = (path) => {
   // console.log("Path: " + path);
-  return path ? "/TrainingPics/" + path : "/HARTECHOLogo.webp";
+  return path ? "/Graphics/TrainingPics/" + path : "/Logos/HARTECHOLogo.webp";
 };
 
 const generatePlaceholderUrl = (url) => {

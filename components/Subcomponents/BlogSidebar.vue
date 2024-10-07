@@ -46,7 +46,7 @@ const resolvedImgPath = (path) => {
   if (path) {
     return "/BlogPics/" + path;
   }
-  return "/HARTECHOLogo.webp";
+  return "/Logos/HARTECHOLogo.webp";
 };
 
 const lastScrollTop = ref(0);

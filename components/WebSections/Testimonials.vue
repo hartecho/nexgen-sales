@@ -21,19 +21,19 @@
         name="Testimonial #1"
         designation="Designation"
         text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique, leo sit amet aliquet sollicitudin."
-        imageSrc="/HARTECHOLogo.webp"
+        imageSrc="/Logos/HARTECHOLogo.webp"
       />
       <SubcomponentsTestimonial
         name="Testimonial #2"
         designation="Designation"
         text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique, leo sit amet aliquet sollicitudin."
-        imageSrc="/HARTECHOLogo.webp"
+        imageSrc="/Logos/HARTECHOLogo.webp"
       />
       <SubcomponentsTestimonial
         name="Testimonial #3"
         designation="Designation"
         text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique, leo sit amet aliquet sollicitudin."
-        imageSrc="/HARTECHOLogo.webp"
+        imageSrc="/Logos/HARTECHOLogo.webp"
       />
     </div>
   </div>

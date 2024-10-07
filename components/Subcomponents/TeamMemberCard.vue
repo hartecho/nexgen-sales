@@ -8,9 +8,9 @@
       <p>{{ title }}</p>
       <p>{{ description }}</p>
       <div class="social-icons">
-        <img src="/Support.webp" alt="Twitter" class="social-icon" />
-        <img src="/Support.webp" alt="Facebook" class="social-icon" />
-        <img src="/Support.webp" alt="Instagram" class="social-icon" />
+        <img src="/Graphics/Support.webp" alt="Twitter" class="social-icon" />
+        <img src="/Graphics/Support.webp" alt="Facebook" class="social-icon" />
+        <img src="/Graphics/Support.webp" alt="Instagram" class="social-icon" />
       </div>
     </div>
   </div>

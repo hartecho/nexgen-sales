@@ -149,7 +149,7 @@ const getNextTraining = (course) => {
 // Get the thumbnail image of the next training
 const getNextTrainingImage = (course) => {
   const nextTraining = getNextTraining(course);
-  return `/TrainingPics/${nextTraining?.thumbnail}` || null;
+  return `/Graphics/TrainingPics/${nextTraining?.thumbnail}` || null;
 };
 
 const resumeCourse = (course) => {
@@ -195,10 +195,10 @@ const completionPercentage = (course) => {
 }
 
 .dashboard-title {
-  font-size: 2rem;
-  margin-bottom: 30px;
-  text-align: center;
-  color: #333;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .course-list {

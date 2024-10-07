@@ -2,7 +2,7 @@
   <div class="dashboard">
     <div class="sidebar">
       <div class="logo-wrapper">
-        <img src="/NexgenLogo.webp" alt="" />
+        <img src="/Logos/NexgenLogo.webp" alt="" />
       </div>
       <div
         v-for="section in sections"

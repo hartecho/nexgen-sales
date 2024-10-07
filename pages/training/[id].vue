@@ -11,7 +11,7 @@
         <!-- Training Metadata -->
         <div class="training-metadata">
           <NuxtImg
-            src="/HARTECHOLogo.webp"
+            src="/Logos/HARTECHOLogo.webp"
             alt="Author image"
             class="author-image"
           />

@@ -138,7 +138,7 @@ const editableTitle = ref(props.title);
 const editableContents = ref([...props.contents]);
 
 const resolvedImgPath = (path) => {
-  return path ? "/TrainingPics/" + path : "/HARTECHOLogo.webp";
+  return path ? "/Graphics/TrainingPics/" + path : "/Logos/HARTECHOLogo.webp";
 };
 
 // Watch title and contents and emit updates

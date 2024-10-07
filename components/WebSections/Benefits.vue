@@ -2,7 +2,11 @@
   <div class="about-us-section-wrapper">
     <div class="about-us">
       <div class="image-container">
-        <img src="/introBG.webp" alt="Experience" class="experience-image" />
+        <img
+          src="/Backgrounds/introBG.webp"
+          alt="Experience"
+          class="experience-image"
+        />
         <div class="experience-overlay">
           <span>15+</span>
           <p>Experience</p>

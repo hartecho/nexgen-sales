@@ -71,9 +71,9 @@ const generatePlaceholderUrl = (url) => {
 
 const resolvedImgPath = (path) => {
   if (path) {
-    return `/TrainingPics/${path}`;
+    return `/Graphics/TrainingPics/${path}`;
   }
-  return "/HARTECHOLogo.webp";
+  return "/Logos/HARTECHOLogo.webp";
 };
 
 const onImageLoad = (index) => {

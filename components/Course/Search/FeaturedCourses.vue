@@ -68,7 +68,7 @@ const goToCourse = (courseId) => {
 };
 
 function resolvedImgPath(path) {
-  return path ? `/CoursePics/${path}` : "/HARTECHOLogo.webp";
+  return path ? `/CoursePics/${path}` : "/Logos/HARTECHOLogo.webp";
 }
 
 const generatePlaceholderUrl = (url) => {

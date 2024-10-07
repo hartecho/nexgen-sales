@@ -4,7 +4,7 @@
       <div v-if="!isLoggedIn" class="login-form">
         <div class="left">
           <div class="image-wrapper">
-            <img src="/introBG.webp" alt="" />
+            <img src="/Backgrounds/introBG.webp" alt="" />
           </div>
         </div>
         <NavFooterPreloadLoginModal />
@@ -32,7 +32,7 @@ emit("hide-loading");
 <style scoped>
 .wrapper {
   min-height: 100vh;
-  /* background: url("/introBG.webp") no-repeat; */
+  /* background: url("/Backgrounds/introBG.webp") no-repeat; */
   background: black;
   /* background: black; */
   /* background-position: center center; */

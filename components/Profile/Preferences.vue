@@ -19,7 +19,7 @@
             alt="Profile Image"
           />
           <div class="edit-icon">
-            <img src="/Support.webp" alt="Edit Icon" />
+            <img src="/Graphics/Support.webp" alt="Edit Icon" />
           </div>
           <!-- Hidden file input for selecting images -->
           <input
@@ -275,7 +275,7 @@ const showNotification = (message, type) => {
 .top-image-banner {
   width: 100%;
   height: 20rem;
-  background: url("/IntroBG.webp") center center/cover no-repeat;
+  background: url("/Backgrounds/IntroBG.webp") center center/cover no-repeat;
   position: relative;
   display: flex;
   justify-content: center;

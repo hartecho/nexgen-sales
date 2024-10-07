@@ -16,7 +16,7 @@
 
         <!-- Mobile Menu Button -->
         <button class="mobile-menu-button" @click="toggleMobileNav">
-          <img src="/NavBars.svg" alt="Menu" />
+          <img src="/Graphics/NavBars.svg" alt="Menu" />
         </button>
       </div>
     </div>

@@ -3,7 +3,7 @@
     <div class="footer-container">
       <!-- Logo and Description -->
       <div class="footer-logo-desc">
-        <img src="/Nexgen.webp" alt="Nexgen Logo" class="footer-logo" />
+        <img src="/Logos/Nexgen.webp" alt="Nexgen Logo" class="footer-logo" />
         <p class="footer-description">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore.

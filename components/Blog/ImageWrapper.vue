@@ -20,7 +20,7 @@ const props = defineProps({
 const imageLoaded = ref(false);
 
 const resolvedImgPath = (path) => {
-  return path ? "/BlogPics/" + path : "/HARTECHOLogo.webp";
+  return path ? "/BlogPics/" + path : "/Logos/HARTECHOLogo.webp";
 };
 
 const generatePlaceholderUrl = (url) => {

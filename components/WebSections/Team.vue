@@ -15,25 +15,25 @@
           name="Jhon Doe"
           title="CEO Reactive"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          imageSrc="/Member1.png"
+          imageSrc="/Portraits/Member1.png"
         />
         <SubcomponentsTeamMemberCard
           name="Jane Doe"
           title="CTO Reactive"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          imageSrc="/Member2.png"
+          imageSrc="/Portraits/Member2.png"
         />
         <SubcomponentsTeamMemberCard
           name="Jhon Doe"
           title="CEO Reactive"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          imageSrc="/Member3.png"
+          imageSrc="/Portraits/Member3.png"
         />
         <SubcomponentsTeamMemberCard
           name="Jane Doe"
           title="CTO Reactive"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          imageSrc="/Member4.png"
+          imageSrc="/Portraits/Member4.png"
         />
       </div>
     </div>

@@ -70,7 +70,7 @@ const goToBlog = (blogId) => {
 };
 
 function resolvedImgPath(path) {
-  return path ? `/BlogPics/${path}` : "/HARTECHOLogo.webp";
+  return path ? `/BlogPics/${path}` : "/Logos/HARTECHOLogo.webp";
 }
 
 const generatePlaceholderUrl = (url) => {

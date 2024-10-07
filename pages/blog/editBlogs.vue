@@ -176,7 +176,7 @@ const defaultBlog = ref({
   author: {
     name: "Author name",
     bio: "Author bio",
-    image: "/HARTECHOLogo.webp",
+    image: "/Logos/HARTECHOLogo.webp",
   },
   date: new Date().toISOString(),
   intro: "This is an introduction.",
@@ -212,7 +212,7 @@ const setSelectedBlog = (blogId) => {
       ...blog,
       author:
         typeof blog.author === "string"
-          ? { name: blog.author, bio: "", image: "/HARTECHOLogo.webp" }
+          ? { name: blog.author, bio: "", image: "/Logos/HARTECHOLogo.webp" }
           : blog.author,
     };
   }

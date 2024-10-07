@@ -10,7 +10,7 @@
       </p>
       <div class="CTA">
         <button class="learn-more">
-          <img src="/LinkIcon.svg" alt="" />
+          <img src="/Graphics/LinkIcon.svg" alt="" />
           GET STARTED
         </button>
         <div class="contact">

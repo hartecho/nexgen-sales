@@ -60,7 +60,7 @@ const isTrainingCompleted = (index) => {
 
 // Function to resolve the image path
 function resolvedImgPath(path) {
-  return path ? `/TrainingPics/${path}` : "/defaultImage.webp";
+  return path ? `/Graphics/TrainingPics/${path}` : "/defaultImage.webp";
 }
 
 // Function to truncate the intro text with ellipsis

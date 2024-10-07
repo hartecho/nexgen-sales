@@ -21,7 +21,7 @@
               close deals.
             </p>
           </div>
-          <img src="/Support.webp" alt="Sales Strategy" />
+          <img src="/Graphics/Support.webp" alt="Sales Strategy" />
         </div>
         <div class="service-item">
           <div class="text-content">
@@ -31,7 +31,7 @@
               for the best results.
             </p>
           </div>
-          <img src="/Support.webp" alt="Database Management" />
+          <img src="/Graphics/Support.webp" alt="Database Management" />
         </div>
         <div class="service-item">
           <div class="text-content">
@@ -40,20 +40,24 @@
               Robust tools and systems to support seamless sales operations.
             </p>
           </div>
-          <img src="/Support.webp" alt="Technical Infrastructure" />
+          <img src="/Graphics/Support.webp" alt="Technical Infrastructure" />
         </div>
       </div>
 
       <!-- Center Column (with large icon and text) -->
       <div class="center-column">
-        <img src="/Features.webp" alt="Web Security" class="large-image" />
+        <img
+          src="/Graphics/Features.webp"
+          alt="Web Security"
+          class="large-image"
+        />
         <h2>Reactive Services</h2>
       </div>
 
       <!-- Right Column -->
       <div class="services-column right">
         <div class="service-item">
-          <img src="/Support.webp" alt="Web Security" />
+          <img src="/Graphics/Support.webp" alt="Web Security" />
           <div class="text-content">
             <h3>Web Security</h3>
             <p>
@@ -62,14 +66,14 @@
           </div>
         </div>
         <div class="service-item">
-          <img src="/Support.webp" alt="Cloud Support" />
+          <img src="/Graphics/Support.webp" alt="Cloud Support" />
           <div class="text-content">
             <h3>Cloud Support</h3>
             <p>Access tools and training material from anywhere at any time.</p>
           </div>
         </div>
         <div class="service-item">
-          <img src="/Support.webp" alt="Monitoring Services" />
+          <img src="/Graphics/Support.webp" alt="Monitoring Services" />
           <div class="text-content">
             <h3>Monitoring Services</h3>
             <p>

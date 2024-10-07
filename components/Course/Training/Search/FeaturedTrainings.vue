@@ -73,7 +73,7 @@ const goToTraining = (trainingId) => {
 };
 
 function resolvedImgPath(path) {
-  return path ? `/TrainingPics/${path}` : "/HARTECHOLogo.webp";
+  return path ? `/Graphics/TrainingPics/${path}` : "/Logos/HARTECHOLogo.webp";
 }
 
 const generatePlaceholderUrl = (url) => {

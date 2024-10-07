@@ -171,7 +171,7 @@ const defaultTraining = ref({
   author: {
     name: "Author name",
     bio: "Author bio",
-    image: "/HARTECHOLogo.webp",
+    image: "/Logos/HARTECHOLogo.webp",
   },
   date: new Date().toISOString(),
   intro: "This is an introduction.",
@@ -211,7 +211,11 @@ const setSelectedTraining = (trainingId) => {
       ...training,
       author:
         typeof training.author === "string"
-          ? { name: training.author, bio: "", image: "/HARTECHOLogo.webp" }
+          ? {
+              name: training.author,
+              bio: "",
+              image: "/Logos/HARTECHOLogo.webp",
+            }
           : training.author,
     };
   }
