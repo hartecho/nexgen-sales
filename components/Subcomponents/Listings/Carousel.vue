@@ -12,7 +12,7 @@
     <!-- Show the left arrow only if we're not at the first section -->
     <img
       v-if="currentIndex > 0"
-      src="/leftArrowWhite.webp"
+      src="/Graphics/leftArrowWhite.webp"
       class="nav-arrow left-arrow"
       @click="prevSlide"
       alt="Previous"
@@ -32,7 +32,7 @@
     <!-- Show the right arrow only if we're not at the last section -->
     <img
       v-if="currentIndex < sections.length - 1"
-      src="/rightArrowWhite.webp"
+      src="/Graphics/rightArrowWhite.webp"
       class="nav-arrow right-arrow"
       @click="nextSlide"
       alt="Next"

@@ -16,19 +16,23 @@
 
         <!-- Conditionally change the route for Login/Profile -->
         <div class="nav-link" @click="navigateBasedOnLogin">
-          <img v-if="!hydrated || !isLoggedIn" src="/login.webp" alt="Login" />
-          <img v-else src="/login.webp" alt="Profile" />
+          <img
+            v-if="!hydrated || !isLoggedIn"
+            src="/Graphics/login.webp"
+            alt="Login"
+          />
+          <img v-else src="/Graphics/login.webp" alt="Profile" />
         </div>
 
         <!-- Shopping Cart Section with Pointer Animation -->
         <div class="shopping-cart" @click="switchRoute('/cart')">
-          <img src="/cart.webp" alt="Cart" />
+          <img src="/Graphics/cart.webp" alt="Cart" />
           <h2 v-if="hydrated">{{ cartItemCount }}</h2>
 
           <!-- Click animation SVG for drop-down nav, only shows if isVisible is true -->
           <img
             v-if="showClickAnimation && isVisible"
-            src="/CartPoint.svg"
+            src="/Graphics/CartPoint.svg"
             alt="Click Animation"
             class="click-animation"
           />

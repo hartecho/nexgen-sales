@@ -10,7 +10,7 @@
         placeholder="What can we help you find today?"
       />
       <button>
-        <img src="/search.webp" alt="Search" />
+        <img src="/Graphics/search.webp" alt="Search" />
       </button>
     </div>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="nav-link shopping-cart" @click="switchRoute('/cart')">
     <NuxtLink to="/cart" class="nav-link-content">
-      <img src="/cart.webp" alt="Cart" class="icon-size" />
+      <img src="/Graphics/cart.webp" alt="Cart" class="icon-size" />
       <span>Cart</span>
     </NuxtLink>
     <h2 v-if="hydrated" class="cart-count">

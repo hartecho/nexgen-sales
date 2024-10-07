@@ -24,7 +24,11 @@
       </div>
     </div>
     <div class="views">
-      <img src="/ViewCountEye.svg" alt="Views Icon" class="views-icon" />
+      <img
+        src="/Graphics/ViewCountEye.svg"
+        alt="Views Icon"
+        class="views-icon"
+      />
       <span>{{ formattedViews }}</span>
     </div>
   </div>
