@@ -61,7 +61,6 @@
 <p>Last updated: Feb. 7th, 2024</p>
     </div>
     <!-- prettier-ignore -->
-    <SubcomponentsContactBanner graphicPath="ContactBannerGraphicWhite.webp" buttonClass="contact-button" buttonPath="/contact" backgroundPath="ContactBannerBG.svg"/>
   </div>
 </template>
 

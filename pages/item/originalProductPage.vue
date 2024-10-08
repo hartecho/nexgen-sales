@@ -47,12 +47,6 @@
     <!-- prettier-ignore -->
     <section class="FAQ">
         <WebSectionsFAQ />
-        <SubcomponentsContactBanner 
-          graphicPath="ContactBannerGraphic.svg" 
-          buttonClass="contact-button" 
-          buttonPath="/contact" 
-          backgroundPath="ContactBannerBG.svg"
-        />
       </section>
   </div>
 </template>

@@ -183,7 +183,7 @@ export const useItemStore = defineStore('itemStore', () => {
   };
 }, {
   persist: {
-    key: 'item-store-key',
+    key: 'nexgen-item-store-key',
     storage: typeof localStorage !== 'undefined' ? localStorage : null,
     paths: ['cart', 'orderDetails', 'USPSAccessToken', 'USPSAccessTokenExpiration'], // Specify which states should be persisted
   },

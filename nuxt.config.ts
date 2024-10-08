@@ -44,7 +44,10 @@ export default defineNuxtConfig({
   ignore: process.env.NODE_ENV === 'production' 
     ? [
         'pages/blog/editBlogs.vue', 
-        'pages/serviceItem/editServiceItems.vue'
+        'pages/serviceItem/editServiceItems.vue',
+        'pages/Checkout.vue',
+        'pages/item/originalProductPage.vue'
+      
       ] 
     : [],
 

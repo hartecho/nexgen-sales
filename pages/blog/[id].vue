@@ -91,14 +91,6 @@
     <div class="comments">
       <BlogComments :comments="post.comments" @addComment="addComment" />
     </div>
-
-    <!-- Contact Banner -->
-    <!-- <SubcomponentsContactBanner
-      graphicPath="ContactBannerGraphic.svg"
-      buttonClass="contact-button"
-      buttonPath="/contact"
-      backgroundPath="ContactBannerBG.svg"
-    /> -->
   </div>
 </template>
 
