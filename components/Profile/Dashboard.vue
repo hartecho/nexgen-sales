@@ -168,7 +168,6 @@ const getCurrentTrainingIndex = (course) => {
   );
   if (!enrollment || !course.trainings.length) return null;
 
-  console.log("index: " + enrollment.currentTrainingIndex);
   return enrollment.currentTrainingIndex;
 };
 

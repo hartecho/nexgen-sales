@@ -49,7 +49,7 @@ function hideLoadingScreen() {
 provide("showLoadingScreen", showLoadingScreen);
 
 // Check if the current route is '/portal'
-const isPortalRoute = computed(() => route.path === "/portal");
+const isPortalRoute = computed(() => route.path !== "/");
 
 // Handle route changes to initially show the loading screen
 router.beforeEach((to, from, next) => {

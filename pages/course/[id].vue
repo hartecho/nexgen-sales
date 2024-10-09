@@ -1,7 +1,7 @@
 <template>
   <div class="course-page-wrapper">
     <CourseHero
-      :course="course"
+      :course="course || {}"
       :isEnrolled="isEnrolled"
       :isCourseCompleted="isCourseCompleted"
       :image="course?.image"
@@ -16,13 +16,13 @@
             :trainings="trainings"
             :currentTrainingIndex="currentTrainingIndex"
             :loading="loading"
-            :courseId="courseId"
+            :courseId="courseId || ''"
           />
         </div>
 
         <div class="sidebar">
           <CourseSidebar
-            :completedTrainings="completedTrainings"
+            :completedTrainings="currentTrainingIndex"
             :totalTrainings="totalTrainings"
             :completionPercentage="completionPercentage"
             :instructor="course?.instructor"
@@ -38,7 +38,6 @@
 <script setup>
 const course = ref(null);
 const courseId = ref(null);
-const completedTrainings = ref(0);
 const trainings = ref([]);
 const courseStore = useCourseStore();
 const userStore = useUserStore();
@@ -49,6 +48,9 @@ onMounted(async () => {
   courseId.value = router.currentRoute.value.params.id;
   await fetchAndSetCourses();
   loading.value = false;
+  console.log(
+    "user.enrolledCourses: " + JSON.stringify(userStore.user.enrolledCourses)
+  );
 });
 
 const fetchAndSetCourses = async () => {
@@ -64,7 +66,7 @@ const fetchAndSetCourses = async () => {
       course.value = courseStore.getCourseById(courseId.value);
       await fetchAndSetTrainings();
     } catch (error) {
-      console.error("Error fetching courses:", error);
+      console.error("Error fetching courses: ", error);
     }
   } else {
     course.value = courseStore.getCourseById(courseId.value);
@@ -132,33 +134,45 @@ const isEnrolled = computed(() => {
 });
 
 const completionPercentage = computed(() => {
+  console.log("current training index: " + currentTrainingIndex.value);
+  console.log("totalTrainings.value: " + totalTrainings.value);
   if (totalTrainings.value === 0) return 0;
-  return (completedTrainings.value / totalTrainings.value) * 100;
+  return (currentTrainingIndex.value / totalTrainings.value) * 100;
 });
 
 const isCourseCompleted = computed(() => {
-  return completedTrainings.value === totalTrainings.value;
+  return currentTrainingIndex === totalTrainings.value;
 });
 
 const currentTrainingIndex = computed(() => {
   const user = userStore.user;
 
-  const enrollment = user?.enrolledCourses?.find(
+  if (!user || !user.enrolledCourses || !courseId.value) {
+    console.log("User or course data not available yet.");
+    return 0;
+  }
+
+  const enrollment = user.enrolledCourses.find(
     (enrollment) => enrollment.course === courseId.value
   );
 
-  if (!enrollment || !course.value || !course.value.trainings.length) {
-    return null;
+  if (!enrollment) {
+    console.log("User is not enrolled in this course.");
+    return 0;
   }
 
-  return enrollment.currentTrainingIndex;
+  console.log(
+    "User's current training index:",
+    enrollment.currentTrainingIndex
+  );
+  return enrollment.currentTrainingIndex || 0;
 });
 
 const totalTrainings = computed(() => trainings.value?.length || 0);
 
 const getNextTrainingImage = computed(() => {
   const training = getNextTraining.value;
-  return training?.thumbnail || null;
+  return training?.thumbnail;
 });
 
 const emit = defineEmits(["hide-loading"]);

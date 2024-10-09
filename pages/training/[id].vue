@@ -44,19 +44,10 @@
 
       <!-- Main Training Wrapper -->
       <div class="training-content-wrapper">
-        <!-- Main Training Content -->
         <div class="training-post" v-if="post">
-          <!-- Conditional rendering for Video or Image -->
           <div class="left">
             <div v-if="post.mainVideo" class="training-video">
-              <iframe
-                id="videoPlayer"
-                :src="getYoutubeEmbedUrl(post.mainVideo)"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                class="training-embed"
-              ></iframe>
+              <div id="videoPlayer"></div>
             </div>
             <div v-else>
               <CourseTrainingImageWrapper
@@ -66,11 +57,9 @@
               />
             </div>
             <div class="under-photo">
-              <!-- Left Sticky Column (Optional Table of Contents or Ad space) -->
               <div class="left-sticky-column">
                 <SubcomponentsStickyCTA />
               </div>
-              <!-- Training Sections -->
               <div class="training-body">
                 <p>{{ post.intro }}</p>
                 <div
@@ -80,7 +69,7 @@
                   <CourseTrainingPostContent
                     :title="section.title"
                     :contents="section.content"
-                    @updatePoll="updateContent()"
+                    @updatePoll="updateContent"
                   />
                 </div>
                 <CourseTrainingReferences :references="post.references" />
@@ -89,7 +78,6 @@
           </div>
         </div>
 
-        <!-- Right Sticky Column (e.g., Related Links or Ads) -->
         <div class="right-sticky-column">
           <SubcomponentsTrainingSidebar
             :courseId="courseId"
@@ -101,7 +89,6 @@
       </div>
     </div>
 
-    <!-- Comments Section -->
     <div class="comments">
       <CourseTrainingComments
         :comments="post.comments"
@@ -116,30 +103,57 @@ import { ref, computed, onMounted } from "vue";
 const route = useRoute();
 const userStore = useUserStore();
 const courseStore = useCourseStore();
-const courseId = route.query.courseId; // Get course ID from the query parameter
-let player; // Keep track of the player instance
+const courseId = route.query.courseId;
+let player;
 
-// Fetch the training data
 const { data: post } = await useFetch(`/api/trainings?_id=${route.params.id}`);
 
+// WHY IS THIS NEVER CALLED?
 const isTrainingComplete = computed(() => {
+  console.log("Course ID:", courseId);
   const course = courseStore.allCourses.find((c) => c._id === courseId);
-  if (!course || !post.value) {
+
+  if (!course) {
+    console.log("Course not found.");
     return false;
+  } else {
+    console.log("Course found:", course);
   }
+
+  if (!post.value) {
+    console.log("Post not found.");
+    return false;
+  } else {
+    console.log("Post found:", post.value);
+  }
+
   const currentTrainingIndex = course.trainings.findIndex(
-    (training) => training._id === post.value._id
+    (training) => training === post.value._id
   );
+
   if (currentTrainingIndex === -1) {
+    console.log("Training not found in course.");
     return false;
+  } else {
+    console.log("Current Training Index:", currentTrainingIndex);
   }
+
   const userCourseProgress = userStore.user.enrolledCourses.find(
     (enrolledCourse) => enrolledCourse.course.toString() === courseId
   );
+
   if (!userCourseProgress) {
+    console.log("User course progress not found.");
     return false;
+  } else {
+    console.log("User course progress found:", userCourseProgress);
   }
-  return userCourseProgress.currentTrainingIndex > currentTrainingIndex;
+
+  const isComplete =
+    userCourseProgress.currentTrainingIndex > currentTrainingIndex;
+  console.log("Is training complete:", isComplete);
+
+  return isComplete;
 });
 
 const nextTraining = computed(() => {
@@ -162,7 +176,6 @@ const nextTraining = computed(() => {
   }
 });
 
-// Function to mark the training as complete
 const markTrainingAsComplete = async () => {
   try {
     const userResponse = await $fetch(`/api/users/${userStore.user._id}`, {
@@ -176,7 +189,6 @@ const markTrainingAsComplete = async () => {
   }
 };
 
-// Load YouTube IFrame API
 const loadYouTubeAPI = () => {
   return new Promise((resolve) => {
     if (window.YT && window.YT.Player) {
@@ -200,7 +212,6 @@ const initYouTubePlayer = async () => {
   await loadYouTubeAPI();
   console.log("YouTube API loaded");
 
-  // Wait until next tick to ensure everything is rendered
   await new Promise((resolve) => setTimeout(resolve, 100));
 
   const videoId = getYoutubeEmbedUrl(post.value.mainVideo)?.split("/").pop();
@@ -216,7 +227,7 @@ const initYouTubePlayer = async () => {
     events: {
       onReady: (event) => {
         console.log("Player ready:", event);
-        onPlayerReady(event);
+        event.target.playVideo();
       },
       onStateChange: (event) => {
         console.log("State change event triggered:", event);
@@ -228,7 +239,6 @@ const initYouTubePlayer = async () => {
   console.log("YouTube Player instance created:", player);
 };
 
-// Function to handle state changes
 const onPlayerStateChange = (event) => {
   console.log("Player state changed:", event.data);
   if (event.data === YT.PlayerState.ENDED) {
@@ -236,12 +246,6 @@ const onPlayerStateChange = (event) => {
   }
 };
 
-// Optional: Handle when the player is ready
-const onPlayerReady = (event) => {
-  console.log("Player is ready");
-};
-
-// Convert YouTube link to embed URL
 const getYoutubeEmbedUrl = (videoUrl) => {
   let videoId;
   if (videoUrl.includes("youtube.com")) {
@@ -253,16 +257,14 @@ const getYoutubeEmbedUrl = (videoUrl) => {
   return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
 };
 
-// Mounted lifecycle hook
 onMounted(async () => {
   post.value.views++;
   await updateContent();
   if (post.value.mainVideo) {
-    await initYouTubePlayer(); // Initialize the YouTube player
+    await initYouTubePlayer();
   }
 });
 
-// Update content (like views or comments)
 const updateContent = async () => {
   try {
     await $fetch(`/api/trainings/${post.value._id}`, {
@@ -274,7 +276,6 @@ const updateContent = async () => {
   }
 };
 
-// Function to add a comment
 const addComment = async (newComment) => {
   if (newComment.name && newComment.comment) {
     post.value.comments.push({
@@ -289,7 +290,6 @@ const addComment = async (newComment) => {
   }
 };
 
-// Function to format the date for display
 const formattedDate = (date) => {
   return new Date(date).toLocaleDateString();
 };
@@ -298,9 +298,8 @@ const emit = defineEmits(["hide-loading"]);
 emit("hide-loading");
 </script>
 
-
 <style scoped>
-/* Main Training Page Wrapper */
+/* Retain the original styling for the component */
 .training-page-wrapper {
   padding: 2rem 0rem;
   font-family: Proxima Nova, proxima-nova, -apple-system, BlinkMacSystemFont,
@@ -321,7 +320,6 @@ emit("hide-loading");
   align-items: flex-start;
 }
 
-/* Training Title */
 .training-title {
   font-size: 3.2rem;
   line-height: 3.2rem;
@@ -335,7 +333,6 @@ emit("hide-loading");
   gap: 2rem;
 }
 
-/* Training Metadata Section */
 .training-metadata {
   display: flex;
   justify-content: center;
@@ -373,7 +370,6 @@ emit("hide-loading");
   height: 16px;
 }
 
-/* Training Content and Sticky Columns */
 .training-content-wrapper {
   display: flex;
   justify-content: space-between;
@@ -417,7 +413,6 @@ p {
   margin-bottom: 1.5rem;
 }
 
-/* Left Sticky Column */
 .left-sticky-column {
   flex: 1;
   position: sticky;
@@ -425,7 +420,6 @@ p {
   min-width: 15rem;
 }
 
-/* Right Sticky Column */
 .right-sticky-column {
   flex: 1;
   position: sticky;

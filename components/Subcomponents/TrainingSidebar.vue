@@ -86,9 +86,11 @@ const onImageLoad = (index) => {
 };
 
 const goToNextTraining = () => {
-  if (props.nextTraining.value) {
+  console.log("Going...");
+  if (props.nextTraining) {
+    console.log("HERE");
     useRouter().push(
-      `/training/${props.nextTraining.value._id}?courseId=${props.courseId}`
+      `/training/${props.nextTraining._id}?courseId=${props.courseId}`
     );
   }
 };

@@ -297,7 +297,6 @@ const onImageLoad = (index) => {
 .completed-status {
   color: green;
   font-weight: bold;
-  margin-left: 10px;
 }
 
 @media (max-width: 1100px) {

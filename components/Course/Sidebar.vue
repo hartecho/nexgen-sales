@@ -1,33 +1,39 @@
 <template>
   <div class="course-sidebar">
     <!-- Display the image at the top if provided -->
-    <div class="sidebar-image" v-if="image">
-      <img :src="`/TrainingPics/${image}`" alt="Course Image" />
-    </div>
+    <div v-if="!loading">
+      <div class="sidebar-image">
+        <img
+          v-if="image"
+          :src="`/TrainingPics/${image}`"
+          alt="Training Image"
+        />
+        <img v-else :src="`/Backgrounds/IntroBG.webp`" alt="Training Image" />
+      </div>
 
+      <div class="progress-section">
+        <h3>
+          {{ completedTrainings }} of {{ totalTrainings }} Lessons Completed
+        </h3>
+        <div class="progress-bar">
+          <div
+            class="progress-bar__fill"
+            :style="{ width: `${completionPercentage}%` }"
+          ></div>
+        </div>
+      </div>
+
+      <div class="instructor-section" v-if="instructor">
+        <h3>Instructor</h3>
+        <div class="instructor-info">
+          <img :src="instructor.image" alt="Instructor Image" />
+          <h4>{{ instructor.name }}</h4>
+          <p>{{ instructor.bio }}</p>
+        </div>
+      </div>
+    </div>
     <div v-else class="sidebar-image">
       <div class="spinner"></div>
-    </div>
-
-    <div class="progress-section">
-      <h3>
-        {{ completedTrainings }} of {{ totalTrainings }} Lessons Completed
-      </h3>
-      <div class="progress-bar">
-        <div
-          class="progress-bar__fill"
-          :style="{ width: `${completionPercentage}%` }"
-        ></div>
-      </div>
-    </div>
-
-    <div class="instructor-section" v-if="instructor">
-      <h3>Instructor</h3>
-      <div class="instructor-info">
-        <img :src="instructor.image" alt="Instructor Image" />
-        <h4>{{ instructor.name }}</h4>
-        <p>{{ instructor.bio }}</p>
-      </div>
     </div>
   </div>
 </template>
@@ -58,8 +64,6 @@ const props = defineProps({
     required: true,
   },
 });
-
-console.log("Image: " + props.image);
 </script>
 
 <style scoped>
