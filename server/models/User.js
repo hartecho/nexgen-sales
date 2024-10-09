@@ -74,8 +74,30 @@ const userSchema = new mongoose.Schema({
     },
   ],
   accountSettings: {
-    emailPreferences: { type: Boolean, default: true },
-    notifications: { type: Boolean, default: true },
+    emailPreferences: {
+      marketingEmails: { type: Boolean, default: true },
+      offerEmails: { type: Boolean, default: true },
+      transactionalEmails: { type: Boolean, default: true }, // e.g., order confirmations
+      newsletterEmails: { type: Boolean, default: true },
+    },
+    browserNotifications: {
+      promotional: { type: Boolean, default: true }, // Browser notifications for offers
+      orderUpdates: { type: Boolean, default: true }, // Updates about order status
+      newFeatures: { type: Boolean, default: true }, // Alerts for new platform features
+      personalizedRecommendations: { type: Boolean, default: true }, // Notifications for recommended products
+    },
+    appPreferences: {
+      theme: { type: String, enum: ['light', 'dark'], default: 'light' }, // User-selected theme
+      language: { type: String, default: 'en' }, // Language preference
+      timeZone: { type: String, default: 'UTC' }, // Timezone setting for user
+    },
+    dataPrivacy: {
+      allowPersonalization: { type: Boolean, default: true }, // Use data for personalized recommendations
+      shareDataWithPartners: { type: Boolean, default: false }, // Consent to share data with third-party partners
+    },
+    notifications: {
+      enableAllNotifications: { type: Boolean, default: true }, // A master toggle for all notifications
+    },
   },
   role: {
     type: String,
@@ -86,11 +108,11 @@ const userSchema = new mongoose.Schema({
     {
       course: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Course', // Assuming you have a 'Course' model
+        ref: 'Course',
       },
       currentTrainingIndex: {
         type: Number,
-        default: 0, // Tracks the current training in the course
+        default: 0,
       },
     },
   ],

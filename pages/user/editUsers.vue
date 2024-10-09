@@ -24,6 +24,42 @@
         @updateUser="updateSelectedUser($event)"
       />
 
+      <!-- Manage Cart -->
+      <UserEditUserCart
+        :selectedUser="selectedUser"
+        @updateUser="updateSelectedUser($event)"
+      />
+
+      <!-- Manage Orders -->
+      <UserEditUserOrders
+        :selectedUser="selectedUser"
+        @updateUser="updateSelectedUser($event)"
+      />
+
+      <!-- Manage Wishlist -->
+      <UserEditUserWishlist
+        :selectedUser="selectedUser"
+        @updateUser="updateSelectedUser($event)"
+      />
+
+      <!-- Manage Recently Viewed Items -->
+      <UserEditUserRecentlyViewed
+        :selectedUser="selectedUser"
+        @updateUser="updateSelectedUser($event)"
+      />
+
+      <!-- Manage Enrolled Courses -->
+      <UserEditUserEnrolledCourses
+        :selectedUser="selectedUser"
+        @updateUser="updateSelectedUser($event)"
+      />
+
+      <!-- Manage Enrolled Courses -->
+      <UserEditUserPreferences
+        :selectedUser="selectedUser"
+        @updateUser="updateSelectedUser($event)"
+      />
+
       <!-- Action Buttons -->
       <UserEditUserActionButtons
         :user="selectedUser"
@@ -41,8 +77,8 @@
     />
   </div>
 </template>
-  
-  <script setup>
+
+<script setup>
 import { ref, onMounted } from "vue";
 
 // State management
@@ -50,15 +86,43 @@ const users = ref([]);
 const selectedUser = ref({
   name: "",
   email: "",
+  password: "",
   profilePicture: "",
   bio: "",
   shippingAddresses: [],
+  orders: [],
+  cart: [],
+  wishlist: [],
+  recentlyViewedItems: [],
   paymentMethods: [],
   accountSettings: {
-    emailPreferences: true,
-    notifications: true,
+    emailPreferences: {
+      marketingEmails: true,
+      offerEmails: true,
+      transactionalEmails: true,
+    },
+    browserNotifications: {
+      newProductAlerts: true,
+      priceDropAlerts: false,
+      orderStatusUpdates: true,
+    },
+    appPreferences: {
+      theme: "light", // Options: "light", "dark"
+      language: "English",
+      timeZone: "UTC",
+    },
+    dataPrivacy: {
+      allowPersonalization: true,
+      shareDataWithPartners: false,
+    },
+    notifications: {
+      enableAllNotifications: true,
+    },
   },
-  role: "customer",
+  role: "customer", // Options: "customer", "admin"
+  enrolledCourses: [],
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString(),
 });
 
 // Notification state
@@ -147,8 +211,8 @@ function updateSelectedUser(updatedUser) {
   selectedUser.value = updatedUser;
 }
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .wrapper {
   padding: 2rem;
   width: 100%;
@@ -194,4 +258,3 @@ h2 {
   text-align: center;
 }
 </style>
-  
