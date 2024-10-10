@@ -38,11 +38,12 @@
     </div>
   </div>
 </template>
-  
-  <script setup>
+
+<script setup>
+// No script needed for this example
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .testimonials-section {
   width: 100%;
   background-color: #000;
@@ -101,7 +102,6 @@ button {
 
 button:hover {
   background: white;
-  /* transform: scale(1.01); */
 }
 
 .testimonials-grid {
@@ -112,5 +112,74 @@ button:hover {
   margin-top: 2rem;
   width: 100%;
 }
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .text-content {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .text-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .text-content p {
+    font-size: 0.95rem;
+  }
+
+  .see-more {
+    margin-top: 1rem;
+  }
+
+  .testimonials-grid {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .text-content h1 {
+    font-size: 2rem;
+  }
+
+  .text-content p {
+    font-size: 0.9rem;
+  }
+
+  .see-more button {
+    padding: 0.65rem 1.75rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .text-content h4 {
+    font-size: 16px;
+  }
+
+  .text-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .text-content p {
+    font-size: 0.85rem;
+  }
+
+  .testimonials-section {
+    padding: 4rem 1rem 6rem 1rem;
+  }
+
+  .see-more button {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
 </style>
-  

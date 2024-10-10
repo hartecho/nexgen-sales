@@ -1,73 +1,89 @@
 <template>
-  <div v-if="loading" class="dashboard-loading">
-    <p>Loading...</p>
-  </div>
-  <div v-else class="dashboard-container">
-    <h2 class="dashboard-title">Your Enrolled Courses</h2>
-    <div v-if="enrolledCourses.length === 0" class="no-courses">
-      <p>You are not enrolled in any courses.</p>
-    </div>
-    <div v-else class="course-list">
-      <div
-        v-for="(course, index) in enrolledCourses"
-        :key="course._id"
-        class="course-card"
-      >
-        <div class="course-header">
-          <!-- Course Image -->
+  <div>
+    <!-- Profile Image and Edit Section -->
+    <div class="top-image-banner">
+      <div class="overlay">
+        <div class="profile-image-wrapper" @click="triggerFileInput">
           <img
-            v-if="course.image"
-            :src="`/CoursePics/${course.image}`"
-            alt="Course Image"
-            class="course-image"
+            class="profile-image"
+            :src="
+              userStore.user.profilePicture || 'https://via.placeholder.com/150'
+            "
+            alt="Profile Image"
           />
-          <div class="course-summary">
-            <h3>{{ course.name }}</h3>
-            <p>{{ course.description }}</p>
-          </div>
         </div>
+      </div>
+    </div>
 
-        <div class="course-body">
-          <div v-if="course.trainings.length" class="progress-section">
-            <!-- Progress Bar -->
-            <div class="progress-container">
-              <div
-                class="progress-bar"
-                :style="{ width: `${completionPercentage(course)}%` }"
-              ></div>
+    <div class="dashboard-container">
+      <h2 class="dashboard-title">Your Enrolled Courses</h2>
+      <div v-if="enrolledCourses.length === 0" class="no-courses">
+        <p>You are not enrolled in any courses.</p>
+      </div>
+      <div v-else class="course-list">
+        <div
+          v-for="(course, index) in enrolledCourses"
+          :key="course._id"
+          class="course-card"
+        >
+          <div class="course-header">
+            <!-- Course Image -->
+            <img
+              v-if="course.image"
+              :src="`/CoursePics/${course.image}`"
+              alt="Course Image"
+              class="course-image"
+            />
+            <div class="course-summary">
+              <h3>{{ course.name }}</h3>
+              <p>{{ course.description }}</p>
             </div>
-            <p class="progress-text">
-              {{ completionPercentage(course) }}% Complete
-            </p>
-
-            <!-- Next Training Info -->
-            <div class="next-training-section">
-              <p>
-                Next Training:
-                {{
-                  getNextTraining(course)?.mainTitle ||
-                  "All Trainings Completed"
-                }}
-              </p>
-              <img
-                v-if="getNextTrainingImage(course)"
-                :src="getNextTrainingImage(course)"
-                alt="Next training thumbnail"
-                class="training-thumbnail"
-              />
-            </div>
-
-            <!-- Resume Course Button -->
-            <button
-              v-if="getNextTraining(course)"
-              class="resume-btn"
-              @click="resumeCourse(course)"
-            >
-              Resume Course
-            </button>
           </div>
-          <div v-else>
-            <p class="no-trainings">No trainings available for this course.</p>
+
+          <div class="course-body">
+            <div v-if="course.trainings.length" class="progress-section">
+              <!-- Progress Bar -->
+              <div class="progress-container">
+                <div
+                  class="progress-bar"
+                  :style="{ width: `${completionPercentage(course)}%` }"
+                ></div>
+              </div>
+              <p class="progress-text">
+                {{ completionPercentage(course) }}% Complete
+              </p>
+
+              <!-- Next Training Info -->
+              <div class="next-training-section">
+                <p>
+                  Next Training:
+                  {{
+                    getNextTraining(course)?.mainTitle ||
+                    "All Trainings Completed"
+                  }}
+                </p>
+                <img
+                  v-if="getNextTrainingImage(course)"
+                  :src="getNextTrainingImage(course)"
+                  alt="Next training thumbnail"
+                  class="training-thumbnail"
+                />
+              </div>
+
+              <!-- Resume Course Button -->
+              <button
+                v-if="getNextTraining(course)"
+                class="resume-btn"
+                @click="resumeCourse(course)"
+              >
+                Resume Course
+              </button>
+            </div>
+            <div v-else>
+              <p class="no-trainings">
+                No trainings available for this course.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -183,6 +199,90 @@ const completionPercentage = (course) => {
 </script>
 
 <style scoped>
+/* Profile Image Section */
+.top-image-banner {
+  width: 100%;
+  height: 17.25rem;
+  background: url("/Backgrounds/introBG2.png") center center/cover no-repeat;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.top-image-banner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),
+    rgba(1, 151, 178, 0.3);
+  pointer-events: none; /* Ensure clicks pass through to underlying content */
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Profile image styling */
+.profile-image-wrapper {
+  position: relative;
+  width: 12rem !important;
+  height: 12rem !important;
+  transition: transform 0.3s ease-in-out;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.profile-image-wrapper:hover {
+  transform: scale(1.05);
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid white;
+  object-fit: cover;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.profile-image-wrapper:hover .profile-image {
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.edit-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: white;
+  border-radius: 50%;
+  padding: 0.4rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.edit-icon img {
+  width: 1rem;
+  height: 1rem;
+}
+
 .dashboard-container {
   width: 100%;
   max-width: 1200px;

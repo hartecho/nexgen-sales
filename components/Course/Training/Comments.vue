@@ -18,6 +18,7 @@
           :href="comment.url"
           target="_blank"
           rel="noopener noreferrer"
+          class="comment-url"
           >{{ comment.url }}</a
         >
       </div>
@@ -51,7 +52,6 @@
   </div>
 </template>
 
-  
 <script setup>
 import { ref } from "vue";
 
@@ -84,7 +84,6 @@ const submitComment = () => {
 };
 </script>
 
-  
 <style scoped>
 .comments-section {
   margin-top: 3rem;
@@ -129,6 +128,11 @@ const submitComment = () => {
   display: block;
   margin-top: 0.5rem;
   text-decoration: none;
+  word-break: break-word; /* Break long URLs to wrap within the container */
+  overflow: hidden;
+  white-space: nowrap; /* Prevent the link from breaking onto a new line */
+  text-overflow: ellipsis; /* Show an ellipsis if the URL is too long */
+  max-width: 100%; /* Ensure it doesn't exceed the width of the container */
 }
 
 .comment-url:hover {
@@ -171,9 +175,9 @@ const submitComment = () => {
   border-radius: 5px;
   font-size: 0.9rem;
   font-weight: bold;
-  text-decoration: none;
   transition: background-color 0.3s ease-in-out;
-  width: 10rem;
+  width: 100%;
+  max-width: 200px;
   text-align: center;
   cursor: pointer;
   border: none;
@@ -182,6 +186,84 @@ const submitComment = () => {
 .cta-button:hover {
   background-color: #01c5ee;
 }
-</style>
 
-  
+@media (max-width: 768px) {
+  .comments-section {
+    padding: 1.5rem;
+  }
+
+  .comments-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .comment-header {
+    font-size: 1rem;
+  }
+
+  .comment-text {
+    font-size: 0.95rem;
+  }
+
+  .comment-url {
+    font-size: 0.85rem;
+  }
+
+  .add-comment-form h3 {
+    font-size: 1.3rem;
+  }
+
+  .input-field,
+  .textarea-field {
+    padding: 0.65rem;
+  }
+
+  .cta-button {
+    padding: 0.65rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .comments-section {
+    padding: 1rem;
+  }
+
+  .comments-section h2 {
+    font-size: 1.3rem;
+  }
+
+  .comment-item {
+    margin-bottom: 1.5rem;
+  }
+
+  .comment-header {
+    font-size: 0.9rem;
+  }
+
+  .comment-text {
+    font-size: 0.85rem;
+  }
+
+  .comment-url {
+    font-size: 0.8rem;
+  }
+
+  .no-comments {
+    font-size: 0.9rem;
+  }
+
+  .add-comment-form h3 {
+    font-size: 1.2rem;
+  }
+
+  .input-field,
+  .textarea-field {
+    padding: 0.6rem;
+  }
+
+  .cta-button {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}
+</style>

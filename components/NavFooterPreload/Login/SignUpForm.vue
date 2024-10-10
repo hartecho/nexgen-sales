@@ -193,13 +193,13 @@ h2 {
 .input {
   width: 100%;
   padding: 0.75rem;
-  border: 2px solid #cbd2df;
-  background: #0197b2;
+  border: 2px solid #0197b2;
+  background: white;
   border-radius: 10px;
   font-size: 1rem;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
   height: 3.2rem;
-  color: white;
+  color: black;
 }
 
 .input:focus {

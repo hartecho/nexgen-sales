@@ -5,9 +5,13 @@
       <div
         v-for="(training, index) in trainings"
         :key="training._id"
-        class="training-entry"
+        :class="[
+          'training-entry',
+          { 'disabled-training': index > currentTrainingIndex },
+        ]"
       >
         <NuxtLink
+          v-if="index <= currentTrainingIndex"
           :to="`/training/${training._id}?courseId=${courseId}`"
           class="training-link"
         >
@@ -20,16 +24,34 @@
           </div>
           <div class="training-content">
             <h4>{{ training.mainTitle }}</h4>
-            <!-- Truncated intro with ellipsis -->
             <p>{{ truncateIntro(training.intro) }}</p>
-            <span v-if="isTrainingCompleted(index)" class="completed-checkmark">
-              ✔
-            </span>
           </div>
+          <span v-if="isTrainingCompleted(index)" class="completed-checkmark">
+            ✔
+          </span>
+          <div class="arrow-indicator">➡️</div>
         </NuxtLink>
+        <div v-else class="training-link">
+          <div class="training-thumbnail">
+            <NuxtImg
+              :src="resolvedImgPath(training.thumbnail)"
+              :alt="training.mainTitle"
+              loading="lazy"
+            />
+          </div>
+          <div class="training-content">
+            <h4>{{ training.mainTitle }}</h4>
+            <p>{{ truncateIntro(training.intro) }}</p>
+          </div>
+          <span v-if="isTrainingCompleted(index)" class="completed-checkmark">
+            ✔
+          </span>
+        </div>
       </div>
     </div>
-    <div v-else class="spinner"></div>
+    <div v-else class="spinner-wrapper">
+      <div class="spinner"></div>
+    </div>
   </div>
 </template>
 
@@ -83,13 +105,21 @@ h3 {
 
 .training-entry {
   display: flex;
-  align-items: flex-start;
-  margin-bottom: 1rem;
+  align-items: center;
   background-color: #fff;
   padding: 1rem;
-  /* border-radius: 8px; */
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.disabled-training {
+  color: #999; /* Lighter gray text */
+  pointer-events: none; /* Disable pointer events to prevent clicks */
+}
+
+.disabled-training h4,
+.disabled-training p {
+  color: #bbb; /* Even lighter gray for titles and descriptions */
 }
 
 .training-link {
@@ -97,11 +127,14 @@ h3 {
   text-decoration: none;
   color: inherit;
   width: 100%;
+  align-items: center;
 }
 
-.training-entry:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+.training-entry:hover:not(.disabled-training),
+.training-entry:focus-within:not(.disabled-training) {
+  background-color: #f5f5f5;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .training-thumbnail {
@@ -113,38 +146,79 @@ h3 {
 .training-thumbnail img {
   width: 100%;
   height: auto;
-  border-radius: 4px;
 }
 
 .training-content {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 .completed-checkmark {
   color: green;
   font-size: 1.5rem;
-  margin-left: 1rem;
-}
-
-.training-link:hover .training-content h4 {
-  text-decoration: underline;
+  margin-left: auto;
 }
 
 /* Spinner styling */
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 10rem;
+}
+
 .spinner {
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  border: 4px solid rgba(255, 255, 255, 0.3);
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
   border-radius: 50%;
-  border-top-color: black;
+  border-top-color: #000;
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .trainings-list {
+    margin-top: 1rem;
+    padding: 1rem;
+  }
+
+  .training-entry {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+    margin-bottom: 1rem;
+  }
+
+  .training-thumbnail {
+    margin-bottom: 1rem;
+  }
+
+  .training-link {
+    flex-direction: column;
+  }
+
+  .completed-checkmark {
+    margin-left: 0;
+    margin-top: 0.5rem;
+    align-self: flex-start;
+  }
+
+  .training-entry:hover:not(.disabled-training) {
+    transform: none;
+    box-shadow: none;
+  }
+
+  h4 {
+    margin-bottom: 1rem;
   }
 }
 </style>

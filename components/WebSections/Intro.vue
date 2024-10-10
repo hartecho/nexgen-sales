@@ -48,6 +48,7 @@ export default {
   max-width: 1200px;
   color: white;
   width: 100%;
+  text-shadow: 2px 2px 2px black;
 }
 
 .content {
@@ -58,6 +59,8 @@ export default {
   font-size: 18px;
   letter-spacing: 2px;
   margin-bottom: 10px;
+  color: white;
+  text-shadow: 1px 1px 2px black;
 }
 
 .content h1 {

@@ -36,8 +36,6 @@ export default defineEventHandler(async (event) => {
             });
         }
 
-        // console.log(payload);
-
         let user = await User.findOne({ email: payload.email });
         if (!user) {
             user = new User({
@@ -56,7 +54,7 @@ export default defineEventHandler(async (event) => {
         }
 
         const jwtToken = jwt.sign(
-            { userId: user._id, email: user.email, name: user.name, picture: user.profilePicture },
+            { userId: user._id, email: user.email },
             config.JWT_SECRET,
             { expiresIn: '1h' }
         );

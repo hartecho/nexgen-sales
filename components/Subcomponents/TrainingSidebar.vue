@@ -165,13 +165,14 @@ onMounted(() => {
 }
 
 .next-training-button {
+  margin-top: 1rem;
   padding: 0.5rem 1rem;
   font-size: 1rem;
   font-weight: bold;
   color: white;
   background-color: #cccccc;
   border: none;
-  border-radius: 5px;
+  border-radius: 0px;
   cursor: not-allowed;
   transition: background-color 0.3s ease-in-out;
 }

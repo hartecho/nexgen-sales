@@ -14,7 +14,8 @@
 </template>
 
 <script setup>
-const appId = "sandbox-sq0idb-m5ZxmeYbBxDr1vbrMh_RUg";
+const appSandboxId = "sandbox-sq0idb-QC8RS8XddWmGsgoUHupA7Q";
+const appId = "sq0idp-cqVpecIEvVlEul5j6YkwuQ";
 const locationId = "L8P09136S9B9W";
 let card;
 let loading = ref(true);
@@ -106,7 +107,7 @@ const initializePaymentForm = async () => {
   if (!Square) {
     throw new Error("Square.js failed to load properly");
   }
-  const payments = Square.payments(appId, locationId);
+  const payments = Square.payments(appSandboxId, locationId);
   try {
     card = await payments.card();
     await card.attach("#card-container");

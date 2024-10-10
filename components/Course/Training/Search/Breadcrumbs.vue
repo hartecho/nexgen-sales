@@ -5,7 +5,10 @@
         <NuxtLink to="/">Home</NuxtLink>
       </li>
       <li class="breadcrumb-item">
-        <NuxtLink to="/portal">Training</NuxtLink>
+        <NuxtLink to="/portal">Portal</NuxtLink>
+      </li>
+      <li class="breadcrumb-item">
+        <NuxtLink :to="`/course/${courseId}`">Course</NuxtLink>
       </li>
       <li class="breadcrumb-item active" aria-current="page">
         {{ currentTrainingTitle }}
@@ -17,6 +20,10 @@
 <script setup>
 const props = defineProps({
   currentTrainingTitle: {
+    type: String,
+    required: true,
+  },
+  courseId: {
     type: String,
     required: true,
   },

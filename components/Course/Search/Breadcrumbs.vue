@@ -5,7 +5,7 @@
         <NuxtLink to="/">Home</NuxtLink>
       </li>
       <li class="breadcrumb-item">
-        <NuxtLink to="/course">Course</NuxtLink>
+        <NuxtLink to="/portal">Portal</NuxtLink>
       </li>
       <li class="breadcrumb-item active" aria-current="page">
         {{ currentCourseTitle }}
@@ -26,7 +26,7 @@ const props = defineProps({
 <style scoped>
 .breadcrumb {
   padding: 1rem 0;
-  background-color: #fff;
+  /* background-color: #fff; */
   margin-bottom: 1.5rem;
   border-radius: 8px;
 }

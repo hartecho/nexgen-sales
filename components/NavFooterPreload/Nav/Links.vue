@@ -1,13 +1,13 @@
 <template>
   <div class="nav-links">
     <div class="nav-link">
-      <NuxtLink to="/blog" class="nav-link-content" @click="toggleMobileNav">
+      <!-- <NuxtLink to="/blog" class="nav-link-content" @click="toggleMobileNav">
         <span>Blog</span>
-      </NuxtLink>
+      </NuxtLink> -->
     </div>
     <div class="nav-link">
       <NuxtLink to="/portal" class="nav-link-content" @click="toggleMobileNav">
-        <span>Client Portal</span>
+        <span>Client Login</span>
       </NuxtLink>
     </div>
   </div>

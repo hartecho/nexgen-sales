@@ -74,13 +74,17 @@ export default defineEventHandler(async (event) => {
     }
 
     // Increment the current training index for the specific course if courseId is provided
-    if (body.courseId) {
+    if (body.courseId && body.currentTrainingIndex) {
+      console.log("Current training index: " + body.currentTrainingIndex);
       const courseIndex = existingUser.enrolledCourses.findIndex(
         (course) => course.course.toString() === body.courseId
       );
 
       if (courseIndex > -1) {
-        existingUser.enrolledCourses[courseIndex].currentTrainingIndex += 1; // Increment index
+        if (body.currentTrainingIndex > existingUser.enrolledCourses[courseIndex].currentTrainingIndex) {
+          existingUser.enrolledCourses[courseIndex].currentTrainingIndex = body.currentTrainingIndex; // Increment index if we just took the latest training.
+
+        }
       } else {
         console.error(`Error: Course with id ${body.courseId} not found in enrolledCourses`);
         await disconnectDB();

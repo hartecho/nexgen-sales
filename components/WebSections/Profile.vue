@@ -160,18 +160,12 @@ emit("hide-loading");
   background-color: black;
   color: white;
   height: 100vh;
-  border-top: 2px solid white;
-  border-bottom: 2px solid white;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* align-items: center; */
 }
 
 .logo-wrapper {
   width: 100%;
-  /* height: 12rem; */
-  /* aspect-ratio: 1/1; */
   display: flex;
   align-self: center;
   justify-self: center;
@@ -247,8 +241,6 @@ h3 {
 
 .content-section {
   flex: 1;
-  /* padding: 2rem; */
-  border-top: 2px solid white;
   background-color: #f0f0f0;
   height: 100vh;
   overflow-y: auto;

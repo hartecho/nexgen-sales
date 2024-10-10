@@ -5,41 +5,9 @@
       <div class="heading">
         <CourseTrainingSearchBreadcrumbs
           :currentTrainingTitle="post.tags[0] || 'All Posts'"
+          :courseId="courseId"
         />
         <h1 class="training-title">{{ post.mainTitle }}</h1>
-
-        <!-- Training Metadata -->
-        <div class="training-metadata">
-          <NuxtImg
-            src="/Logos/HARTECHOLogo.webp"
-            alt="Author image"
-            class="author-image"
-          />
-          <div class="post-info">
-            <div class="author-info">
-              <span
-                >by <b>{{ post.author.name }}</b></span
-              >
-            </div>
-            <div class="meta-info">
-              <div class="meta-date">
-                <NuxtImg
-                  src="/Graphics/calendar-icon.svg"
-                  alt="Date icon"
-                  class="meta-icon"
-                />
-                <span>{{ formattedDate(post.date) }}</span>
-              </div>
-              <div class="meta-reading-time">
-                <NuxtImg
-                  src="/Graphics/clock-icon.svg"
-                  alt="Clock icon"
-                  class="meta-icon"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- Main Training Wrapper -->
@@ -47,7 +15,16 @@
         <div class="training-post" v-if="post">
           <div class="left">
             <div v-if="post.mainVideo" class="training-video">
-              <div id="videoPlayer"></div>
+              <video
+                ref="videoPlayer"
+                controls
+                :src="getVideoSource(post.mainVideo)"
+                class="training-video-element"
+                @ended="handleVideoEnd"
+                @play="handleVideoPlay"
+                @pause="handleVideoPause"
+                @timeupdate="handleTimeUpdate"
+              ></video>
             </div>
             <div v-else>
               <CourseTrainingImageWrapper
@@ -57,9 +34,6 @@
               />
             </div>
             <div class="under-photo">
-              <div class="left-sticky-column">
-                <SubcomponentsStickyCTA />
-              </div>
               <div class="training-body">
                 <p>{{ post.intro }}</p>
                 <div
@@ -104,165 +78,123 @@ const route = useRoute();
 const userStore = useUserStore();
 const courseStore = useCourseStore();
 const courseId = route.query.courseId;
-let player;
+const videoPlayer = ref(null);
+const videoDuration = ref(0);
+const requiredWatchTime = ref(0);
+const accumulatedPlayTime = ref(0);
+const isPlaying = ref(false);
+const lastPlayTime = ref(0);
 
 const { data: post } = await useFetch(`/api/trainings?_id=${route.params.id}`);
 
-// WHY IS THIS NEVER CALLED?
 const isTrainingComplete = computed(() => {
-  console.log("Course ID:", courseId);
   const course = courseStore.allCourses.find((c) => c._id === courseId);
-
-  if (!course) {
-    console.log("Course not found.");
-    return false;
-  } else {
-    console.log("Course found:", course);
-  }
-
-  if (!post.value) {
-    console.log("Post not found.");
-    return false;
-  } else {
-    console.log("Post found:", post.value);
-  }
+  if (!course || !post.value) return false;
 
   const currentTrainingIndex = course.trainings.findIndex(
     (training) => training === post.value._id
   );
 
-  if (currentTrainingIndex === -1) {
-    console.log("Training not found in course.");
-    return false;
-  } else {
-    console.log("Current Training Index:", currentTrainingIndex);
-  }
-
   const userCourseProgress = userStore.user.enrolledCourses.find(
     (enrolledCourse) => enrolledCourse.course.toString() === courseId
   );
 
-  if (!userCourseProgress) {
-    console.log("User course progress not found.");
-    return false;
-  } else {
-    console.log("User course progress found:", userCourseProgress);
-  }
-
-  const isComplete =
-    userCourseProgress.currentTrainingIndex > currentTrainingIndex;
-  console.log("Is training complete:", isComplete);
-
-  return isComplete;
+  return (
+    userCourseProgress &&
+    userCourseProgress.currentTrainingIndex > currentTrainingIndex
+  );
 });
 
 const nextTraining = computed(() => {
   const course = courseStore.getCourseById(courseId);
-  if (!course || !post.value) {
-    return null;
-  }
-  const currentTrainingId = post.value._id ? post.value._id.toString() : "";
-  const currentTrainingIndex = course.trainings.findIndex((trainingId) => {
-    return trainingId === currentTrainingId;
-  });
-  if (currentTrainingIndex === -1) {
-    return null;
-  }
+  if (!course || !post.value) return null;
+
+  const currentTrainingId = post.value._id.toString();
+  const currentTrainingIndex = course.trainings.findIndex(
+    (trainingId) => trainingId === currentTrainingId
+  );
+
   const nextTrainingIndex = currentTrainingIndex + 1;
-  if (nextTrainingIndex < course.trainings.length) {
-    return courseStore.getTrainingById(course.trainings[nextTrainingIndex]);
-  } else {
-    return null;
-  }
+  return nextTrainingIndex < course.trainings.length
+    ? courseStore.getTrainingById(course.trainings[nextTrainingIndex])
+    : null;
 });
 
 const markTrainingAsComplete = async () => {
+  const currentTrainingId = post.value._id.toString();
+  const course = courseStore.getCourseById(courseId);
+  const currentTrainingIndex = course.trainings.findIndex(
+    (trainingId) => trainingId === currentTrainingId
+  );
+
   try {
     const userResponse = await $fetch(`/api/users/${userStore.user._id}`, {
       method: "PUT",
-      body: { courseId: courseId },
+      body: {
+        courseId: courseId,
+        currentTrainingIndex: currentTrainingIndex + 1,
+      },
     });
     userStore.setUser(userResponse);
-    console.log("Training marked as completed!");
   } catch (error) {
     console.error("Failed to mark training as complete:", error);
   }
 };
 
-const loadYouTubeAPI = () => {
-  return new Promise((resolve) => {
-    if (window.YT && window.YT.Player) {
-      console.log("YouTube API already loaded");
-      resolve();
-    } else {
-      console.log("Loading YouTube API");
-      const script = document.createElement("script");
-      script.src = "https://www.youtube.com/iframe_api";
-      document.head.appendChild(script);
-
-      window.onYouTubeIframeAPIReady = function () {
-        console.log("YouTube API is ready");
-        resolve();
-      };
-    }
-  });
-};
-
-const initYouTubePlayer = async () => {
-  await loadYouTubeAPI();
-  console.log("YouTube API loaded");
-
-  await new Promise((resolve) => setTimeout(resolve, 100));
-
-  const videoId = getYoutubeEmbedUrl(post.value.mainVideo)?.split("/").pop();
-  console.log("Video ID for YouTube Player:", videoId);
-
-  if (!videoId) {
-    console.error("No valid video ID found");
-    return;
-  }
-
-  player = new YT.Player("videoPlayer", {
-    videoId: videoId,
-    events: {
-      onReady: (event) => {
-        console.log("Player ready:", event);
-        event.target.playVideo();
-      },
-      onStateChange: (event) => {
-        console.log("State change event triggered:", event);
-        onPlayerStateChange(event);
-      },
-    },
-  });
-
-  console.log("YouTube Player instance created:", player);
-};
-
-const onPlayerStateChange = (event) => {
-  console.log("Player state changed:", event.data);
-  if (event.data === YT.PlayerState.ENDED) {
+const handleVideoEnd = () => {
+  updatePlayTime();
+  if (accumulatedPlayTime.value >= requiredWatchTime.value) {
     markTrainingAsComplete();
   }
 };
 
-const getYoutubeEmbedUrl = (videoUrl) => {
-  let videoId;
-  if (videoUrl.includes("youtube.com")) {
-    const urlParams = new URLSearchParams(new URL(videoUrl).search);
-    videoId = urlParams.get("v");
-  } else if (videoUrl.includes("youtu.be")) {
-    videoId = videoUrl.split("/").pop().split("?")[0];
-  }
-  return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
+const handleVideoPlay = () => {
+  isPlaying.value = true;
+  lastPlayTime.value = Date.now();
 };
 
-onMounted(async () => {
-  post.value.views++;
-  await updateContent();
-  if (post.value.mainVideo) {
-    await initYouTubePlayer();
+const handleVideoPause = () => {
+  isPlaying.value = false;
+  updatePlayTime();
+};
+
+const handleTimeUpdate = () => {
+  if (isPlaying.value) {
+    updatePlayTime();
+    lastPlayTime.value = Date.now();
   }
+};
+
+const updatePlayTime = () => {
+  const currentTime = Date.now();
+  if (isPlaying.value && lastPlayTime.value) {
+    const elapsedTime = (currentTime - lastPlayTime.value) / 1000; // Convert milliseconds to seconds
+    accumulatedPlayTime.value += elapsedTime;
+  }
+};
+
+const handleLoadedMetaData = () => {
+  if (videoPlayer.value) {
+    videoDuration.value = videoPlayer.value.duration;
+    requiredWatchTime.value = videoDuration.value * 0.5; // 50% of the video's duration
+  }
+};
+
+const getVideoSource = (videoPath) => {
+  return `/videos/${videoPath}`;
+};
+
+onMounted(() => {
+  const videoElement = videoPlayer.value;
+
+  if (videoElement) {
+    videoElement.addEventListener("loadedmetadata", handleLoadedMetaData);
+    videoElement.addEventListener("timeupdate", handleTimeUpdate);
+    handleLoadedMetaData();
+  }
+
+  post.value.views++;
+  updateContent();
 });
 
 const updateContent = async () => {
@@ -299,9 +231,8 @@ emit("hide-loading");
 </script>
 
 <style scoped>
-/* Retain the original styling for the component */
 .training-page-wrapper {
-  padding: 2rem 0rem;
+  padding: 2rem 0;
   font-family: Proxima Nova, proxima-nova, -apple-system, BlinkMacSystemFont,
     Segoe UI, Roboto, Helvetica Neue, Helvetica, sans-serif, Apple Color Emoji,
     Segoe UI Emoji, Segoe UI Symbol;
@@ -326,6 +257,7 @@ emit("hide-loading");
   text-align: left;
   color: black;
   font-weight: bolder;
+  margin-bottom: 2rem;
 }
 
 .post-info {
@@ -383,23 +315,20 @@ emit("hide-loading");
 }
 
 .left {
+  width: 100%;
 }
 
 .under-photo {
   display: flex;
   gap: 2rem;
+  flex-wrap: wrap;
 }
 
-.training-image,
-.training-embed {
-  margin-bottom: 1.5rem;
-  height: auto;
+.training-video-element {
   width: 100%;
-}
-
-.training-embed {
   aspect-ratio: 16 / 9;
-  border: none;
+  border-radius: 8px;
+  background: black;
 }
 
 .training-body {
@@ -410,14 +339,8 @@ emit("hide-loading");
 }
 
 p {
+  margin-top: 1.5rem;
   margin-bottom: 1.5rem;
-}
-
-.left-sticky-column {
-  flex: 1;
-  position: sticky;
-  top: 2rem;
-  min-width: 15rem;
 }
 
 .right-sticky-column {
@@ -431,55 +354,53 @@ p {
   margin: 0 auto;
 }
 
-/* Media Queries */
 @media (max-width: 1024px) {
   .training-content-wrapper {
     flex-direction: column;
   }
 
-  .training-body {
-    padding: 0;
-  }
-
-  .left-sticky-column,
   .right-sticky-column {
     position: relative;
-    top: 0;
-  }
-
-  .left-sticky-column {
-    min-width: 12rem;
   }
 }
 
 @media (max-width: 768px) {
+  .training-title {
+    font-size: 2.5rem;
+    line-height: 2.5rem;
+  }
+
   .content {
     padding: 0 1rem;
   }
 
-  .training-metadata {
-    gap: 0.5rem;
-  }
-
-  .left-sticky-column {
-    display: none;
-  }
-
-  .post-info {
-    flex-direction: column;
-    gap: 0.5rem;
-    font-size: 0.75rem;
-  }
-
-  .meta-info {
-    gap: 1rem;
+  .training-body {
+    padding-right: 1rem;
   }
 }
 
 @media (max-width: 480px) {
   .training-title {
     font-size: 2rem;
-    line-height: 2.3rem;
+    line-height: 2rem;
+  }
+
+  .author-image {
+    width: 40px;
+    height: 40px;
+  }
+
+  .training-metadata {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .meta-info {
+    gap: 1rem;
+  }
+
+  .comments {
+    padding: 0 1rem;
   }
 }
 </style>

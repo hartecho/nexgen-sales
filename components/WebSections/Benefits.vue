@@ -3,7 +3,7 @@
     <div class="about-us">
       <div class="image-container">
         <img
-          src="/Backgrounds/IntroBG.webp"
+          src="/Backgrounds/introBG2.png"
           alt="Experience"
           class="experience-image"
         />

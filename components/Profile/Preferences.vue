@@ -274,16 +274,27 @@ const showNotification = (message, type) => {
 /* Profile Image Section */
 .top-image-banner {
   width: 100%;
-  height: 20rem;
-  background: url("/Backgrounds/IntroBG.webp") center center/cover no-repeat;
+  height: 17.25rem;
+  background: url("/Backgrounds/introBG2.png") center center/cover no-repeat;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.top-image-banner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),
+    rgba(1, 151, 178, 0.3);
+  pointer-events: none; /* Ensure clicks pass through to underlying content */
+}
+
 .overlay {
-  background-color: rgba(1, 151, 178, 0.3); /* Adjust the tint as needed */
   position: absolute;
   top: 0;
   left: 0;
@@ -306,6 +317,7 @@ const showNotification = (message, type) => {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 }
 
 .profile-image-wrapper:hover {

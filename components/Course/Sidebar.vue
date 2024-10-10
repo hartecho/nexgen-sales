@@ -8,7 +8,7 @@
           :src="`/TrainingPics/${image}`"
           alt="Training Image"
         />
-        <img v-else :src="`/Backgrounds/IntroBG.webp`" alt="Training Image" />
+        <img v-else :src="`/Backgrounds/introBG2.png`" alt="Training Image" />
       </div>
 
       <div class="progress-section">
@@ -32,7 +32,7 @@
         </div>
       </div>
     </div>
-    <div v-else class="sidebar-image">
+    <div v-else class="sidebar-spinner">
       <div class="spinner"></div>
     </div>
   </div>
@@ -73,17 +73,13 @@ const props = defineProps({
 }
 
 .sidebar-image {
-  /* margin-bottom: 2rem; */
-  min-height: 15rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  min-height: 7.5rem;
+  width: 100%;
 }
 
 .sidebar-image img {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -128,6 +124,14 @@ h3 {
   margin-bottom: 1rem;
 }
 
+.sidebar-spinner {
+  min-height: 15rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Spinner styling */
 .spinner {
   display: inline-block;
@@ -142,6 +146,13 @@ h3 {
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Adjust the image height for smaller screens */
+@media (max-width: 480px) {
+  .progress-section {
+    padding: 1rem;
   }
 }
 </style>

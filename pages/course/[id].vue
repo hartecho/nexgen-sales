@@ -9,6 +9,9 @@
       :loading="loading"
     />
     <div class="course-page">
+      <CourseSearchBreadcrumbs
+        :currentCourseTitle="course?.name || 'Current Course'"
+      />
       <div class="course-content">
         <div class="course-details">
           <h2 class="title">{{ course?.name || "Loading..." }}</h2>
@@ -48,9 +51,6 @@ onMounted(async () => {
   courseId.value = router.currentRoute.value.params.id;
   await fetchAndSetCourses();
   loading.value = false;
-  console.log(
-    "user.enrolledCourses: " + JSON.stringify(userStore.user.enrolledCourses)
-  );
 });
 
 const fetchAndSetCourses = async () => {
@@ -100,7 +100,6 @@ const fetchAndSetTrainings = async () => {
   loading.value = false;
 };
 
-// Updated getNextTraining computed property
 const getNextTraining = computed(() => {
   if (
     !course.value ||
@@ -121,7 +120,9 @@ const getNextTraining = computed(() => {
 
 const resumeCourse = () => {
   if (getNextTraining.value && getNextTraining.value._id) {
-    router.push(`/training/${getNextTraining.value._id}`);
+    router.push(
+      `/training/${getNextTraining.value._id}?courseId=${courseId.value}`
+    );
   }
 };
 
@@ -134,21 +135,18 @@ const isEnrolled = computed(() => {
 });
 
 const completionPercentage = computed(() => {
-  console.log("current training index: " + currentTrainingIndex.value);
-  console.log("totalTrainings.value: " + totalTrainings.value);
   if (totalTrainings.value === 0) return 0;
   return (currentTrainingIndex.value / totalTrainings.value) * 100;
 });
 
 const isCourseCompleted = computed(() => {
-  return currentTrainingIndex === totalTrainings.value;
+  return currentTrainingIndex.value === totalTrainings.value;
 });
 
 const currentTrainingIndex = computed(() => {
   const user = userStore.user;
 
   if (!user || !user.enrolledCourses || !courseId.value) {
-    console.log("User or course data not available yet.");
     return 0;
   }
 
@@ -157,14 +155,9 @@ const currentTrainingIndex = computed(() => {
   );
 
   if (!enrollment) {
-    console.log("User is not enrolled in this course.");
     return 0;
   }
 
-  console.log(
-    "User's current training index:",
-    enrollment.currentTrainingIndex
-  );
   return enrollment.currentTrainingIndex || 0;
 });
 
@@ -207,5 +200,27 @@ emit("hide-loading");
 
 .sidebar {
   flex: 1;
+}
+
+@media (max-width: 768px) {
+  .course-page {
+    padding: 1.5rem;
+  }
+
+  .course-content {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .course-page {
+    padding: 1rem;
+  }
+
+  .course-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
 }
 </style>

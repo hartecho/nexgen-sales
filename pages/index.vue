@@ -93,8 +93,8 @@ emit("hide-loading");
 }
 
 .intro-section {
-  background: url("/Backgrounds/IntroBG.webp") no-repeat;
-  background-position: center center;
+  background: url("/Backgrounds/introBG2.png") no-repeat;
+  background-position: center bottom;
   min-height: 40rem;
 }
 
