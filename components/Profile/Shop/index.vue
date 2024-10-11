@@ -23,9 +23,9 @@
 
     <div class="products-container">
       <!-- Left Side Ads Section -->
-      <div class="ads-section">
+      <!-- <div class="ads-section">
         <SubcomponentsStickyCTA v-if="isLargeScreen" />
-      </div>
+      </div> -->
 
       <!-- Products Section -->
       <div class="products-section">

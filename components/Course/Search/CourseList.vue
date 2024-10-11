@@ -37,23 +37,28 @@
             Enroll
           </button>
 
-          <!-- Show Progress Bar if enrolled -->
-          <div v-else class="progress-container">
-            <div class="progress-bar">
-              <div
-                class="progress-bar__fill"
-                :style="{ width: `${calculateCompletion(course._id)}%` }"
-              ></div>
+          <!-- Show Progress Bar and View Course Button if enrolled -->
+          <div v-else>
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div
+                  class="progress-bar__fill"
+                  :style="{ width: `${calculateCompletion(course._id)}%` }"
+                ></div>
+              </div>
+              <span class="progress-percentage">
+                {{ calculateCompletion(course._id) }}% completed
+              </span>
             </div>
-            <span class="progress-percentage">
-              {{ calculateCompletion(course._id) }}% completed
+            <button class="view-course-button" @click="goToCourse(course._id)">
+              View Course
+            </button>
+
+            <!-- Show completion message if course is completed -->
+            <span v-if="isCourseCompleted(course._id)" class="completed-status">
+              Course Completed!
             </span>
           </div>
-
-          <!-- Show completion message if course is completed -->
-          <span v-if="isCourseCompleted(course._id)" class="completed-status">
-            Course Completed!
-          </span>
         </div>
       </div>
     </div>
@@ -220,11 +225,6 @@ const onImageLoad = (index) => {
   transform: scale(1);
 }
 
-.course-meta {
-  font-size: 0.85rem;
-  color: #777;
-}
-
 .course-entry__content {
   padding: 10px 20px;
   display: flex;
@@ -247,7 +247,8 @@ const onImageLoad = (index) => {
   margin-top: 1rem;
 }
 
-.enroll-button {
+.enroll-button,
+.view-course-button {
   padding: 10px 20px;
   font-size: 1rem;
   color: white;
@@ -255,29 +256,26 @@ const onImageLoad = (index) => {
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  margin-top: 2rem;
 }
 
-.enroll-button:hover {
+.enroll-button:hover,
+.view-course-button:hover {
   background-color: #0056b3;
-}
-
-.enrolled-status {
-  color: green;
-  font-weight: bold;
 }
 
 .progress-container {
   margin-top: 1rem;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* This ensures the percentage and completion text are on the same line */
+  justify-content: space-between;
   width: 100%;
 }
 
 .progress-bar {
   background-color: #f0f0f0;
   border-radius: 5px;
-  width: 75%; /* Adjust width so that percentage text and 'Completed' are aligned */
+  width: 75%;
   height: 10px;
   margin-right: 10px;
 }
@@ -300,7 +298,6 @@ const onImageLoad = (index) => {
 }
 
 @media (max-width: 1100px) {
-  /* Pixels changed to be proportional with sidebar taking up some screen width */
   .course-entry {
     flex-direction: column;
     align-items: center;

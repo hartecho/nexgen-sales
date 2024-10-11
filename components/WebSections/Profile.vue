@@ -69,7 +69,7 @@ const sections = [
     name: "courses",
     hasDropdown: false,
     title: "Courses",
-    icon: "wishlist",
+    icon: "Wishlist",
   },
   {
     name: "merch",
