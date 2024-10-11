@@ -20,14 +20,14 @@
     </div>
   </div>
 </template>
-  
-  <script setup>
+
+<script setup>
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .stats-section-wrapper {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   padding: 2rem 0;
   background-color: #0197b2;
@@ -41,11 +41,14 @@
   max-width: 1200px;
   display: flex;
   justify-content: space-between;
-  align-items: space-between;
+  gap: 1rem;
+  flex-wrap: wrap; /* Allows wrapping for smaller screens */
 }
 
 .stat-item {
   flex: 1;
+  min-width: 10rem; /* Prevents items from shrinking too small */
+  margin: 1rem 0;
 }
 
 .stat-item h2 {
@@ -55,6 +58,36 @@
 
 .stat-item p {
   font-size: 1rem;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .stats-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stat-item {
+    margin: 1rem 0;
+  }
+
+  .stat-item h2 {
+    font-size: 2rem;
+  }
+
+  .stat-item p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stat-item h2 {
+    font-size: 1.8rem;
+  }
+
+  .stat-item p {
+    font-size: 0.85rem;
+  }
 }
 </style>
-  

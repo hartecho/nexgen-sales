@@ -45,14 +45,14 @@
     </div>
   </div>
 </template>
-  
-  <script>
+
+<script>
 export default {
   name: "SalesTrainingServices",
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .services-section {
   display: flex;
   gap: 1rem;
@@ -61,6 +61,7 @@ export default {
   color: white;
   justify-content: center;
   width: 100%;
+  flex-wrap: wrap; /* Allows wrapping of cards for smaller screens */
 }
 
 .service-card {
@@ -74,7 +75,6 @@ export default {
 
 .service-card:hover {
   box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.4);
-  /* transform: scale(1.01); */
 }
 
 .icon {
@@ -99,5 +99,75 @@ p {
   line-height: 1.5;
   color: #ccc;
 }
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .services-section {
+    gap: 1.5rem;
+    padding: 0 1rem 4rem 1rem;
+  }
+
+  .service-card {
+    width: 14rem;
+    padding: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .services-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .service-card {
+    width: 90%;
+    max-width: 20rem;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .icon {
+    justify-content: center;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .services-section {
+    padding: 0 1rem 3rem 1rem;
+  }
+
+  .service-card {
+    padding: 1rem;
+  }
+
+  img {
+    height: 2.5rem;
+    width: 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  p {
+    font-size: 0.85rem;
+  }
+}
 </style>
-  

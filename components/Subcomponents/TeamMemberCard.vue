@@ -15,8 +15,8 @@
     </div>
   </div>
 </template>
-  
-  <script setup>
+
+<script setup>
 const props = defineProps({
   name: {
     type: String,
@@ -36,14 +36,14 @@ const props = defineProps({
   },
 });
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .team-member-card {
   display: flex;
   background-color: #000;
   color: white;
-  /* border-radius: 8px; */
   gap: 1rem;
+  align-items: center;
 }
 
 .image-container {
@@ -52,7 +52,7 @@ const props = defineProps({
 
 .profile-image {
   width: 100%;
-  /* border-radius: 8px; */
+  height: auto;
 }
 
 .info-container {
@@ -76,11 +76,57 @@ const props = defineProps({
   margin-top: 1rem;
   display: flex;
   gap: 0.5rem;
+  justify-content: center;
 }
 
 .social-icon {
   width: 20px;
   height: 20px;
 }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .team-member-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .image-container {
+    width: 100%;
+    max-width: 200px; /* Limit the size of the image */
+  }
+
+  .profile-image {
+    border-radius: 50%;
+  }
+
+  .info-container {
+    margin-top: 1rem;
+    align-items: center;
+  }
+
+  .info-container h3 {
+    font-size: 1.3rem;
+  }
+
+  .info-container p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .info-container h3 {
+    font-size: 1.1rem;
+  }
+
+  .info-container p {
+    font-size: 0.85rem;
+  }
+
+  .social-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
 </style>
-  

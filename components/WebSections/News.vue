@@ -34,16 +34,16 @@
     </div>
   </div>
 </template>
-  
-  <script setup>
+
+<script setup>
 const { data: blogs } = await useFetch("/api/blogs");
 
 const goToBlog = (id) => {
   navigateTo(`/blog/${id}`);
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .latest-news-section-wrapper {
   background-color: #1b1b1b;
   color: white;
@@ -121,12 +121,6 @@ const goToBlog = (id) => {
   flex-grow: 1;
 }
 
-.card-content h2 {
-  color: #0197b2;
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
-}
-
 .card-content h3 {
   color: #0197b2;
   font-size: 1.3rem;
@@ -158,5 +152,77 @@ const goToBlog = (id) => {
 .read-more:hover {
   text-decoration: underline;
 }
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .blog-cards {
+    gap: 1rem;
+  }
+
+  .blog-card {
+    width: 45%;
+  }
+
+  .news-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .news-header .news-description {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .blog-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .blog-card {
+    width: 80%;
+  }
+
+  .news-header h2 {
+    font-size: 1.6rem;
+  }
+
+  .news-header h3 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .latest-news-section {
+    padding: 3rem 1rem;
+  }
+
+  .news-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .news-header h3 {
+    font-size: 1rem;
+  }
+
+  .news-header .news-description {
+    font-size: 0.9rem;
+  }
+
+  .blog-card {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .card-content h3 {
+    font-size: 1.1rem;
+  }
+
+  .card-content p {
+    font-size: 0.9rem;
+  }
+
+  .card-meta {
+    font-size: 0.8rem;
+  }
+}
 </style>
-  

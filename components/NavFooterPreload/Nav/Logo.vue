@@ -17,16 +17,11 @@
 .nav-logo-box {
   width: 250px;
   height: auto;
+  margin-left: -2.5rem;
 }
 .nav-logo {
   max-width: 100%;
   height: auto;
-}
-
-@media (max-width: 480px) {
-  .nav-logo-box {
-    width: 60px;
-  }
 }
 </style>
   

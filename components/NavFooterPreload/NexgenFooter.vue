@@ -5,8 +5,12 @@
       <div class="footer-logo-desc">
         <img src="/Logos/Nexgen.webp" alt="Nexgen Logo" class="footer-logo" />
         <p class="footer-description">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore.
+          At Nexgen, we specialize in transforming sales professionals into top
+          performers with our industry-leading door-to-door sales training. Our
+          programs focus on mastering sales techniques, overcoming objections,
+          and building confidence to close more deals. With Nexgen, you’ll have
+          the tools and support you need to excel in face-to-face sales and
+          elevate your career.
         </p>
         <div class="social-icons">
           <i class="fab fa-facebook"></i>
@@ -20,39 +24,35 @@
         <div class="footer-column">
           <h3>PAGE LINKS</h3>
           <ul>
-            <li><a href="#">&#x3e; Home</a></li>
-            <li><a href="#">&#x3e; About</a></li>
-            <li><a href="#">&#x3e; Services</a></li>
-            <li><a href="#">&#x3e; Blog Post</a></li>
+            <li><NuxtLink to="/">&#x3e; Home</NuxtLink></li>
+            <li><NuxtLink to="/Blog">&#x3e; Blog</NuxtLink></li>
           </ul>
         </div>
         <div class="footer-column">
           <h3>INFORMATION</h3>
           <ul>
-            <li><a href="#">&#x3e; FAQ</a></li>
-            <li><a href="#">&#x3e; Client Support</a></li>
-            <li><a href="#">&#x3e; Terms & Conditions</a></li>
-            <li><a href="#">&#x3e; Privacy Policy</a></li>
+            <li><NuxtLink to="/Terms">&#x3e; Terms & Conditions</NuxtLink></li>
+            <li><NuxtLink to="/Privacy">&#x3e; Privacy Policy</NuxtLink></li>
           </ul>
         </div>
         <div class="footer-column">
           <h3>CONTACT INFO</h3>
           <ul>
             <li>
-              <a href="tel:000012345678">
+              <NuxtLink to="tel:000012345678">
                 <i class="fas fa-phone"></i> 000 012 345 678
-              </a>
+              </NuxtLink>
             </li>
             <li>
-              <a href="mailto:yoursh@maxi.com">
+              <NuxtLink to="mailto:yoursh@maxi.com">
                 <i class="fas fa-envelope"></i> yoursh@maxi.com
-              </a>
+              </NuxtLink>
             </li>
             <li>
-              <a href="#">
+              <NuxtLink to="#">
                 <i class="fas fa-map-marker-alt"></i> 99 Boving Street, Big
                 City, PLU
-              </a>
+              </NuxtLink>
             </li>
           </ul>
         </div>
@@ -93,17 +93,18 @@
 .footer-logo-desc {
   max-width: 400px;
   flex: 1;
-  align-self: flex-start; /* Align the logo to the top */
+  align-self: flex-start;
+  margin-bottom: 2rem;
 }
 
 .footer-logo {
-  width: 400px;
-  margin-top: -10rem;
-  margin-bottom: -8rem;
+  width: 100%;
+  max-width: 200px;
+  margin-bottom: 1rem;
 }
 
 .footer-description {
-  font-size: 1rem; /* Increase font size */
+  font-size: 1rem;
   line-height: 1.5;
   margin-bottom: 20px;
 }
@@ -111,18 +112,19 @@
 .social-icons {
   display: flex;
   gap: 15px;
-  font-size: 1.5rem; /* Adjust size of icons */
+  font-size: 1.5rem;
 }
 
 .footer-links {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
   flex: 2;
-  gap: 5rem; /* Increase the gap between the sections */
+  gap: 5rem;
 }
 
 .footer-column h3 {
-  font-size: 1.2rem; /* Increase header font size */
+  font-size: 1.2rem;
   color: #0197b2;
   margin-bottom: 15px;
 }
@@ -136,13 +138,15 @@
   margin-bottom: 10px;
 }
 
-.footer-column a {
+.footer-column a,
+.footer-column NuxtLink {
   color: #b2b2b2;
   text-decoration: none;
-  font-size: 1rem; /* Increase link font size */
+  font-size: 1rem;
 }
 
-.footer-column a:hover {
+.footer-column a:hover,
+.footer-column NuxtLink:hover {
   color: #0197b2;
 }
 
@@ -158,5 +162,100 @@
 
 .footer-bottom p {
   margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .footer-container {
+    padding: 0rem 1.5rem;
+  }
+
+  .footer-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .footer-logo {
+    width: 100%;
+    height: auto;
+  }
+
+  .footer-logo-desc {
+    text-align: center;
+  }
+
+  .footer-links {
+    gap: 2rem;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-section {
+    padding: 0;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    align-items: center; /* Centers the .footer-logo-desc */
+    text-align: left; /* Ensures that text in footer-columns remains left-aligned */
+    gap: 2rem;
+  }
+
+  .footer-logo-desc {
+    max-width: 400px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the content horizontally */
+    text-align: center; /* Center the text inside this section */
+    margin-bottom: 2rem;
+    margin-left: auto; /* Center within the parent container */
+    margin-right: auto; /* Center within the parent container */
+  }
+
+  .footer-logo {
+    max-width: 200px;
+    margin-bottom: 1rem;
+  }
+
+  .footer-links {
+    width: 100%;
+    justify-content: center;
+    gap: 3rem;
+  }
+
+  .footer-column {
+    flex: 1;
+    text-align: left; /* Ensures that links remain left-aligned */
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-container {
+    padding: 2rem 1rem;
+  }
+
+  .footer-description {
+    font-size: 0.9rem;
+  }
+
+  .footer-column h3 {
+    font-size: 1rem;
+  }
+
+  .footer-column a,
+  .footer-column NuxtLink {
+    font-size: 0.9rem;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
 }
 </style>

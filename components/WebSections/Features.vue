@@ -14,6 +14,7 @@
       <!-- Left Column -->
       <div class="services-column left">
         <div class="service-item">
+          <img src="/Graphics/Support.webp" alt="Sales Strategy" />
           <div class="text-content">
             <h3>Sales Strategy</h3>
             <p>
@@ -21,9 +22,9 @@
               close deals.
             </p>
           </div>
-          <img src="/Graphics/Support.webp" alt="Sales Strategy" />
         </div>
         <div class="service-item">
+          <img src="/Graphics/Support.webp" alt="Database Management" />
           <div class="text-content">
             <h3>Database Management</h3>
             <p>
@@ -31,16 +32,15 @@
               for the best results.
             </p>
           </div>
-          <img src="/Graphics/Support.webp" alt="Database Management" />
         </div>
         <div class="service-item">
+          <img src="/Graphics/Support.webp" alt="Technical Infrastructure" />
           <div class="text-content">
             <h3>Technical Infrastructure</h3>
             <p>
               Robust tools and systems to support seamless sales operations.
             </p>
           </div>
-          <img src="/Graphics/Support.webp" alt="Technical Infrastructure" />
         </div>
       </div>
 
@@ -144,6 +144,7 @@
 }
 
 .left .service-item {
+  flex-direction: row-reverse; /* Reverse the order to place the icon before the text on desktop */
   text-align: right;
 }
 
@@ -186,5 +187,108 @@
 .center-column h2 {
   margin-top: 1rem;
   font-size: 2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .left .service-item {
+    flex-direction: column; /* Stack the icon above the text on smaller screens */
+    text-align: center;
+  }
+
+  .right .service-item {
+    flex-direction: column; /* Ensure consistency in stacking for smaller screens */
+    text-align: center;
+  }
+
+  .large-image {
+    height: 12rem;
+    width: 12rem;
+  }
+
+  .center-column h2 {
+    font-size: 1.8rem;
+  }
+
+  .service-item img {
+    height: 2.5rem;
+    width: 2.5rem;
+  }
+
+  .header h1 {
+    font-size: 2.2rem;
+  }
+
+  .header p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .services-grid {
+    gap: 1.5rem;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .header p {
+    font-size: 0.9rem;
+  }
+
+  .large-image {
+    height: 10rem;
+    width: 10rem;
+  }
+
+  .service-item h3 {
+    font-size: 1.3rem;
+  }
+
+  .service-item p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .services-offered {
+    padding: 4rem 1rem;
+  }
+
+  .header h1 {
+    font-size: 1.8rem;
+  }
+
+  .header p {
+    font-size: 0.85rem;
+  }
+
+  .large-image {
+    height: 8rem;
+    width: 8rem;
+  }
+
+  .service-item img {
+    height: 2rem;
+    width: 2rem;
+  }
+
+  .service-item h3 {
+    font-size: 1.2rem;
+  }
+
+  .service-item p {
+    font-size: 0.85rem;
+  }
+
+  .center-column h2 {
+    font-size: 1.5rem;
+  }
 }
 </style>

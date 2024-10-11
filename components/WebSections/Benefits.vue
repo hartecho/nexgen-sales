@@ -30,17 +30,17 @@
   </div>
 </template>
   
-  <script setup>
+<script setup>
 </script>
   
-  <style scoped>
+<style scoped>
 .about-us-section-wrapper {
   background-color: #222;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 35rem;
+  padding: 4rem 1rem;
 }
 
 .about-us {
@@ -51,8 +51,8 @@
   color: white;
   gap: 2rem;
   max-width: 1200px;
-  height: 25rem;
   background-color: #222;
+  width: 100%;
 }
 
 .image-container {
@@ -66,7 +66,7 @@
 
 .experience-image {
   width: 100%;
-  min-height: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -96,7 +96,6 @@
 
 .content {
   width: 50%;
-  /* max-height: 100%; */
 }
 
 .content h4 {
@@ -139,7 +138,76 @@ button {
 
 button:hover {
   background: white;
-  /* transform: scale(1.01); */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .about-us {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .image-container {
+    width: 100%;
+    height: auto;
+  }
+
+  .content {
+    width: 100%;
+  }
+
+  .content h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-us-section-wrapper {
+    padding: 3rem 1rem;
+  }
+
+  .content h4 {
+    font-size: 16px;
+  }
+
+  .content h1 {
+    font-size: 1.8rem;
+  }
+
+  .content p,
+  blockquote {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .experience-overlay {
+    bottom: 0.5rem;
+    left: 0.5rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .experience-overlay span {
+    font-size: 2rem;
+  }
+
+  .experience-overlay p {
+    font-size: 0.85rem;
+  }
+
+  .read-more {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+
+  .content h1 {
+    font-size: 1.5rem;
+  }
+
+  .content p,
+  blockquote {
+    font-size: 0.9rem;
+  }
 }
 </style>
-  

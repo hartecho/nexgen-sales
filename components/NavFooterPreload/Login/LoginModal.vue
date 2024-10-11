@@ -1,37 +1,27 @@
 <template>
   <div class="modal-overlay" @click.self="closeModal">
     <div class="modal" key="modal">
-      <transition name="fade" mode="out-in">
-        <div v-if="!emailSignIn" key="signInOptions" class="content-wrapper">
-          <div class="form-wrapper">
-            <transition name="fade" mode="out-in">
-              <NavFooterPreloadLoginSignInForm
-                v-if="loginForm"
-                @emailSignIn="handleEmailSignIn"
-                @googleLogin="handleGoogleLogin"
-                @loginError="handleLoginError"
-                @signUp="switchToSignUp"
-                @closeModal="closeModal"
-              />
-              <NavFooterPreloadLoginSignUpForm
-                v-else
-                :isLoading="isLoading"
-                :signUpError="signUpError"
-                @signUp="handleSignUp"
-                @signIn="switchToSignIn"
-              />
-            </transition>
-          </div>
+      <div v-if="!emailSignIn" key="signInOptions" class="content-wrapper">
+        <div class="form-wrapper">
+          <transition name="fade" mode="out-in">
+            <NavFooterPreloadLoginSignInSection
+              v-if="loginForm"
+              @emailSignIn="handleEmailSignIn"
+              @googleLogin="handleGoogleLogin"
+              @loginError="handleLoginError"
+              @signUp="switchToSignUp"
+              @closeModal="closeModal"
+            />
+            <NavFooterPreloadLoginSignUpForm
+              v-else
+              :isLoading="isLoading"
+              :signUpError="signUpError"
+              @signUp="handleSignUp"
+              @signIn="switchToSignIn"
+            />
+          </transition>
         </div>
-        <div v-else key="emailSignIn">
-          <NavFooterPreloadLoginForm
-            :isLoading="isLoading"
-            :loginError="loginError"
-            @emailLogin="handleEmailLogin"
-            @back="emailSignIn = false"
-          />
-        </div>
-      </transition>
+      </div>
     </div>
   </div>
 </template>

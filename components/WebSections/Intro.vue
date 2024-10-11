@@ -32,27 +32,29 @@
     </div>
   </div>
 </template>
-    
-  <script>
+
+<script>
 export default {
   name: "DoorToDoorTrainingLayout",
 };
 </script>
-    
-  <style scoped>
+
+<style scoped>
 .door-to-door-training-layout {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12rem 2rem;
+  padding: 6rem 2rem;
   max-width: 1200px;
   color: white;
   width: 100%;
   text-shadow: 2px 2px 2px black;
+  flex-wrap: wrap;
 }
 
 .content {
   max-width: 500px;
+  flex: 1;
 }
 
 .content h4 {
@@ -76,22 +78,32 @@ export default {
 
 .CTA {
   display: flex;
-  gap: 2rem;
-  height: 3rem;
-}
-
-img {
-  height: 15px;
-  width: 15px;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
 }
 
 .learn-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   background-color: #0197b2;
   color: black;
   padding: 10px 20px;
   border: none;
   cursor: pointer;
   font-weight: bold;
+}
+
+.learn-more img {
+  width: 1rem;
+  height: 1rem;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .contact span {
@@ -102,12 +114,14 @@ img {
 
 .contact p {
   font-size: 16px;
+  margin: 0;
 }
 
 .stats {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  flex: 1;
 }
 
 .projects,
@@ -132,7 +146,104 @@ button {
 
 button:hover {
   background: white;
-  /* transform: scale(1.01); */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .door-to-door-training-layout {
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 1rem;
+  }
+
+  .content {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .stats {
+    align-items: center;
+    margin-top: 2rem;
+  }
+
+  .content h1 {
+    font-size: 36px;
+  }
+
+  .content h4 {
+    font-size: 16px;
+  }
+
+  .content p {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .CTA {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .learn-more {
+    /* width: 100%; */
+    text-align: center;
+  }
+
+  .content h1 {
+    font-size: 30px;
+  }
+
+  .projects h1,
+  .guarantee h1 {
+    font-size: 40px;
+  }
+
+  .projects p,
+  .guarantee p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .door-to-door-training-layout {
+    padding: 3rem 1rem;
+  }
+
+  .content h1 {
+    font-size: 24px;
+  }
+
+  .content p {
+    font-size: 14px;
+  }
+
+  .stats {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .projects h1,
+  .guarantee h1 {
+    font-size: 36px;
+  }
+
+  .projects p,
+  .guarantee p {
+    font-size: 13px;
+  }
+
+  .learn-more {
+    font-size: 14px;
+  }
+
+  .contact span {
+    font-size: 1rem;
+  }
+
+  .contact p {
+    font-size: 14px;
+  }
 }
 </style>
-  

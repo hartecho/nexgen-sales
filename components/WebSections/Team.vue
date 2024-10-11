@@ -12,7 +12,7 @@
 
       <div class="team-grid">
         <SubcomponentsTeamMemberCard
-          name="Jhon Doe"
+          name="John Doe"
           title="CEO Reactive"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
           imageSrc="/Portraits/Member1.png"
@@ -24,7 +24,7 @@
           imageSrc="/Portraits/Member2.png"
         />
         <SubcomponentsTeamMemberCard
-          name="Jhon Doe"
+          name="John Doe"
           title="CEO Reactive"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
           imageSrc="/Portraits/Member3.png"
@@ -39,11 +39,11 @@
     </div>
   </div>
 </template>
-  
-  <script setup>
+
+<script setup>
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .team-section-wrapper {
   width: 100%;
   background-color: #222;
@@ -89,5 +89,60 @@
   gap: 2rem;
   margin-top: 2rem;
 }
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .team-grid {
+    grid-template-columns: 1fr; /* Stack cards in a single column */
+    gap: 1.5rem;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .header p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .team-section {
+    padding: 2rem 1rem;
+  }
+
+  .header h1 {
+    font-size: 1.8rem;
+  }
+
+  .header h4 {
+    font-size: 16px;
+  }
+
+  .header p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-section {
+    padding: 2rem 1rem;
+  }
+
+  .header h1 {
+    font-size: 1.6rem;
+  }
+
+  .header p {
+    font-size: 0.85rem;
+  }
+
+  .header h4 {
+    font-size: 14px;
+  }
+
+  .team-grid {
+    gap: 1rem; /* Reduce gap for smaller screens */
+  }
+}
 </style>
-  

@@ -127,7 +127,6 @@ const submitForm = async () => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       } else {
-        // await sendConfirmationEmail();
         showForm.value = false;
         showSuccess.value = true;
       }
@@ -135,38 +134,6 @@ const submitForm = async () => {
       showForm.value = false;
       showError.value = true;
     }
-  }
-};
-
-const sendConfirmationEmail = async () => {
-  try {
-    const response = await fetch(
-      "https://jf32m0961a.execute-api.us-east-2.amazonaws.com/first/send-custom-email",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          to: formData.value.email,
-          from: "thomas@hartecho.com",
-          message:
-            "Your contact submission was successful! We will get back to you shortly. Here is a preview of the message you sent: \n\n" +
-            formData.value.message,
-          company: "National Auto Hub",
-        }),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    } else {
-      showForm.value = false;
-      showSuccess.value = true;
-    }
-  } catch (error) {
-    showForm.value = false;
-    showError.value = true;
   }
 };
 </script>
@@ -308,5 +275,77 @@ const sendConfirmationEmail = async () => {
 .error {
   background-color: #d9534f;
   color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .contact-page {
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+  }
+
+  .contact-info {
+    padding-right: 0;
+    text-align: center;
+  }
+
+  .info-box {
+    justify-content: flex-start;
+  }
+
+  h4 {
+    text-align: left;
+  }
+
+  .contact-form {
+    width: 100%;
+    padding-top: 2rem;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-info h3 {
+    font-size: 2rem;
+  }
+
+  .contact-description {
+    font-size: 0.9rem;
+  }
+
+  .text-wrap h4 {
+    font-size: 1rem;
+  }
+
+  .text-wrap p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-page {
+    padding: 1rem;
+  }
+
+  .contact-info h3 {
+    font-size: 1.5rem;
+  }
+
+  .contact-description {
+    font-size: 0.85rem;
+  }
+
+  .info-box {
+    margin-top: 1rem;
+  }
+
+  .submit-button {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
 }
 </style>
