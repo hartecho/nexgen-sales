@@ -19,16 +19,19 @@
               <video
                 ref="videoPlayer"
                 controls
-                muted
                 playsinline
                 preload="auto"
-                :src="getVideoSource(post.mainVideo)"
                 class="training-video-element"
                 @ended="handleVideoEnd"
                 @play="handleVideoPlay"
                 @pause="handleVideoPause"
                 @timeupdate="handleTimeUpdate"
-              ></video>
+              >
+                <source
+                  :src="getVideoSource(post.mainVideo)"
+                  type="video/mp4"
+                />
+              </video>
             </div>
             <div v-else>
               <CourseTrainingImageWrapper
