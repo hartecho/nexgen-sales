@@ -66,8 +66,8 @@ useSeoMeta({
     "Master door-to-door sales with Nexgen Sales LLC's expert online training. Learn proven techniques, boost your closing rates, and build a successful career in sales.",
   ogDescription:
     "Join Nexgen Sales LLC and learn door-to-door sales with our expert online training. Proven strategies, real-world techniques, and success tips for top closers.",
-  ogImage: "~/Logos/NexgenLogo.webp",
-  twitterCard: "~/Logos/NexgenLogo.webp",
+  ogImage: "/Logos/NexgenLogo.webp",
+  twitterCard: "/Logos/NexgenLogo.webp",
 });
 
 const emit = defineEmits(["hide-loading"]);

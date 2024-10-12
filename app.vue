@@ -59,8 +59,9 @@ router.beforeEach((to, from, next) => {
 
 // Set the lang attribute of the HTML tag to English
 useHead({
+  link: [{ rel: "icon", type: "image/x-icon", href: "/Logos/NexgenLogo.webp" }],
   htmlAttrs: {
-    lang: "en",
+    lang: "en", // Change 'en' to your desired language code
   },
 });
 </script>
