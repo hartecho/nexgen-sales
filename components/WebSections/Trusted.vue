@@ -13,10 +13,7 @@
         <img src="/Logos/ExampleLogo.png" alt="Picasso Logo" />
       </div>
       <div class="logo">
-        <img src="/Logos/ExampleLogo.png" alt="Picasso Logo" />
-      </div>
-      <div class="logo">
-        <img src="/Logos/ExampleLogo.png" alt="Picasso Logo" />
+        <img src="/Logos/LGCYLogo.png" alt="Picasso Logo" />
       </div>
     </div>
   </div>

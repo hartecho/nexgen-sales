@@ -151,9 +151,15 @@ a:hover {
 
 /* Responsive adjustments */
 @media (max-width: 1024px) {
-  .door-to-door-training-layout {
+  .CTA {
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
+  }
+
+  .door-to-door-training-layout {
+    flex-direction: column;
+    align-items: flex-start;
     padding: 4rem 1rem;
   }
 
@@ -163,8 +169,11 @@ a:hover {
   }
 
   .stats {
-    align-items: center;
+    align-items: flex-start;
     margin-top: 2rem;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
   }
 
   .content h1 {
@@ -181,11 +190,9 @@ a:hover {
 }
 
 @media (max-width: 768px) {
-  .CTA {
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
+  /* .door-to-door-training-layout {
+    align-items: flex-start;
+  } */
 
   .learn-more {
     /* width: 100%; */
@@ -218,11 +225,6 @@ a:hover {
 
   .content p {
     font-size: 14px;
-  }
-
-  .stats {
-    flex-direction: column;
-    align-items: center;
   }
 
   .projects h1,
