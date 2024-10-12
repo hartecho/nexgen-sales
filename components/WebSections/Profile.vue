@@ -149,6 +149,8 @@ emit("hide-loading");
   z-index: 10;
   transition: transform 0.3s ease;
   overflow: hidden;
+  overscroll-behavior: contain; /* Prevents scrolling propagation */
+  touch-action: none; /* Disables touch gestures on mobile */
 }
 
 .logo-wrapper {
