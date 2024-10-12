@@ -18,8 +18,10 @@
             <div v-if="post.mainVideo" class="training-video">
               <video
                 ref="videoPlayer"
-                controls
+                autoplay
+                loop
                 playsinline
+                muted
                 preload="auto"
                 class="training-video-element"
                 @ended="handleVideoEnd"
@@ -31,6 +33,7 @@
                   :src="getVideoSource(post.mainVideo)"
                   type="video/mp4"
                 />
+                Your browser does not support the video tag.
               </video>
             </div>
             <div v-else>
