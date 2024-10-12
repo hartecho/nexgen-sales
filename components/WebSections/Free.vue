@@ -25,7 +25,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url("/BlogPics/BlogPic7.webp");
+  background-image: url("/Backgrounds/FreeBG.webp");
   background-size: cover;
   background-position: center;
   height: 400px;

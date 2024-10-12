@@ -4,7 +4,7 @@
     <ProfileDashboardBanner />
     <div class="welcome">
       <h1>Welcome Back, {{ userStore.user.name }}!</h1>
-      <img src="/Graphics/HandWave.svg" alt="Waving Hand" />
+      <!-- <img src="/Graphics/HandWave.svg" alt="Waving Hand" /> -->
     </div>
 
     <!-- <ProfileDashboardSteps /> -->
