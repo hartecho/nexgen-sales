@@ -11,14 +11,16 @@ export const useCourseStore = defineStore('courseStore', () => {
   // Set courses
   const setCourses = (newCourses) => {
     allCourses.value = newCourses;
-    lastFetchTime.value = Date.now(); // Set current timestamp
   };
 
   // Set trainings
   const setTrainings = (newTrainings) => {
     allTrainings.value = newTrainings;
-    lastFetchTime.value = Date.now(); // Set current timestamp
   };
+
+  const setCache = () => {
+    lastFetchTime.value = Date.now();
+  }
 
   // Get a course by its ID
   const getCourseById = (courseId) => {
@@ -50,6 +52,7 @@ export const useCourseStore = defineStore('courseStore', () => {
     allTrainings,
     CACHE_DURATION,
     lastFetchTime,
+    setCache,
     setCourses,
     setTrainings,
     getCourseById,

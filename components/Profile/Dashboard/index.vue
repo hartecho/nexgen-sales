@@ -30,6 +30,7 @@ onMounted(async () => {
 const fetchEnrolledCoursesAndTrainings = async () => {
   await fetchAndSetCourses();
   await fetchAndSetTrainings();
+  courseStore.setCache();
   const user = userStore.user;
   if (user && user.enrolledCourses) {
     enrolledCourses.value = user.enrolledCourses.map((enrollment) =>

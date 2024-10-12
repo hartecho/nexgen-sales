@@ -98,6 +98,7 @@ const fetchAndSetTrainings = async () => {
   }
 
   loading.value = false;
+  courseStore.setCache();
 };
 
 const getNextTraining = computed(() => {
