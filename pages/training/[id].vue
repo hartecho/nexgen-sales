@@ -18,16 +18,10 @@
             <div v-if="post.mainVideo" class="training-video">
               <video
                 ref="videoPlayer"
-                autoplay
-                loop
                 playsinline
-                muted
+                controls
                 preload="auto"
                 class="training-video-element"
-                @ended="handleVideoEnd"
-                @play="handleVideoPlay"
-                @pause="handleVideoPause"
-                @timeupdate="handleTimeUpdate"
               >
                 <source
                   :src="getVideoSource(post.mainVideo)"
