@@ -60,12 +60,14 @@
 <script setup>
 // SEO ADJUST
 useSeoMeta({
-  title: "post.value.mainTitle",
-  ogTitle: "post.value.mainTitle",
-  description: "post.value.preview",
-  ogDescription: "post.value.preview",
-  ogImage: "post.value.thumbnail",
-  twitterCard: "post.value.thumbnail",
+  title: "Learn Door-to-Door Sales - Nexgen Sales LLC Online Training",
+  ogTitle: "Learn Door-to-Door Sales - Nexgen Sales LLC Online Training",
+  description:
+    "Master door-to-door sales with Nexgen Sales LLC's expert online training. Learn proven techniques, boost your closing rates, and build a successful career in sales.",
+  ogDescription:
+    "Join Nexgen Sales LLC and learn door-to-door sales with our expert online training. Proven strategies, real-world techniques, and success tips for top closers.",
+  ogImage: "~/Logos/NexgenLogo.webp",
+  twitterCard: "~/Logos/NexgenLogo.webp",
 });
 
 const emit = defineEmits(["hide-loading"]);

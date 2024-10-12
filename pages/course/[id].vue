@@ -169,6 +169,27 @@ const getNextTrainingImage = computed(() => {
   return training?.thumbnail;
 });
 
+useSeoMeta({
+  title: course?.name
+    ? `${course.name} - Nexgen Door-to-Door Sales Training Course`
+    : "Nexgen Door-to-Door Sales Training Courses",
+  ogTitle: course?.name
+    ? `${course.name} - Nexgen Door-to-Door Sales Training Course`
+    : "Nexgen Door-to-Door Sales Training Courses",
+  description: course?.description
+    ? `${course.description.substring(0, 155)}...`
+    : "Enroll in Nexgen's door-to-door sales training courses. Get expert guidance, in-depth trainings, and all the resources you need to succeed in door-to-door sales.",
+  ogDescription: course?.description
+    ? `${course.description.substring(0, 155)}...`
+    : "Join Nexgen's door-to-door sales training courses to master essential sales skills. Get expert guidance, training modules, and practical resources to excel.",
+  ogImage: course?.image
+    ? `~/CoursePics/${course.image}`
+    : "~/Logos/NexgenLogo.webp",
+  twitterCard: course?.image
+    ? `~/CoursePics/${course.image}`
+    : "~/Logos/NexgenLogo.webp",
+});
+
 const emit = defineEmits(["hide-loading"]);
 emit("hide-loading");
 </script>

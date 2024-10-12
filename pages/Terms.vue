@@ -135,8 +135,8 @@ useSeoMeta({
     "Review the terms governing the use of Nexgen's website, services, and training programs.",
   ogDescription:
     "Review the terms governing the use of Nexgen's website, services, and training programs.",
-  ogImage: "/Logos/Nexgen.webp",
-  twitterCard: "/Logos/Nexgen.webp",
+  ogImage: "/Logos/NexgenLogo.webp",
+  twitterCard: "/Logos/NexgenLogo.webp",
 });
 
 const emit = defineEmits(["hide-loading"]);

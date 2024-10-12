@@ -235,6 +235,23 @@ const formattedDate = (date) => {
   return new Date(date).toLocaleDateString();
 };
 
+useSeoMeta({
+  title: post?.mainTitle
+    ? `${post.mainTitle} - Nexgen Sales Training`
+    : "Nexgen Sales Training - Door-to-Door Sales",
+  ogTitle: post?.mainTitle
+    ? `${post.mainTitle} - Nexgen Sales Training`
+    : "Nexgen Sales Training - Door-to-Door Sales",
+  description: post?.intro
+    ? `${post.intro.substring(0, 155)}...`
+    : "Enhance your door-to-door sales skills with Nexgen's comprehensive training modules. Complete courses designed to help you succeed.",
+  ogDescription: post?.intro
+    ? `${post.intro.substring(0, 155)}...`
+    : "Get the best door-to-door sales training through Nexgen. Learn at your pace with engaging video lessons and comprehensive resources.",
+  ogImage: post?.image ? `/Images/${post.image}` : "/Logos/NexgenLogo.webp",
+  twitterCard: post?.image ? `/Images/${post.image}` : "/Logos/NexgenLogo.webp",
+});
+
 const emit = defineEmits(["hide-loading"]);
 emit("hide-loading");
 </script>

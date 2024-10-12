@@ -126,8 +126,8 @@ useSeoMeta({
     "Learn how Nexgen collects, uses, and protects your personal information when you use our sales training platform.",
   ogDescription:
     "Learn how Nexgen collects, uses, and protects your personal information when you use our sales training platform.",
-  ogImage: "/Logos/Nexgen.webp",
-  twitterCard: "/Logos/Nexgen.webp",
+  ogImage: "/Logos/NexgenLogo.webp",
+  twitterCard: "/Logos/NexgenLogo.webp",
 });
 
 const emit = defineEmits(["hide-loading"]);

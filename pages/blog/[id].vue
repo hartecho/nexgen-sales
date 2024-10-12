@@ -139,14 +139,14 @@ const updateContent = async () => {
 };
 
 useSeoMeta({
-  title: post.value.metaTitle + " || HARTECHO",
-  ogTitle: "Ads - #1 Utah-based Marketing Agency || HARTECHO",
+  title: "Door-to-Door Sales Tips & Insights - Nexgen Sales Blog",
+  ogTitle: "Door-to-Door Sales Tips & Insights - Nexgen Sales Blog",
   description:
-    "Boost traffic and sales with Facebook and Google Ads! Reach a vast audience, engage with precise targeting, and use analytics with our Utah marketing services.",
+    "Stay ahead in door-to-door sales with expert tips, strategies, and success stories from the Nexgen Sales blog. Learn how to close more deals and improve your sales game.",
   ogDescription:
-    "Boost traffic and sales with Facebook and Google Ads! Reach a vast audience, engage with precise targeting, and use analytics with our Utah marketing services.",
-  ogImage: "/Logos/HARTECHOLogo.webp",
-  twitterCard: "/Logos/HARTECHOLogo.webp",
+    "Explore the Nexgen Sales blog for the latest insights, tips, and techniques in door-to-door sales. Master proven strategies to excel in your sales career.",
+  ogImage: "/Logos/NexgenLogo.webp",
+  twitterCard: "/Logos/NexgenLogo.webp",
 });
 
 const emit = defineEmits(["hide-loading"]);

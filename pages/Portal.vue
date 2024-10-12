@@ -25,6 +25,17 @@ onMounted(() => {
   hydrated.value = true;
 });
 
+useSeoMeta({
+  title: "Nexgen Sales Portal - Access Your Door-to-Door Sales Training",
+  ogTitle: "Nexgen Sales Portal - Access Your Door-to-Door Sales Training",
+  description:
+    "Log in to the Nexgen Sales Portal to access your door-to-door sales courses, track your progress, and enhance your skills with our interactive training modules.",
+  ogDescription:
+    "Access the Nexgen Sales Portal for exclusive door-to-door sales courses, progress tracking, and more. Start learning and advancing your sales career today.",
+  ogImage: "/Logos/NexgenLogo.webp",
+  twitterCard: "/Logos/NexgenLogo.webp",
+});
+
 const emit = defineEmits(["hide-loading"]);
 emit("hide-loading");
 </script>
