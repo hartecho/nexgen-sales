@@ -45,9 +45,9 @@ export default defineNuxtConfig({
     ? [
         'pages/item/originalProductPage.vue',
         'pages/Test.vue',
-        'pages/Products',
-        'pages/Contact',    
-        'pages/Checkout'  
+        'pages/Products.vue',
+        'pages/Contact.vue',    
+        'pages/Checkout.vue'  
       ] 
     : [],
 
