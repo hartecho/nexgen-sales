@@ -181,7 +181,7 @@ const handleLoadedMetaData = () => {
 };
 
 const getVideoSource = (videoPath) => {
-  return `/videos/${videoPath}`;
+  return `/Videos/${videoPath}`;
 };
 
 onMounted(() => {

@@ -18,6 +18,9 @@
           <div class="training-thumbnail">
             <NuxtImg
               :src="resolvedImgPath(training.thumbnail)"
+              :placeholder="generatePlaceholderUrl(training.thumbnail)"
+              @load="onImageLoad(index)"
+              :class="{ 'image-loaded': loadedImages[index] }"
               :alt="training.mainTitle"
               loading="lazy"
             />
@@ -35,6 +38,9 @@
           <div class="training-thumbnail">
             <NuxtImg
               :src="resolvedImgPath(training.thumbnail)"
+              :placeholder="generatePlaceholderUrl(training.thumbnail)"
+              @load="onImageLoad(index)"
+              :class="{ 'image-loaded': loadedImages[index] }"
               :alt="training.mainTitle"
               loading="lazy"
             />
@@ -75,15 +81,39 @@ const props = defineProps({
   },
 });
 
+const loadedImages = ref({});
+
+const updateLoadedImages = ({ index, status }) => {
+  loadedImages.value = { ...loadedImages.value, [index]: status };
+};
+
 // Function to check if the training is completed
 const isTrainingCompleted = (index) => {
   return props.currentTrainingIndex > index;
+};
+
+const onImageLoad = (index) => {
+  updateLoadedImages({ index, status: true });
 };
 
 // Function to resolve the image path
 function resolvedImgPath(path) {
   return path ? `/TrainingPics/${path}` : "/defaultImage.webp";
 }
+
+const generatePlaceholderUrl = (url) => {
+  if (!url || typeof url !== "string" || url.length === 0) {
+    return "/defaultPlaceholderImageBlur.webp";
+  }
+
+  const lastDotIndex = url.lastIndexOf(".");
+  if (lastDotIndex === -1 || lastDotIndex === 0) return url;
+
+  const extension = url.slice(lastDotIndex);
+  const baseUrl = url.slice(0, lastDotIndex);
+
+  return resolvedImgPath(`${baseUrl}Blur${extension}`);
+};
 
 // Function to truncate the intro text with ellipsis
 const truncateIntro = (text, maxLength = 80) => {
@@ -146,6 +176,11 @@ h3 {
 .training-thumbnail img {
   width: 100%;
   height: auto;
+  transform: scale(1.2);
+}
+
+.training-thumbnail img.image-loaded {
+  transform: scale(1);
 }
 
 .training-content {
