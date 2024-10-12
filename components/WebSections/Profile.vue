@@ -252,6 +252,8 @@ h3 {
 
   .toggle-sidebar {
     display: block;
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
   }
 }
 
