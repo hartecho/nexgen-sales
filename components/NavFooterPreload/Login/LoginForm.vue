@@ -1,6 +1,6 @@
 <template>
   <div class="login-form-container full-width">
-    <img src="/Graphics/HandWave.svg" alt="Waving Hand" />
+    <img src="/Graphics/HandWave.png" alt="Waving Hand" />
     <h2>Welcome Back to Nexgen Training Portal</h2>
     <form @submit.prevent="handleEmailLogin" class="login-form-content">
       <div class="input-wrapper">
