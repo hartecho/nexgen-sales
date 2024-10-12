@@ -31,7 +31,7 @@ export const useUserStore = defineStore('userStore', () => {
   };
 }, {
   persist: {
-    key: 'user-store-key',
+    key: 'nexgen-user-store-key',
     storage: typeof localStorage !== 'undefined' ? localStorage : null,
     paths: ['token', 'user'],
   },
