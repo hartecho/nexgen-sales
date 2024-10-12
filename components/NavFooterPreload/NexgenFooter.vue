@@ -50,8 +50,8 @@
             </li>
             <li>
               <NuxtLink to="#">
-                <i class="fas fa-map-marker-alt"></i> 99 Boving Street, Big
-                City, PLU
+                <i class="fas fa-map-marker-alt"></i>5830 E 2ND ST PMB 7000
+                Casper WY 82609
               </NuxtLink>
             </li>
           </ul>

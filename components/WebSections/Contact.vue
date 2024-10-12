@@ -14,7 +14,7 @@
           </div>
           <div class="text-wrap">
             <h4>Our Location</h4>
-            <p>Dream Palace, In The World, 12345</p>
+            <p>5830 E 2ND ST PMB 7000 Casper WY 82609</p>
           </div>
         </div>
         <div class="info-box">

@@ -19,6 +19,9 @@
               <video
                 ref="videoPlayer"
                 controls
+                muted
+                playsinline
+                preload="auto"
                 :src="getVideoSource(post.mainVideo)"
                 class="training-video-element"
                 @ended="handleVideoEnd"
