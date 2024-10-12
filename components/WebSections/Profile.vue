@@ -120,6 +120,7 @@ const setActiveSection = (section) => {
   Object.keys(dropdowns.value).forEach((key) => {
     dropdowns.value[key] = false;
   });
+  isSidebarVisible.value = false;
 };
 
 const emit = defineEmits(["hide-loading"]);

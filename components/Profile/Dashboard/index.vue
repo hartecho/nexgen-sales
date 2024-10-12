@@ -2,10 +2,11 @@
   <div>
     <!-- Profile Image and Edit Section -->
     <ProfileDashboardBanner />
-    <h1>
-      Welcome Back, {{ userStore.user.name }}!
-      <img src="/Graphics/HandWave.svg" alt="" />
-    </h1>
+    <div class="welcome">
+      <h1>Welcome Back, {{ userStore.user.name }}!</h1>
+      <img src="/Graphics/HandWave.svg" alt="Waving Hand" />
+    </div>
+
     <!-- <ProfileDashboardSteps /> -->
 
     <!-- Enrolled Courses Section -->
@@ -69,15 +70,20 @@ const goToCourse = (courseId) => {
   height: auto;
 }
 
+.welcome {
+  display: flex;
+  margin-bottom: 3rem;
+}
+
 h1 {
   margin-left: 1rem;
-  margin-bottom: 5rem;
 }
 
 img {
   height: 2rem;
   width: 2rem;
   margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .course-list {

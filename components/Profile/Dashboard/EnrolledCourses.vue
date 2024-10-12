@@ -7,7 +7,7 @@
     </div>
     <div v-else>
       <div
-        v-for="(course, index) in enrolledCourses"
+        v-for="course in enrolledCourses"
         :key="course._id"
         class="course-entry"
       >
