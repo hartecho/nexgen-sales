@@ -98,7 +98,7 @@ emit("hide-loading");
 }
 
 .bundle-wrapper {
-  background: url("/Backgrounds/IntroBG.svg") no-repeat;
+  background: url("/Backgrounds/introBG2.webp") no-repeat;
   background-size: cover;
   color: #f1b55c;
   font-family: Montserrat, cursive;

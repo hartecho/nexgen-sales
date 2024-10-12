@@ -29,7 +29,7 @@ emit("hide-loading");
 <style scoped>
 .cart {
   min-height: 65rem;
-  background: url("/Car1.png") no-repeat;
+  background: url("/Backgrounds/Car1.png") no-repeat;
   background-size: cover;
   padding-bottom: 4rem;
 }
