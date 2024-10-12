@@ -133,10 +133,7 @@ emit("hide-loading");
   font-family: Montserrat;
   font-weight: bold;
   transition: transform 0.3s ease;
-}
-
-.dashboard.shifted {
-  /* transform: translateX(275px); */
+  overflow: hidden;
 }
 
 .sidebar {
