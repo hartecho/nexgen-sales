@@ -1,9 +1,7 @@
 <template>
   <div class="trusted-section-wrapper">
     <div class="text-content">
-      <h2>
-        Trusted By 2,880+ World-Class Brands And Organizations Of All Sizes.
-      </h2>
+      <h2>Trusted By 20+ World-Class Brands And Organizations Of All Sizes.</h2>
       <p>
         We are proud to collaborate with world-renowned companies to deliver
         exceptional training and sales results. Our program is trusted by the
@@ -11,15 +9,6 @@
       </p>
     </div>
     <div class="logo-grid">
-      <div class="logo">
-        <img src="/Logos/ExampleLogo.png" alt="Picasso Logo" />
-      </div>
-      <div class="logo">
-        <img src="/Logos/ExampleLogo.png" alt="Picasso Logo" />
-      </div>
-      <div class="logo">
-        <img src="/Logos/ExampleLogo.png" alt="Picasso Logo" />
-      </div>
       <div class="logo">
         <img src="/Logos/ExampleLogo.png" alt="Picasso Logo" />
       </div>

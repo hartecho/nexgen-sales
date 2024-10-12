@@ -40,12 +40,12 @@
           <ul>
             <li>
               <NuxtLink to="tel:000012345678">
-                <i class="fas fa-phone"></i> 000 012 345 678
+                <i class="fas fa-phone"></i> +1 (949) 547-3815
               </NuxtLink>
             </li>
             <li>
               <NuxtLink to="mailto:yoursh@maxi.com">
-                <i class="fas fa-envelope"></i> yoursh@maxi.com
+                <i class="fas fa-envelope"></i> Support@Nexgensalepro.com
               </NuxtLink>
             </li>
             <li>
@@ -61,10 +61,7 @@
 
     <!-- Footer Bottom -->
     <div class="footer-bottom">
-      <p>
-        Copyright 2022 © All Rights Reserved Design by HARTECHO Digital
-        Marketing
-      </p>
+      <p>Copyright 2022 © All Rights Reserved Design by Nexgen Sales LLC</p>
     </div>
   </footer>
 </template>

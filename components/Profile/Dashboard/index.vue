@@ -1,7 +1,13 @@
 <template>
   <div>
     <!-- Profile Image and Edit Section -->
-    <ProfileDashboardBanner @trigger-file-input="triggerFileInput" />
+    <ProfileDashboardBanner />
+    <h1>
+      Welcome Back, {{ userStore.user.name }}!
+      <img src="/Graphics/HandWave.svg" alt="" />
+    </h1>
+    <!-- <ProfileDashboardSteps /> -->
+
     <!-- Enrolled Courses Section -->
     <ProfileDashboardEnrolledCourses
       :enrolledCourses="enrolledCourses"
@@ -61,6 +67,17 @@ const goToCourse = (courseId) => {
   width: 100%;
   min-height: 70rem;
   height: auto;
+}
+
+h1 {
+  margin-left: 1rem;
+  margin-bottom: 5rem;
+}
+
+img {
+  height: 2rem;
+  width: 2rem;
+  margin-left: 1rem;
 }
 
 .course-list {

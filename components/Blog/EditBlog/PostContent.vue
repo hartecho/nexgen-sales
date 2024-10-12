@@ -88,15 +88,15 @@
           {{ content.image.caption }}
         </p>
       </div>
-      <EditBlogInteractiveQuiz
+      <BlogEditBlogInteractiveQuiz
         v-if="content.type === 'quiz'"
         :quiz="content.quiz"
       />
-      <EditBlogInteractivePoll
+      <BlogEditBlogInteractivePoll
         v-if="content.type === 'poll'"
         :poll="content.poll"
       />
-      <EditBlogInteractiveVideoContent
+      <BlogEditBlogInteractiveVideoContent
         v-if="content.type === 'video'"
         :video="content.video"
       />

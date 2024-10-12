@@ -1,5 +1,6 @@
 <template>
   <div class="form-container">
+    <img src="/Graphics/Lightning.svg" alt="Sign Up Graphic" />
     <h2>Sign Up and Watch Your Sales Skills Grow</h2>
     <form @submit.prevent="handleSignUp" class="sign-up-form-content">
       <div class="input-wrapper">
@@ -170,6 +171,12 @@ const isFormValid = computed(() => {
   height: auto;
 }
 
+img {
+  height: 3rem;
+  width: 3rem;
+  margin-top: 3rem;
+}
+
 h2 {
   margin-bottom: 1.5rem;
   color: white;
@@ -220,14 +227,14 @@ label {
 
 /* Target the placeholder */
 input::placeholder {
-  color: #ccc; /* Change the color */
+  color: #aaa; /* Change the color */
   font-size: 16px; /* Change the font size */
   opacity: 1; /* Ensure the opacity is 100% (default can be less) */
 }
 
 /* Target the placeholder in different input states (optional) */
 input:focus::placeholder {
-  color: #aaa; /* Change color when input is focused */
+  color: #777; /* Change color when input is focused */
 }
 
 input:disabled::placeholder {

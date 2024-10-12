@@ -15,8 +15,9 @@
       <h2>1. General Conditions</h2>
       <p>
         1.1. By accessing or using the Site, you agree to be bound by these
-        Terms and our <a href="#">Privacy Policy</a>. If you do not agree to
-        these Terms or our Privacy Policy, you may not use the Site.
+        Terms and our <NuxtLink to="/privacy">Privacy Policy</NuxtLink>. If you
+        do not agree to these Terms or our Privacy Policy, you may not use the
+        Site.
       </p>
       <p>
         1.2. You agree not to reproduce, duplicate, copy, sell, resell, or

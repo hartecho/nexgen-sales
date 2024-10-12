@@ -10,7 +10,7 @@
         <h1 contenteditable @input="updateTitle">
           {{ selectedBlog.mainTitle }}
         </h1>
-        <EditBlogPostHeader
+        <BlogEditBlogPostHeader
           v-if="selectedBlog.author && selectedBlog.date"
           :author="selectedBlog.author"
           :date="selectedBlog.date"
@@ -48,7 +48,7 @@
           :key="'section-' + index"
           class="section-wrapper"
         >
-          <EditBlogPostContent
+          <BlogEditBlogPostContent
             :title="section.title"
             :contents="section.content"
             @updateContent="updateSection(index, $event)"
@@ -63,7 +63,7 @@
           Add Section
         </button>
 
-        <EditBlogReferences
+        <BlogEditBlogReferences
           v-if="selectedBlog.references"
           :references="selectedBlog.references"
           @updateReferences="updateReferences"
@@ -136,7 +136,7 @@
           </button>
         </div>
       </div>
-      <EditBlogPanel
+      <BlogEditBlogPanel
         :blogs="blogs"
         :selectedBlog="selectedBlog"
         @selectBlog="setSelectedBlog"
@@ -149,7 +149,7 @@
     </div>
 
     <!-- Structured Data Subcomponent -->
-    <EditBlogStructuredData
+    <BlogEditBlogStructuredData
       v-if="selectedBlog"
       :blog="selectedBlog"
       @updateStructuredData="updateStructuredData"

@@ -25,7 +25,7 @@ const userStore = useUserStore();
 .top-image-banner {
   width: 100%;
   height: 17.25rem;
-  background: url("/Backgrounds/introBG2.png") center center/cover no-repeat;
+  background: url("/Backgrounds/introBG2.webp") center center/cover no-repeat;
   position: relative;
   display: flex;
   justify-content: center;

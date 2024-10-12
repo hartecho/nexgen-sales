@@ -134,7 +134,7 @@ emit("hide-loading");
 }
 
 .item-wrapper {
-  background: url("/Backgrounds/introBG2.png") no-repeat;
+  background: url("/Backgrounds/introBG2.webp") no-repeat;
   background-size: cover;
   color: #f1b55c;
   font-family: Montserrat, cursive;

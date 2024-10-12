@@ -14,7 +14,7 @@
       <!-- Left Column -->
       <div class="services-column left">
         <div class="service-item">
-          <img src="/Graphics/Support.webp" alt="Sales Strategy" />
+          <img src="/Graphics/SalesStrategy.webp" alt="Sales Strategy" />
           <div class="text-content">
             <h3>Sales Strategy</h3>
             <p>
@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="service-item">
-          <img src="/Graphics/Support.webp" alt="Database Management" />
+          <img src="/Graphics/Database.webp" alt="Database Management" />
           <div class="text-content">
             <h3>Database Management</h3>
             <p>
@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="service-item">
-          <img src="/Graphics/Support.webp" alt="Technical Infrastructure" />
+          <img src="/Graphics/Tech.webp" alt="Technical Infrastructure" />
           <div class="text-content">
             <h3>Technical Infrastructure</h3>
             <p>
@@ -57,7 +57,7 @@
       <!-- Right Column -->
       <div class="services-column right">
         <div class="service-item">
-          <img src="/Graphics/Support.webp" alt="Web Security" />
+          <img src="/Graphics/WebSecurity.webp" alt="Web Security" />
           <div class="text-content">
             <h3>Web Security</h3>
             <p>
@@ -66,14 +66,14 @@
           </div>
         </div>
         <div class="service-item">
-          <img src="/Graphics/Support.webp" alt="Cloud Support" />
+          <img src="/Graphics/CloudSupport.webp" alt="Cloud Support" />
           <div class="text-content">
             <h3>Cloud Support</h3>
             <p>Access tools and training material from anywhere at any time.</p>
           </div>
         </div>
         <div class="service-item">
-          <img src="/Graphics/Support.webp" alt="Monitoring Services" />
+          <img src="/Graphics/Monitoring.webp" alt="Monitoring Services" />
           <div class="text-content">
             <h3>Monitoring Services</h3>
             <p>

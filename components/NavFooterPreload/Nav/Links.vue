@@ -50,7 +50,7 @@ function closeLoginModal() {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 30px;
+  /* gap: 30px; */
 }
 .nav-link {
   display: flex;

@@ -163,7 +163,7 @@ onMounted(() => {
   width: 25rem;
   text-align: center;
   position: relative;
-  overflow-y: auto; /* Allows scrolling if content exceeds modal height */
+  /* overflow-y: auto;  */
 }
 
 h1 {
@@ -258,6 +258,7 @@ h2 {
 
   .modal {
     height: auto;
+    padding: 0;
     max-height: 80vh; /* Adjust height for smaller screens */
     min-height: 80vh;
   }
@@ -270,8 +271,8 @@ body {
 
 @media (max-width: 480px) {
   .modal {
-    overflow: hidden;
-    overflow-y: scroll;
+    /* overflow: hidden; */
+    /* overflow-y: scroll; */
   }
 }
 </style>

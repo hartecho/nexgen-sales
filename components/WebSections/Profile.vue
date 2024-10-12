@@ -1,8 +1,8 @@
 <template>
-  <div class="dashboard">
+  <div class="dashboard" :class="{ shifted: isSidebarVisible }">
     <div class="sidebar">
       <div class="logo-wrapper">
-        <img src="/Logos/NexgenLogo.webp" alt="" />
+        <img src="/Logos/NexgenLogo.webp" alt="Logo" />
       </div>
       <div
         v-for="section in sections"
@@ -38,17 +38,23 @@
         </div>
       </div>
     </div>
-    <div class="content-section">
+    <div class="content-section" :class="{ shifted: isSidebarVisible }">
+      <button
+        class="toggle-sidebar"
+        @click="isSidebarVisible = !isSidebarVisible"
+      >
+        <img src="/Graphics/NavBars.svg" alt="Menu" />
+      </button>
       <transition name="fade" mode="out-in">
         <ProfileDashboard v-if="currentSection == 'dashboard'" />
         <ProfilePreferences v-else-if="currentSection == 'profile'" />
         <ProfileCourses v-else-if="currentSection == 'courses'" />
         <ProfileShop v-else-if="currentSection == 'shop'" />
+        <ProfileSupport v-else-if="currentSection == 'support'" />
       </transition>
     </div>
   </div>
 </template>
-
 
 <script setup>
 import { ref } from "vue";
@@ -57,33 +63,16 @@ const currentSection = ref("dashboard");
 const dropdowns = ref({});
 const userStore = useUserStore();
 
+const isSidebarVisible = ref(false);
+
 const sections = [
   { name: "dashboard", hasDropdown: false, title: "Dashboard", icon: "Dash" },
+  { name: "courses", hasDropdown: false, title: "Courses", icon: "Wishlist" },
   {
     name: "profile",
     hasDropdown: false,
     title: "Profile & Preferences",
     icon: "Profile",
-  },
-  {
-    name: "courses",
-    hasDropdown: false,
-    title: "Courses",
-    icon: "Wishlist",
-  },
-  {
-    name: "merch",
-    hasDropdown: true,
-    title: "Get Merch",
-    icon: "Orders",
-    subSections: [
-      { name: "shop", title: "Shop" },
-      { name: "recent-orders", title: "Recent Orders" },
-      // { name: "returns", title: "Return Items" },
-      { name: "wishlist", title: "Wishlist" },
-      { name: "payment-methods", title: "Payment Methods" },
-      { name: "shipping-address", title: "Shipping Address" },
-    ],
   },
   { name: "support", hasDropdown: false, title: "Support", icon: "Support" },
   { name: "logout", hasDropdown: false, title: "Logout", icon: "Logout" },
@@ -98,29 +87,24 @@ const toggleDropdown = (section) => {
   if (sections.find((s) => s.name === section)?.hasDropdown) {
     dropdowns.value[section] = !dropdowns.value[section];
   } else {
-    setActiveSection(section); // If no dropdown, just set the section as active
+    setActiveSection(section);
   }
 };
 
-// Handle the logout action
 const handleLogout = () => {
   userStore.logout();
 };
 
-// Helper function to dynamically get arrow source based on dropdown and active state
 const getArrowSrc = (section) => {
   const isDropdownOpen = dropdowns.value[section];
   const hasActiveSubsection = isSubsectionActive(section);
-
-  if (isDropdownOpen) {
-    return hasActiveSubsection
+  return isDropdownOpen
+    ? hasActiveSubsection
       ? `/ProfilePics/UpArrowActive.svg`
-      : `/ProfilePics/UpArrow.svg`;
-  } else {
-    return hasActiveSubsection
-      ? `/ProfilePics/DownArrowActive.svg`
-      : `/ProfilePics/DownArrow.svg`;
-  }
+      : `/ProfilePics/UpArrow.svg`
+    : hasActiveSubsection
+    ? `/ProfilePics/DownArrowActive.svg`
+    : `/ProfilePics/DownArrow.svg`;
 };
 
 const getImageSrc = (baseName, section) =>
@@ -134,25 +118,24 @@ const isSubsectionActive = (parentSection) =>
 const setActiveSection = (section) => {
   currentSection.value = section;
   Object.keys(dropdowns.value).forEach((key) => {
-    dropdowns.value[key] = false; // Close all other dropdowns
+    dropdowns.value[key] = false;
   });
 };
-
-watch(currentSection, (newSection) => {
-  console.log("Current section changed to:", newSection);
-});
 
 const emit = defineEmits(["hide-loading"]);
 emit("hide-loading");
 </script>
-
-
 
 <style scoped>
 .dashboard {
   display: flex;
   font-family: Montserrat;
   font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.dashboard.shifted {
+  /* transform: translateX(275px); */
 }
 
 .sidebar {
@@ -162,18 +145,24 @@ emit("hide-loading");
   height: 100vh;
   display: flex;
   flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  transition: transform 0.3s ease;
 }
 
 .logo-wrapper {
   width: 100%;
   display: flex;
-  align-self: center;
-  justify-self: center;
+  justify-content: center;
+  align-items: center;
+  height: auto;
 }
 
 .logo-wrapper img {
-  width: 100%;
   height: 100%;
+  width: 100%;
 }
 
 img {
@@ -206,11 +195,6 @@ h3 {
   color: white;
 }
 
-.nav-item.active img,
-.nav-item img:hover {
-  filter: brightness(1.2);
-}
-
 .section-title {
   display: flex;
   align-items: center;
@@ -220,23 +204,6 @@ h3 {
 .sub-menu {
   padding-left: 1rem;
   padding-top: 0.5rem;
-  display: block;
-}
-
-.sub-item {
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  color: #aaaaaa;
-  font-size: 1rem;
-}
-
-.sub-item.active {
-  color: white;
-}
-
-.sub-item:hover,
-.nav-item:hover {
-  background-color: #111;
 }
 
 .content-section {
@@ -244,5 +211,60 @@ h3 {
   background-color: #f0f0f0;
   height: 100vh;
   overflow-y: auto;
+  transition: margin-left 0.3s ease;
+  margin-left: 0;
+  transition: transform 0.3s ease;
+}
+
+.toggle-sidebar {
+  background: transparent;
+  border: none;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.toggle-sidebar img {
+  height: 30px;
+  width: 30px;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-275px);
+    width: 225px;
+  }
+
+  .dashboard.shifted .sidebar {
+    transform: translateX(0);
+  }
+
+  .content-section.shifted {
+    transform: translateX(225px);
+  }
+
+  h3 {
+    font-size: 0.8rem;
+  }
+
+  .toggle-sidebar {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    transform: translateX(0);
+  }
+
+  .toggle-sidebar {
+    display: none;
+  }
+
+  .content-section {
+    margin-left: 275px;
+  }
 }
 </style>

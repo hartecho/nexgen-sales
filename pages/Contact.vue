@@ -6,11 +6,11 @@
         <p class="intro-message">Reach out through the form, and we'll be back to you shortly.</p>
         <div class="info">
           <h2>Send us an email</h2>
-          <h3>sales@buzzed-honey.com</h3>
+          <h3>Support@Nexgensalepro.com</h3>
         </div>
         <div class="info">
           <h2>Give us a call</h2>
-          <h3>+1 (801) 874-7597</h3>
+          <h3>+1 (949) 547-3815</h3>
         </div>
       </div>
       <div class="top-right" v-if="showForm">

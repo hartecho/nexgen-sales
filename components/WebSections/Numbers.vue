@@ -2,7 +2,7 @@
   <div class="stats-section-wrapper">
     <div class="stats-section">
       <div class="stat-item">
-        <h2>2,500+</h2>
+        <h2>200+</h2>
         <p>Clients Trained</p>
       </div>
       <div class="stat-item">
@@ -14,7 +14,7 @@
         <p>Satisfaction Guarantee</p>
       </div>
       <div class="stat-item">
-        <h2>50+</h2>
+        <h2>10+</h2>
         <p>Team Experts</p>
       </div>
     </div>

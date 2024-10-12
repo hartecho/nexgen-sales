@@ -4,44 +4,38 @@
       <div class="header">
         <div class="text-content">
           <h4>TESTIMONIALS</h4>
-          <h1>What Client Says About Us</h1>
+          <h1>What Clients Say About Us</h1>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-            sagittis mauris ac enim sagittis dignissim.
+            Empowering sales professionals with the skills and confidence to
+            excel in every pitch, every knock, and every conversation. Hear what
+            our students have to say about their journey to success!
           </p>
-        </div>
-        <div class="see-more">
-          <button>SEE MORE</button>
         </div>
       </div>
     </div>
 
     <div class="testimonials-grid">
       <SubcomponentsTestimonial
-        name="Testimonial #1"
-        designation="Designation"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique, leo sit amet aliquet sollicitudin."
-        imageSrc="/Logos/HARTECHOLogo.webp"
+        name="Jaden Schank"
+        designation="Sales Rep - Dominion Energy"
+        text="This course transformed my approach to door-to-door sales. The practical tips made it easy to see results fast."
+        imageSrc="/Portraits/Jaden.webp"
       />
       <SubcomponentsTestimonial
-        name="Testimonial #2"
-        designation="Designation"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique, leo sit amet aliquet sollicitudin."
-        imageSrc="/Logos/HARTECHOLogo.webp"
+        name="Keegan Rembacz"
+        designation="Sales Manager - Aptive"
+        text="I used to struggle with handling objections, but this course gave me the confidence I needed."
+        imageSrc="/Portraits/Keegan.webp"
       />
       <SubcomponentsTestimonial
-        name="Testimonial #3"
-        designation="Designation"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique, leo sit amet aliquet sollicitudin."
-        imageSrc="/Logos/HARTECHOLogo.webp"
+        name="Bennett Crowley"
+        designation="Sales Rep - Vivint Solar"
+        text="The strategies taught in this course are game-changers. If you're in sales, you need this training!"
+        imageSrc="/Portraits/Bennett.webp"
       />
     </div>
   </div>
 </template>
-
-<script setup>
-// No script needed for this example
-</script>
 
 <style scoped>
 .testimonials-section {
@@ -87,23 +81,6 @@
   color: #aaa;
 }
 
-.see-more button {
-  background-color: #0197b2;
-  color: black;
-  padding: 0.75rem 2rem;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-button {
-  transition: all 0.2s ease-in-out;
-}
-
-button:hover {
-  background: white;
-}
-
 .testimonials-grid {
   display: flex;
   justify-content: space-between;
@@ -111,6 +88,49 @@ button:hover {
   max-width: 1200px;
   margin-top: 2rem;
   width: 100%;
+}
+
+.subcomponent-testimonial {
+  background: #333;
+  padding: 2rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 300px; /* Ensures all testimonials have a minimum height */
+  flex: 1; /* Ensures all items grow equally */
+}
+
+.testimonial-text {
+  margin: 1rem 0;
+  flex-grow: 1; /* Ensures the text takes up the remaining space */
+  display: flex;
+  align-items: center; /* Center-aligns the text vertically */
+  justify-content: center;
+  max-height: 100px; /* Limits the height of the text */
+  overflow: hidden; /* Ensures longer text doesn't stretch the card */
+}
+
+.testimonial-footer {
+  margin-top: auto; /* Pushes the footer down to the bottom */
+}
+
+.testimonial-footer img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.testimonial-footer h4 {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: #0197b2;
+}
+
+.testimonial-footer p {
+  font-size: 0.9rem;
+  color: #bbb;
 }
 
 /* Responsive adjustments */
@@ -134,10 +154,6 @@ button:hover {
     font-size: 0.95rem;
   }
 
-  .see-more {
-    margin-top: 1rem;
-  }
-
   .testimonials-grid {
     flex-direction: column;
     gap: 1.5rem;
@@ -152,11 +168,6 @@ button:hover {
 
   .text-content p {
     font-size: 0.9rem;
-  }
-
-  .see-more button {
-    padding: 0.65rem 1.75rem;
-    font-size: 0.95rem;
   }
 }
 
@@ -175,11 +186,6 @@ button:hover {
 
   .testimonials-section {
     padding: 4rem 1rem 6rem 1rem;
-  }
-
-  .see-more button {
-    padding: 0.5rem 1.5rem;
-    font-size: 0.9rem;
   }
 }
 </style>

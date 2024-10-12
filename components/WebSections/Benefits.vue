@@ -3,12 +3,12 @@
     <div class="about-us">
       <div class="image-container">
         <img
-          src="/Backgrounds/introBG2.png"
+          src="/Backgrounds/introBG2.webp"
           alt="Experience"
           class="experience-image"
         />
         <div class="experience-overlay">
-          <span>15+</span>
+          <span>5Y+</span>
           <p>Experience</p>
         </div>
       </div>
@@ -24,7 +24,9 @@
           "This program has transformed how I approach sales and has
           significantly boosted my results."
         </blockquote>
-        <button class="read-more">READ MORE</button>
+        <NuxtLink to="/Blog" class="read-more"
+          ><img src="/Graphics/LinkIcon.svg" alt="" /> READ MORE</NuxtLink
+        >
       </div>
     </div>
   </div>
@@ -132,11 +134,16 @@ blockquote {
   font-weight: bold;
 }
 
-button {
+.read-more img {
+  width: 1rem;
+  height: 1rem;
+}
+
+a {
   transition: all 0.2s ease-in-out;
 }
 
-button:hover {
+a:hover {
   background: white;
 }
 
@@ -183,9 +190,7 @@ button:hover {
 
 @media (max-width: 480px) {
   .experience-overlay {
-    bottom: 0.5rem;
-    left: 0.5rem;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem;
   }
 
   .experience-overlay span {

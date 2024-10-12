@@ -51,7 +51,7 @@
               </span>
             </div>
             <button class="view-course-button" @click="goToCourse(course._id)">
-              View Course
+              Resume Course
             </button>
 
             <!-- Show completion message if course is completed -->
@@ -317,6 +317,10 @@ const onImageLoad = (index) => {
 
   .course-entry__title {
     font-size: 1.2rem;
+  }
+
+  .view-course-button {
+    width: 100%;
   }
 }
 </style>

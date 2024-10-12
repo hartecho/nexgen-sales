@@ -28,21 +28,21 @@
           </h2>
           <p class="course-entry__excerpt">{{ course.description }}</p>
 
-          <div v-if="course.trainings.length" class="progress-section">
-            <div class="progress-container">
+          <div class="progress-container">
+            <div class="progress-bar">
               <div
                 class="progress-bar__fill"
-                :style="{ width: `${completionPercentage(course)}%` }"
+                :style="{ width: `${calculateCompletion(course)}%` }"
               ></div>
             </div>
             <span class="progress-percentage">
-              {{ completionPercentage(course) }}% Complete
+              {{ calculateCompletion(course) }}% completed
             </span>
           </div>
 
           <div v-if="course.trainings.length" class="next-training-section">
             <p>
-              Next Training:
+              <b>Next Training:</b>
               {{
                 getNextTraining(course)?.mainTitle || "All Trainings Completed"
               }}
@@ -103,7 +103,7 @@ const getCurrentTrainingIndex = (course) => {
   return enrollment.currentTrainingIndex;
 };
 
-const completionPercentage = (course) => {
+const calculateCompletion = (course) => {
   const currentTrainingIndex = getCurrentTrainingIndex(course);
   if (currentTrainingIndex === null || !course.trainings.length) return 0;
   return ((currentTrainingIndex / course.trainings.length) * 100).toFixed(0);
@@ -120,7 +120,6 @@ const completionPercentage = (course) => {
 
 .course-entry {
   display: flex;
-  border-radius: 10px;
   margin-bottom: 20px;
   background-color: white;
   max-width: 100%;
@@ -156,14 +155,14 @@ const completionPercentage = (course) => {
 
 .course-entry__title {
   font-size: 1.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   color: #333;
 }
 
 .course-entry__excerpt {
   color: #666;
   font-weight: lighter;
-  margin-bottom: 1rem;
+  /* margin-bottom: 0.5rem; */
 }
 
 .progress-section {
@@ -173,30 +172,42 @@ const completionPercentage = (course) => {
 }
 
 .progress-container {
-  background-color: #e0e0e0;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  background-color: #f0f0f0;
   border-radius: 5px;
-  width: 80%;
+  width: 75%;
   height: 10px;
   margin-right: 10px;
-  overflow: hidden;
 }
 
 .progress-bar__fill {
   background-color: #007bff;
   height: 100%;
-  transition: width 0.3s ease;
+  border-radius: 5px;
 }
 
 .progress-percentage {
   font-size: 0.9rem;
   color: #333;
+  white-space: nowrap;
 }
 
 .next-training-section {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 10px;
+}
+
+.next-training-section p {
+  font-weight: lighter;
 }
 
 .training-thumbnail {
@@ -208,15 +219,15 @@ const completionPercentage = (course) => {
 }
 
 .view-course-button {
-  background-color: #007bff;
+  padding: 10px 20px;
+  font-size: 1rem;
   color: white;
-  padding: 10px;
+  background-color: #007bff;
   border: none;
   cursor: pointer;
   border-radius: 5px;
-  transition: background-color 0.3s ease;
-  width: 100%;
-  margin-top: 15px;
+  /* margin-top: 10px; */
+  width: 11rem;
 }
 
 .view-course-button:hover {
@@ -227,6 +238,33 @@ const completionPercentage = (course) => {
   text-align: center;
   font-size: 1.1rem;
   color: #888;
+}
+
+@media (max-width: 1100px) {
+  .course-entry {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .course-entry__thumbnail {
+    width: 100%;
+    height: 15rem;
+  }
+
+  .course-entry__content {
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    gap: 0.8rem;
+  }
+
+  .course-entry__title {
+    font-size: 1.2rem;
+  }
+
+  .view-course-button {
+    width: 100%;
+  }
 }
 </style>
   

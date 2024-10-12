@@ -8,9 +8,18 @@
       <p>{{ title }}</p>
       <p>{{ description }}</p>
       <div class="social-icons">
-        <img src="/Graphics/Support.webp" alt="Twitter" class="social-icon" />
-        <img src="/Graphics/Support.webp" alt="Facebook" class="social-icon" />
-        <img src="/Graphics/Support.webp" alt="Instagram" class="social-icon" />
+        <!-- Uncomment if needed for social icons
+        <img
+          src="/Graphics/TwitterLogo.webp"
+          alt="Twitter"
+          class="social-icon"
+        />
+        <img src="/Graphics/TikTokLogo.webp" alt="TikTok" class="social-icon" />
+        <img
+          src="/Graphics/InstagramLogo.webp"
+          alt="Instagram"
+          class="social-icon"
+        /> -->
       </div>
     </div>
   </div>
@@ -48,11 +57,16 @@ const props = defineProps({
 
 .image-container {
   flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile-image {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
 }
 
 .info-container {
@@ -60,6 +74,7 @@ const props = defineProps({
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding-right: 1rem;
 }
 
 .info-container h3 {
@@ -80,8 +95,8 @@ const props = defineProps({
 }
 
 .social-icon {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
 }
 
 /* Responsive adjustments */
@@ -90,11 +105,12 @@ const props = defineProps({
     flex-direction: column;
     align-items: center;
     text-align: center;
+    padding: 0.5rem;
   }
 
   .image-container {
     width: 100%;
-    max-width: 200px; /* Limit the size of the image */
+    max-width: 200px;
   }
 
   .profile-image {

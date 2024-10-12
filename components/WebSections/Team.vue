@@ -5,35 +5,24 @@
         <h4>OUR TEAM</h4>
         <h1>Meet The Experts</h1>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sagittis
-          mauris ac enim sagittis dignissim.
+          Learn from industry leaders with years of hands-on experience in
+          door-to-door sales. Our team is here to guide you every step of the
+          way, turning challenges into opportunities.
         </p>
       </div>
 
       <div class="team-grid">
         <SubcomponentsTeamMemberCard
-          name="John Doe"
-          title="CEO Reactive"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          imageSrc="/Portraits/Member1.png"
+          name="Beau Ruffner"
+          title="CEO Nexgen"
+          description="With over 5 years in the door-to-door sales industry, Beau has mastered the art of persuasion and closing deals."
+          imageSrc="/Portraits/Beau.webp"
         />
         <SubcomponentsTeamMemberCard
-          name="Jane Doe"
-          title="CTO Reactive"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          imageSrc="/Portraits/Member2.png"
-        />
-        <SubcomponentsTeamMemberCard
-          name="John Doe"
-          title="CEO Reactive"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          imageSrc="/Portraits/Member3.png"
-        />
-        <SubcomponentsTeamMemberCard
-          name="Jane Doe"
-          title="CTO Reactive"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          imageSrc="/Portraits/Member4.png"
+          name="Thomas Hart"
+          title="CTO Nexgen"
+          description="Thomas combines technology with sales expertise to create innovative training solutions."
+          imageSrc="/Portraits/Thomas.webp"
         />
       </div>
     </div>

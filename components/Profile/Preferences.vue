@@ -19,7 +19,7 @@
             alt="Profile Image"
           />
           <div class="edit-icon">
-            <img src="/Graphics/Support.webp" alt="Edit Icon" />
+            <img src="/Graphics/EditPencil.svg" alt="Edit Icon" />
           </div>
           <!-- Hidden file input for selecting images -->
           <input
@@ -275,7 +275,7 @@ const showNotification = (message, type) => {
 .top-image-banner {
   width: 100%;
   height: 17.25rem;
-  background: url("/Backgrounds/introBG2.png") center center/cover no-repeat;
+  background: url("/Backgrounds/introBG2.webp") center center/cover no-repeat;
   position: relative;
   display: flex;
   justify-content: center;
@@ -291,7 +291,7 @@ const showNotification = (message, type) => {
   bottom: 0;
   background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)),
     rgba(1, 151, 178, 0.3);
-  pointer-events: none; /* Ensure clicks pass through to underlying content */
+  pointer-events: none;
 }
 
 .overlay {
@@ -305,7 +305,6 @@ const showNotification = (message, type) => {
   align-items: center;
 }
 
-/* Profile image styling */
 .profile-image-wrapper {
   position: relative;
   cursor: pointer;
@@ -370,25 +369,24 @@ const showNotification = (message, type) => {
   font-weight: bold;
 }
 
-/* Input Section Styles */
 .account-section,
 .personal-section,
 .contact-section {
   padding: 1rem;
 }
 
-/* Two Column Grid for Manage Account Section */
-.input-grid.two-columns {
+.input-grid.two-columns,
+.input-grid.three-columns {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 }
 
-/* Three Column Grid for Personal and Contact Sections */
+.input-grid.two-columns {
+  grid-template-columns: repeat(2, 1fr);
+}
+
 .input-grid.three-columns {
-  display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
 }
 
 .input-field {
@@ -414,7 +412,6 @@ const showNotification = (message, type) => {
   pointer-events: none;
 }
 
-/* Confirm Button Styles */
 .confirm-button {
   background-color: #4caf50;
   color: white;
@@ -424,11 +421,45 @@ const showNotification = (message, type) => {
   cursor: pointer;
   font-weight: bold;
   margin-top: 1rem;
-  display: inline-block;
   transition: background-color 0.3s ease;
 }
 
 .confirm-button:hover {
   background-color: #45a049;
+}
+
+@media (max-width: 768px) {
+  .input-grid.two-columns,
+  .input-grid.three-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .top-image-banner {
+    height: 14rem;
+  }
+
+  .profile-image-wrapper {
+    width: 10rem !important;
+    height: 10rem !important;
+  }
+
+  .confirm-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-image-banner {
+    height: 12rem;
+  }
+
+  .profile-image-wrapper {
+    width: 8rem !important;
+    height: 8rem !important;
+  }
+
+  .input-field input {
+    padding: 0.4rem;
+  }
 }
 </style>

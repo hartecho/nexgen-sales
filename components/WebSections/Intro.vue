@@ -9,13 +9,13 @@
         sales performance with expert guidance.
       </p>
       <div class="CTA">
-        <button class="learn-more">
+        <NuxtLink to="/portal" class="learn-more">
           <img src="/Graphics/LinkIcon.svg" alt="" />
           GET STARTED
-        </button>
+        </NuxtLink>
         <div class="contact">
           <span class="green">Call Us</span>
-          <p>+123 456789</p>
+          <p>+1 (949) 547-3815</p>
         </div>
       </div>
     </div>
@@ -93,6 +93,7 @@ export default {
   border: none;
   cursor: pointer;
   font-weight: bold;
+  text-shadow: none;
 }
 
 .learn-more img {
@@ -103,7 +104,7 @@ export default {
 .contact {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .contact span {
@@ -140,11 +141,11 @@ export default {
   font-size: 16px;
 }
 
-button {
+a {
   transition: all 0.2s ease-in-out;
 }
 
-button:hover {
+a:hover {
   background: white;
 }
 

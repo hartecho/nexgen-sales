@@ -10,7 +10,7 @@
         </p>
         <div class="info-box">
           <div class="icon-wrap">
-            <img src="/Graphics/Support.webp" alt="location icon" class="icon" />
+            <img src="/Graphics/Location.svg" alt="location icon" class="icon" />
           </div>
           <div class="text-wrap">
             <h4>Our Location</h4>
@@ -19,20 +19,20 @@
         </div>
         <div class="info-box">
           <div class="icon-wrap">
-            <img src="/Graphics/Sales.webp" alt="phone icon" class="icon" />
+            <img src="/Graphics/Phone.svg" alt="phone icon" class="icon" />
           </div>
           <div class="text-wrap">
             <h4>Our Number</h4>
-            <p>+123 456 789</p>
+            <p>+1 (949) 547-3815</p>
           </div>
         </div>
         <div class="info-box">
           <div class="icon-wrap">
-            <img src="/Graphics/Privacy.webp" alt="mail icon" class="icon" />
+            <img src="/Graphics/EmailLogo.svg" alt="mail icon" class="icon" />
           </div>
           <div class="text-wrap">
-            <h4>Our Mail</h4>
-            <p>AwesomeShop@mail.com</p>
+            <h4>Our Email</h4>
+            <p>Support@Nexgensalepro.com</p>
           </div>
         </div>
       </div>
@@ -48,7 +48,7 @@
               <input type="text" placeholder="Your Phone Number" v-model="formData.phone" />
             </div>
             <div class="form-group">
-              <input type="email" placeholder="Your Mail" v-model="formData.email" />
+              <input type="email" placeholder="Your Email" v-model="formData.email" />
             </div>
           </div>
           <div class="form-group">

@@ -4,7 +4,7 @@
       <div v-if="!isLoggedIn" class="login-form">
         <div class="left">
           <div class="image-wrapper">
-            <img src="/Backgrounds/introBG2.png" alt="" />
+            <img src="/Backgrounds/introBG2.webp" alt="" />
           </div>
         </div>
         <NavFooterPreloadLoginModal />
@@ -32,37 +32,29 @@ emit("hide-loading");
 <style scoped>
 .wrapper {
   min-height: 100vh;
-  /* background: url("/Backgrounds/introBG2.png") no-repeat; */
   background: black;
-  /* background: black; */
-  /* background-position: center center; */
+  overflow: hidden;
 }
 
 .login-form {
   display: flex;
+  align-items: stretch; /* Ensures both sides maintain their height */
   justify-content: space-between;
-  /* min-width: 100vw; */
-  /* align-items: center; */
-  /* max-width: 1400px; */
-  /* background: blue; */
 }
 
 .left {
-  /* min-height: 100vh; */
+  width: 100%; /* Adjust as needed to control the width of the image section */
+  display: flex;
 }
 
 .image-wrapper {
-  height: 100%;
-  width: auto;
+  width: 100%;
+  height: 100vh; /* Ensures the image fills the entire height of the viewport */
 }
 
 img {
   height: 100%;
   width: 100%;
   object-fit: cover;
-}
-
-.right {
-  min-height: 100vh;
 }
 </style>

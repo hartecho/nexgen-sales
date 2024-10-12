@@ -8,7 +8,7 @@
           :src="`/TrainingPics/${image}`"
           alt="Training Image"
         />
-        <img v-else :src="`/Backgrounds/introBG2.png`" alt="Training Image" />
+        <img v-else :src="`/Backgrounds/introBG2.webp`" alt="Training Image" />
       </div>
 
       <div class="progress-section">

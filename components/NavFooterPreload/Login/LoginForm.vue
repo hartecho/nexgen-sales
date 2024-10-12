@@ -1,6 +1,7 @@
 <template>
   <div class="login-form-container full-width">
-    <h2>Welcome Back to Your Training Portal</h2>
+    <img src="/Graphics/HandWave.svg" alt="Waving Hand" />
+    <h2>Welcome Back to Nexgen Training Portal</h2>
     <form @submit.prevent="handleEmailLogin" class="login-form-content">
       <div class="input-wrapper">
         <label>Email</label>
@@ -72,6 +73,12 @@ const isFormValid = computed(() => {
   width: 100%;
 }
 
+img {
+  height: 3rem;
+  width: 3rem;
+  margin-top: 3rem;
+}
+
 h2 {
   color: white;
   text-shadow: none;
@@ -133,14 +140,14 @@ label {
 
 /* Target the placeholder */
 input::placeholder {
-  color: #ccc; /* Change the color */
+  color: #aaa; /* Change the color */
   font-size: 16px; /* Change the font size */
   opacity: 1; /* Ensure the opacity is 100% (default can be less) */
 }
 
 /* Target the placeholder in different input states (optional) */
 input:focus::placeholder {
-  color: #aaa; /* Change color when input is focused */
+  color: #777; /* Change color when input is focused */
 }
 
 input:disabled::placeholder {

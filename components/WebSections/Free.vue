@@ -7,13 +7,13 @@
           Material!
         </h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-          volutpat, leo sit amet.
+          Get access to free materials that can take your sales game to the next
+          level. Sign up now to start learning!
         </p>
-        <button type="submit" class="cta-button">
+        <NuxtLink to="/portal" type="submit" class="cta-button">
           <img src="/Graphics/LinkIcon.svg" alt="" />
           SIGN UP
-        </button>
+        </NuxtLink>
       </div>
       <div class="trial-section-image"></div>
     </div>
@@ -132,6 +132,10 @@
   .trial-section-wrapper {
     height: auto;
     padding: 1rem 0;
+  }
+
+  .trial-section {
+    padding: 1rem;
   }
 
   .trial-section-content {
