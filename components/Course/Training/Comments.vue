@@ -1,7 +1,7 @@
 <template>
   <div class="comments-section">
     <h2>Comments</h2>
-    <div v-if="comments.length" class="comments-list">
+    <div v-if="comments && comments.length" class="comments-list">
       <div
         v-for="(comment, index) in comments"
         :key="'comment-' + index"

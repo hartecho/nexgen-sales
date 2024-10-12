@@ -4,10 +4,11 @@
     <div class="content">
       <div class="heading">
         <CourseTrainingSearchBreadcrumbs
-          :currentTrainingTitle="post.tags[0] || 'All Posts'"
+          v-if="post"
+          :currentTrainingTitle="post?.tags[0] || 'All Posts'"
           :courseId="courseId"
         />
-        <h1 class="training-title">{{ post.mainTitle }}</h1>
+        <h1 class="training-title">{{ post?.mainTitle || "Loading..." }}</h1>
       </div>
 
       <!-- Main Training Wrapper -->
@@ -54,8 +55,9 @@
 
         <div class="right-sticky-column">
           <SubcomponentsTrainingSidebar
+            v-if="post"
             :courseId="courseId"
-            :trainingId="post._id"
+            :trainingId="post?._id"
             :isTrainingComplete="isTrainingComplete"
             :nextTraining="nextTraining"
           />
@@ -65,7 +67,8 @@
 
     <div class="comments">
       <CourseTrainingComments
-        :comments="post.comments"
+        v-if="post"
+        :comments="post?.comments"
         @addComment="addComment"
       />
     </div>
@@ -84,8 +87,9 @@ const requiredWatchTime = ref(0);
 const accumulatedPlayTime = ref(0);
 const isPlaying = ref(false);
 const lastPlayTime = ref(0);
+const post = ref(null);
 
-const { data: post } = await useFetch(`/api/trainings?_id=${route.params.id}`);
+// const { data: post } = await useFetch(`/api/trainings?_id=${route.params.id}`);
 
 const isTrainingComplete = computed(() => {
   const course = courseStore.allCourses.find((c) => c._id === courseId);
@@ -185,6 +189,11 @@ const getVideoSource = (videoPath) => {
 };
 
 onMounted(() => {
+  post.value = courseStore.getTrainingById(route.params.id);
+  if (!post.value || !route.params.id || !route.query.courseId) {
+    useRouter().push("/portal");
+  }
+
   const videoElement = videoPlayer.value;
 
   if (videoElement) {
