@@ -148,6 +148,7 @@ emit("hide-loading");
   left: 0;
   z-index: 10;
   transition: transform 0.3s ease;
+  overflow: hidden;
 }
 
 .logo-wrapper {
@@ -208,7 +209,7 @@ h3 {
   flex: 1;
   background-color: #f0f0f0;
   height: 100vh;
-  /* overflow: auto; */
+  overflow: auto;
   transition: margin-left 0.3s ease;
   margin-left: 0;
   transition: transform 0.3s ease;
