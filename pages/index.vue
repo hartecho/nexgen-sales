@@ -15,19 +15,18 @@
       <WebSectionsBenefits/>
     </section>
 
-    <section class="trusted-section">
+    <section class="numbers-section">
       <!-- prettier-ignore -->
-      <WebSectionsTrusted/>
+      <WebSectionsNumbers/>
     </section>
+
+    <!-- <section class="trusted-section">
+      <WebSectionsTrusted/>
+    </section> -->
 
     <section class="features-section">
       <!-- prettier-ignore -->
       <WebSectionsFeatures/>
-    </section>
-
-    <section class="numbers-section">
-      <!-- prettier-ignore -->
-      <WebSectionsNumbers/>
     </section>
 
     <section class="testimonials-section">
