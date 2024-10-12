@@ -22,7 +22,9 @@ export default defineEventHandler(async (event) => {
 
   try {
     // Retrieve the current user by id
+    console.log("userId sent to server: " + userId);
     const existingUser = await User.findById(userId);
+    console.log("User fetched: " + existingUser);
 
     if (!existingUser) {
       console.error(`Error: User with id ${userId} not found`);
