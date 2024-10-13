@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
     <!-- Profile Image and Edit Section -->
     <ProfileDashboardBanner />
     <div class="welcome">
@@ -69,6 +69,10 @@ const goToCourse = (courseId) => {
   width: 100%;
   min-height: 70rem;
   height: auto;
+}
+
+.wrapper {
+  overflow: auto;
 }
 
 .welcome {

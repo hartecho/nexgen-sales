@@ -34,6 +34,14 @@ import { useRouter, useRoute } from "vue-router";
 const isLoading = ref(false);
 const router = useRouter();
 const route = useRoute();
+const userStore = useUserStore();
+
+onMounted(async () => {
+  if (userStore.user) {
+    const response = await $fetch(`/api/users/${userStore.user._id}`);
+    userStore.setUser(response);
+  }
+});
 
 // Function to show the loading screen
 function showLoadingScreen() {
