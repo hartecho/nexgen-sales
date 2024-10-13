@@ -13,20 +13,20 @@
           elevate your career.
         </p> -->
         <div class="social-icons">
-          <a href="xLink" target="_blank">
+          <a href="https://www.x.com" target="_blank">
             <img src="/Logos/X.svg" alt="Twitter" class="social-icon" />
           </a>
-          <a href="tiktokLink" target="_blank">
+          <a href="https://www.tiktok.com" target="_blank">
             <img src="/Logos/TikTok.webp" alt="TikTok" class="social-icon" />
           </a>
-          <a href="instagramLink" target="_blank">
+          <a href="https://www.instagram.com" target="_blank">
             <img
               src="/Logos/Instagram.webp"
               alt="Instagram"
               class="social-icon"
             />
           </a>
-          <a href="linkedinLink" target="_blank">
+          <a href="https://www.linkedin.com" target="_blank">
             <img
               src="/Logos/LinkedIn.webp"
               alt="LinkedIn"
