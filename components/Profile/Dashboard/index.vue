@@ -72,7 +72,7 @@ const goToCourse = (courseId) => {
 }
 
 .wrapper {
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 .welcome {

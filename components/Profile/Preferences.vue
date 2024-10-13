@@ -269,7 +269,7 @@ const showNotification = (message, type) => {
 <style scoped>
 .wrapper {
   position: relative;
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 /* Profile Image Section */

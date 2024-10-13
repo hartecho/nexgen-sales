@@ -92,7 +92,7 @@ onMounted(async () => {
   flex-direction: column;
   justify-content: center;
   padding: 2rem 0;
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 .content-container {

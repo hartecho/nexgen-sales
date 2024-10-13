@@ -44,6 +44,7 @@
                 <source src="/Videos/IntroVidComp.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
+              265 below
               <video
                 autoplay
                 loop
@@ -53,6 +54,18 @@
                 class="training-video-element"
               >
                 <source src="/Videos/heyYall.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              264 below
+              <video
+                autoplay
+                loop
+                playsinline
+                muted
+                preload="auto"
+                class="training-video-element"
+              >
+                <source src="/Videos/heyYall264.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
               <video
