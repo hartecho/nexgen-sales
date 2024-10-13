@@ -4,14 +4,14 @@
       <!-- Logo and Description -->
       <div class="footer-logo-desc">
         <img src="/Logos/Nexgen.webp" alt="Nexgen Logo" class="footer-logo" />
-        <p class="footer-description">
+        <!-- <p class="footer-description">
           At Nexgen, we specialize in transforming sales professionals into top
           performers with our industry-leading door-to-door sales training. Our
           programs focus on mastering sales techniques, overcoming objections,
           and building confidence to close more deals. With Nexgen, you’ll have
           the tools and support you need to excel in face-to-face sales and
           elevate your career.
-        </p>
+        </p> -->
         <div class="social-icons">
           <i class="fab fa-facebook"></i>
           <i class="fab fa-twitter"></i>

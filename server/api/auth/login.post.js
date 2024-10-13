@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
         return { token, user: user };
 
     } catch (error) {
-        console.error('Error in POST /api/login:', error);
+        console.error('Error in POST /api/auth/login:', error);
         if (error.statusCode === 401) {
             throw createError({ statusCode: 401, message: 'Invalid credentials' });
         }

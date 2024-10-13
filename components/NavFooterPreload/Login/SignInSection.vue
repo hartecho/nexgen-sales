@@ -7,7 +7,7 @@
         @emailLogin="handleEmailLogin"
       />
 
-      <div class="divider">
+      <!-- <div class="divider">
         <div class="divider-text">
           <h4>Or continue with</h4>
         </div>
@@ -18,12 +18,12 @@
         @error="handleLoginError"
         :client-id="config.public.GOOGLE_CLIENT_ID"
         class="google-button"
-      ></GoogleSignInButton>
+      ></GoogleSignInButton> -->
     </div>
-    <p>
+    <!-- <p>
       Dont have an account?
       <button @click="changeToSignUp">Create Account!</button>
-    </p>
+    </p> -->
   </div>
 </template>
   

@@ -201,6 +201,7 @@ const submitForm = async () => {
 
 .text-wrap p {
   font-size: 1rem;
+  text-align: left;
 }
 
 .contact-form {

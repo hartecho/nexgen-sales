@@ -157,6 +157,10 @@ a:hover {
     gap: 1rem;
   }
 
+  .contact {
+    display: none;
+  }
+
   .door-to-door-training-layout {
     flex-direction: column;
     align-items: flex-start;

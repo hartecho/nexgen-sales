@@ -14,13 +14,13 @@
       <div class="team-grid">
         <SubcomponentsTeamMemberCard
           name="Beau Ruffner"
-          title="CEO Nexgen"
+          title="CEO of Nexgen"
           description="With over 5 years in the door-to-door sales industry, Beau has mastered the art of persuasion and closing deals."
           imageSrc="/Portraits/Beau.webp"
         />
         <SubcomponentsTeamMemberCard
           name="Thomas Hart"
-          title="CTO Nexgen"
+          title="CTO of Nexgen"
           description="Thomas combines technology with sales expertise to create innovative training solutions."
           imageSrc="/Portraits/Thomas.webp"
         />

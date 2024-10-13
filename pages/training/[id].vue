@@ -22,6 +22,10 @@
                 controls
                 preload="auto"
                 class="training-video-element"
+                @ended="handleVideoEnd"
+                @play="handleVideoPlay"
+                @pause="handleVideoPause"
+                @timeupdate="handleTimeUpdate"
               >
                 <source
                   :src="getVideoSource(post.mainVideo)"
