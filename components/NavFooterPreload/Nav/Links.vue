@@ -6,6 +6,11 @@
       </NuxtLink> -->
     </div>
     <div class="nav-link">
+      <NuxtLink to="/apply" class="nav-link-content" @click="toggleMobileNav">
+        <span>Apply Now!</span>
+      </NuxtLink>
+    </div>
+    <div class="nav-link">
       <NuxtLink to="/portal" class="nav-link-content" @click="toggleMobileNav">
         <span>Client Login</span>
       </NuxtLink>
@@ -50,7 +55,7 @@ function closeLoginModal() {
 .nav-links {
   display: flex;
   align-items: center;
-  /* gap: 30px; */
+  gap: 30px;
 }
 .nav-link {
   display: flex;

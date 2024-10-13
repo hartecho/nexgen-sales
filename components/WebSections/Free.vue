@@ -2,17 +2,14 @@
   <div class="trial-section-wrapper">
     <div class="trial-section">
       <div class="trial-section-content">
-        <h2>
-          Still Confused About Our Features? Sign Up To Access Free Course
-          Material!
-        </h2>
+        <h2>Still Confused About Our Features? Apply Now And Chat!</h2>
         <p>
           Get access to free materials that can take your sales game to the next
-          level. Sign up now to start learning!
+          level. Apply now to start learning!
         </p>
-        <NuxtLink to="/portal" type="submit" class="cta-button">
+        <NuxtLink to="/apply" type="submit" class="cta-button">
           <img src="/Graphics/LinkIcon.svg" alt="" />
-          SIGN UP
+          APPLY NOW
         </NuxtLink>
       </div>
       <div class="trial-section-image"></div>

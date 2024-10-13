@@ -14,15 +14,15 @@
       </div>
       <div class="content">
         <h4>ABOUT US</h4>
-        <h1>The Perfect Solution For Door-to-Door Sales</h1>
+        <h1>The Perfect Opportunity for Aspiring Sales Reps</h1>
         <p>
-          Learn everything you need to know about door-to-door sales. Our
-          platform provides comprehensive training, from handling objections to
-          closing deals, ensuring you master every aspect of sales.
+          Kickstart your career in door-to-door sales with a company that offers
+          comprehensive support, training, and uncapped earning potential. We
+          provide you with all the tools needed to succeed.
         </p>
         <blockquote>
-          "This program has transformed how I approach sales and has
-          significantly boosted my results."
+          "Joining this company has transformed my financial future and given me
+          the skills I need to succeed."
         </blockquote>
         <NuxtLink to="/Blog" class="read-more"
           ><img src="/Graphics/LinkIcon.svg" alt="" /> READ MORE</NuxtLink
@@ -31,6 +31,7 @@
     </div>
   </div>
 </template>
+
   
 <script setup>
 </script>

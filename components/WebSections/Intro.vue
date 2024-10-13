@@ -1,17 +1,18 @@
 <template>
   <div class="door-to-door-training-layout">
     <div class="content">
-      <h4>WE TRAIN PROFESSIONALS</h4>
-      <h1>Door-to-Door Sales Training</h1>
+      <h4>JOIN OUR TEAM OF EXPERTS</h4>
+      <h1>Become a Door-to-Door Sales Rep</h1>
       <p>
-        Master the art of door-to-door sales with our comprehensive training
-        platform. Learn proven techniques, overcome objections, and boost your
-        sales performance with expert guidance.
+        Take control of your income by joining our team of highly motivated
+        door-to-door sales representatives. Learn how you can achieve financial
+        freedom, enjoy uncapped commissions, and build a successful career in
+        sales with us.
       </p>
       <div class="CTA">
-        <NuxtLink to="/portal" class="learn-more">
+        <NuxtLink to="/apply" class="learn-more">
           <img src="/Graphics/LinkIcon.svg" alt="" />
-          GET STARTED
+          APPLY NOW
         </NuxtLink>
         <div class="contact">
           <span class="green">Call Us</span>
@@ -22,16 +23,17 @@
 
     <div class="stats">
       <div class="projects">
-        <h1>1000 +</h1>
-        <p>Sales Professionals Trained</p>
+        <h1>$100K +</h1>
+        <p>Potential Annual Earnings</p>
       </div>
       <div class="guarantee">
         <h1>98 %</h1>
-        <p>Success Rate</p>
+        <p>Success Rate in Hitting Sales Goals</p>
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 export default {

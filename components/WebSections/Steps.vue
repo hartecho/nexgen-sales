@@ -4,10 +4,11 @@
       <div class="icon">
         <img src="/Graphics/Support.webp" alt="" />
       </div>
-      <h3>24/7 Support</h3>
+      <h3>24/7 Onboarding Support</h3>
       <p>
-        Get around-the-clock support from our dedicated team to help you with
-        any challenges you face in door-to-door sales.
+        Join our sales team and get round-the-clock support as you start your
+        exciting journey in door-to-door sales. We're here to ensure your
+        success.
       </p>
     </div>
 
@@ -15,10 +16,10 @@
       <div class="icon">
         <img src="/Graphics/Sales.webp" alt="" />
       </div>
-      <h3>Sales Strategies</h3>
+      <h3>Proven Sales Techniques</h3>
       <p>
-        Learn time-tested sales strategies and techniques designed to help you
-        close more deals efficiently.
+        Learn the strategies that have helped hundreds of reps close more deals
+        and maximize their earnings in door-to-door sales.
       </p>
     </div>
 
@@ -26,10 +27,11 @@
       <div class="icon">
         <img src="/Graphics/Privacy.webp" alt="" />
       </div>
-      <h3>Data Privacy</h3>
+      <h3>Secure Opportunities</h3>
       <p>
-        Your personal and training data is always secure with our
-        industry-leading privacy protocols.
+        Enjoy the financial security that comes with a stable and rewarding
+        career in door-to-door sales. With uncapped earning potential and job
+        stability, your future is in your hands.
       </p>
     </div>
 
@@ -37,14 +39,15 @@
       <div class="icon">
         <img src="/Graphics/Training.webp" alt="" />
       </div>
-      <h3>Certified Training</h3>
+      <h3>Career Growth</h3>
       <p>
-        Our training program is industry-certified to ensure you receive the
-        highest level of education and support.
+        Join a team where training and advancement are key. We provide certified
+        training to help you grow and achieve your career aspirations.
       </p>
     </div>
   </div>
 </template>
+
 
 <script>
 export default {

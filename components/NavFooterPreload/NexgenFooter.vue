@@ -13,9 +13,26 @@
           elevate your career.
         </p> -->
         <div class="social-icons">
-          <i class="fab fa-facebook"></i>
-          <i class="fab fa-twitter"></i>
-          <i class="fab fa-instagram"></i>
+          <a href="xLink" target="_blank">
+            <img src="/Logos/X.svg" alt="Twitter" class="social-icon" />
+          </a>
+          <a href="tiktokLink" target="_blank">
+            <img src="/Logos/TikTok.webp" alt="TikTok" class="social-icon" />
+          </a>
+          <a href="instagramLink" target="_blank">
+            <img
+              src="/Logos/Instagram.webp"
+              alt="Instagram"
+              class="social-icon"
+            />
+          </a>
+          <a href="linkedinLink" target="_blank">
+            <img
+              src="/Logos/LinkedIn.webp"
+              alt="LinkedIn"
+              class="social-icon"
+            />
+          </a>
         </div>
       </div>
 
@@ -107,9 +124,16 @@
 }
 
 .social-icons {
+  margin-top: 1rem;
   display: flex;
-  gap: 15px;
-  font-size: 1.5rem;
+  gap: 1rem;
+  justify-content: center;
+  margin-right: 12rem;
+}
+
+.social-icons img {
+  height: 2rem;
+  width: 2rem;
 }
 
 .footer-links {
@@ -229,7 +253,7 @@
   }
 
   .social-icons {
-    justify-content: center;
+    margin-right: 0rem;
   }
 }
 

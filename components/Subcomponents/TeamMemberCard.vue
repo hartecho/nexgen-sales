@@ -8,22 +8,27 @@
       <p>{{ title }}</p>
       <p>{{ description }}</p>
       <div class="social-icons">
-        <!-- Uncomment if needed for social icons
-        <img
-          src="/Graphics/TwitterLogo.webp"
-          alt="Twitter"
-          class="social-icon"
-        />
-        <img src="/Graphics/TikTokLogo.webp" alt="TikTok" class="social-icon" />
-        <img
-          src="/Graphics/InstagramLogo.webp"
-          alt="Instagram"
-          class="social-icon"
-        /> -->
+        <a v-if="xLink" :href="xLink" target="_blank">
+          <img src="/Logos/X.svg" alt="Twitter" class="social-icon" />
+        </a>
+        <a v-if="tiktokLink" :href="tiktokLink" target="_blank">
+          <img src="/Logos/TikTok.webp" alt="TikTok" class="social-icon" />
+        </a>
+        <a v-if="instagramLink" :href="instagramLink" target="_blank">
+          <img
+            src="/Logos/Instagram.webp"
+            alt="Instagram"
+            class="social-icon"
+          />
+        </a>
+        <a v-if="linkedinLink" :href="linkedinLink" target="_blank">
+          <img src="/Logos/LinkedIn.webp" alt="LinkedIn" class="social-icon" />
+        </a>
       </div>
     </div>
   </div>
 </template>
+
 
 <script setup>
 const props = defineProps({
@@ -42,6 +47,22 @@ const props = defineProps({
   imageSrc: {
     type: String,
     required: true,
+  },
+  instagramLink: {
+    type: String,
+    required: false,
+  },
+  tiktokLink: {
+    type: String,
+    required: false,
+  },
+  xLink: {
+    type: String,
+    required: false,
+  },
+  linkedinLink: {
+    type: String,
+    required: false,
   },
 });
 </script>
@@ -90,13 +111,18 @@ const props = defineProps({
 .social-icons {
   margin-top: 1rem;
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
   justify-content: center;
 }
 
 .social-icon {
   width: 30px;
   height: 30px;
+}
+
+img {
+  height: 2rem;
+  width: 2rem;
 }
 
 /* Responsive adjustments */

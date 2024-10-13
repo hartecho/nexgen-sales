@@ -18,19 +18,19 @@
       <SubcomponentsTestimonial
         name="Jaden Schank"
         designation="Sales Rep - Dominion Energy"
-        text="This course transformed my approach to door-to-door sales. The practical tips made it easy to see results fast."
+        text="Door-to-door sales has completely changed how I approach people. The confidence and skills I've gained are unmatched."
         imageSrc="/Portraits/Jaden.webp"
       />
       <SubcomponentsTestimonial
         name="Keegan Rembacz"
         designation="Sales Manager - Aptive"
-        text="I used to struggle with handling objections, but this course gave me the confidence I needed."
+        text="Handling objections used to be tough, but now it feels second nature. The face-to-face experience is invaluable."
         imageSrc="/Portraits/Keegan.webp"
       />
       <SubcomponentsTestimonial
         name="Bennett Crowley"
         designation="Sales Rep - Vivint Solar"
-        text="The strategies taught in this course are game-changers. If you're in sales, you need this training!"
+        text="Going door-to-door has sharpened my communication and closing skills. It’s the best way to learn real sales."
         imageSrc="/Portraits/Bennett.webp"
       />
     </div>

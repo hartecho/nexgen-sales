@@ -1,12 +1,11 @@
 <template>
   <div class="services-offered">
     <div class="header">
-      <h4>SERVICES</h4>
-      <h1>What We Offer</h1>
+      <h4>JOIN OUR TEAM</h4>
+      <h1>Why Work With Us</h1>
       <p>
-        We provide comprehensive services to enhance and support your
-        door-to-door sales performance, covering everything from training to
-        ongoing support.
+        Build a rewarding career in door-to-door sales with unlimited growth,
+        support, and the freedom to succeed.
       </p>
     </div>
 
@@ -14,78 +13,66 @@
       <!-- Left Column -->
       <div class="services-column left">
         <div class="service-item">
-          <img src="/Graphics/SalesStrategy.webp" alt="Sales Strategy" />
+          <img src="/Graphics/SalesStrategy.webp" alt="Sales Skills" />
           <div class="text-content">
-            <h3>Sales Strategy</h3>
+            <h3>Master Sales</h3>
             <p>
-              We build custom strategies that ensure you overcome objections and
-              close deals.
+              Learn the skills you need to approach customers and close deals.
             </p>
           </div>
         </div>
         <div class="service-item">
-          <img src="/Graphics/Database.webp" alt="Database Management" />
+          <img src="/Graphics/Database.webp" alt="Lead Generation" />
           <div class="text-content">
-            <h3>Database Management</h3>
-            <p>
-              Efficient tools to help manage your client information and leads
-              for the best results.
-            </p>
+            <h3>Consistent Leads</h3>
+            <p>We provide steady leads so you can focus on selling.</p>
           </div>
         </div>
         <div class="service-item">
-          <img src="/Graphics/Tech.webp" alt="Technical Infrastructure" />
+          <img src="/Graphics/Tech.webp" alt="Personal Growth" />
           <div class="text-content">
-            <h3>Technical Infrastructure</h3>
-            <p>
-              Robust tools and systems to support seamless sales operations.
-            </p>
+            <h3>Grow Personally</h3>
+            <p>Build confidence and improve communication skills.</p>
           </div>
         </div>
       </div>
 
       <!-- Center Column (with large icon and text) -->
       <div class="center-column">
-        <img
-          src="/Graphics/Features.webp"
-          alt="Web Security"
-          class="large-image"
-        />
-        <h2>Reactive Services</h2>
+        <img src="/Graphics/Features.webp" alt="Success" class="large-image" />
+        <h2>Your Path to Success</h2>
       </div>
 
       <!-- Right Column -->
       <div class="services-column right">
         <div class="service-item">
-          <img src="/Graphics/WebSecurity.webp" alt="Web Security" />
+          <img src="/Graphics/WebSecurity.webp" alt="Financial Freedom" />
           <div class="text-content">
-            <h3>Web Security</h3>
-            <p>
-              Keep your sales platform secure and free from vulnerabilities.
-            </p>
+            <h3>Earn More</h3>
+            <p>Uncapped earning potential—you control your income.</p>
           </div>
         </div>
         <div class="service-item">
-          <img src="/Graphics/CloudSupport.webp" alt="Cloud Support" />
+          <img src="/Graphics/CloudSupport.webp" alt="Work-Life Balance" />
           <div class="text-content">
-            <h3>Cloud Support</h3>
-            <p>Access tools and training material from anywhere at any time.</p>
+            <h3>Work-Life Balance</h3>
+            <p>Create your own schedule with flexible hours.</p>
           </div>
         </div>
         <div class="service-item">
-          <img src="/Graphics/Monitoring.webp" alt="Monitoring Services" />
+          <img src="/Graphics/Monitoring.webp" alt="Team Support" />
           <div class="text-content">
-            <h3>Monitoring Services</h3>
-            <p>
-              We provide real-time monitoring to help track your sales
-              performance and leads.
-            </p>
+            <h3>Team Support</h3>
+            <p>Get guidance and support from our experienced team.</p>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+
+
 
 <script setup>
 </script>
