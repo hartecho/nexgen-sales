@@ -28,7 +28,7 @@
       </div>
       <div class="guarantee">
         <h1>98 %</h1>
-        <p>Success Rate in Hitting Sales Goals</p>
+        <p>Success Rate</p>
       </div>
     </div>
   </div>
