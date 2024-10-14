@@ -28,7 +28,7 @@
       </div>
       <div class="guarantee">
         <h1>7+</h1>
-        <p>locations in the USA</p>
+        <p>Locations in the USA</p>
       </div>
     </div>
   </div>
