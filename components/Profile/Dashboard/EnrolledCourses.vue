@@ -2,7 +2,10 @@
   <section class="course-list">
     <h2 class="course-list__header">Your Enrolled Courses</h2>
 
-    <div v-if="enrolledCourses.length === 0" class="no-courses">
+    <div v-if="!enrolledCourses">
+      <p>Loading...</p>
+    </div>
+    <div v-else-if="enrolledCourses.length === 0" class="no-courses">
       <p>You are not enrolled in any courses.</p>
     </div>
     <div v-else>
