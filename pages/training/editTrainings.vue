@@ -273,11 +273,8 @@ const updateIntro = (event) => {
 };
 
 const updateHeader = ({ author, date }) => {
-  console.log("Author: " + JSON.stringify(author));
-  console.log("Before Update:", selectedTraining.value.author);
   selectedTraining.value.author = author;
   selectedTraining.value.date = date;
-  console.log("After Update:", selectedTraining.value.author);
 };
 
 const updateSection = (index, updatedData) => {

@@ -192,7 +192,7 @@ const handleLoadedMetaData = () => {
 };
 
 const getVideoSource = (videoPath) => {
-  return `/Videos/${videoPath}`;
+  return `${videoPath}`;
 };
 
 onMounted(() => {
@@ -210,7 +210,7 @@ onMounted(() => {
   }
 
   post.value.views++;
-  updateContent();
+  // updateContent(); // Just to update views but doesn't matter for now on trainings.
 });
 
 const updateContent = async () => {
