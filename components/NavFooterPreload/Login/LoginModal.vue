@@ -62,7 +62,10 @@ const handleEmailLogin = async (loginData) => {
   try {
     const response = await $fetch("/api/auth/login", {
       method: "POST",
-      body: { email: loginData.email, password: loginData.password },
+      body: {
+        email: loginData.email.toLowerCase(),
+        password: loginData.password,
+      },
     });
     store.setToken(response.token);
     store.setUser(response.user);
