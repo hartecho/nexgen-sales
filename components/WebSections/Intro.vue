@@ -138,6 +138,11 @@ export default {
   margin: 0;
 }
 
+.guarantee h1,
+.guarantee p {
+  text-align: right;
+}
+
 .projects p,
 .guarantee p {
   font-size: 16px;

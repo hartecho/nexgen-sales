@@ -287,13 +287,16 @@ const submitForm = async () => {
   }
 
   try {
-    const response = await fetch("https://example.com/api/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData.value),
-    });
+    const response = await fetch(
+      "https://8y7wjasxc7.execute-api.us-east-2.amazonaws.com/default/ApplicationSubmit",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData.value),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
