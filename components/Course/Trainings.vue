@@ -229,8 +229,9 @@ h3 {
   .training-entry {
     flex-direction: column;
     align-items: stretch;
-    padding: 0;
+    padding: 0 0 1rem 0;
     margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   }
 
   .training-thumbnail {
@@ -239,6 +240,7 @@ h3 {
 
   .training-link {
     flex-direction: column;
+    align-items: flex-start;
   }
 
   .completed-checkmark {

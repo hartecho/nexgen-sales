@@ -13,7 +13,7 @@
           elevate your career.
         </p> -->
         <div class="social-icons">
-          <a href="https://www.x.com" target="_blank">
+          <!-- <a href="https://www.x.com" target="_blank">
             <img src="/Logos/X.svg" alt="Twitter" class="social-icon" />
           </a>
           <a href="https://www.tiktok.com" target="_blank">
@@ -32,7 +32,7 @@
               alt="LinkedIn"
               class="social-icon"
             />
-          </a>
+          </a> -->
         </div>
       </div>
 

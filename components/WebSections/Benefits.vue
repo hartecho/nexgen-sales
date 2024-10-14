@@ -8,8 +8,8 @@
           class="experience-image"
         />
         <div class="experience-overlay">
-          <span>5Y+</span>
-          <p>Experience</p>
+          <span>6Y+</span>
+          <p>Sales Experience</p>
         </div>
       </div>
       <div class="content">

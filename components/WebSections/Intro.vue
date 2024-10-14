@@ -23,12 +23,12 @@
 
     <div class="stats">
       <div class="projects">
-        <h1>$100K +</h1>
+        <h1>$250K+</h1>
         <p>Potential Annual Earnings</p>
       </div>
       <div class="guarantee">
-        <h1>98 %</h1>
-        <p>Success Rate</p>
+        <h1>7+</h1>
+        <p>locations in the USA</p>
       </div>
     </div>
   </div>

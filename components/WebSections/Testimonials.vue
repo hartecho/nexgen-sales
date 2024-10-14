@@ -17,19 +17,19 @@
     <div class="testimonials-grid">
       <SubcomponentsTestimonial
         name="Jaden Schank"
-        designation="Sales Rep - Dominion Energy"
+        designation="Sales Rep"
         text="Door-to-door sales has completely changed how I approach people. The confidence and skills I've gained are unmatched."
         imageSrc="/Portraits/Jaden.webp"
       />
       <SubcomponentsTestimonial
         name="Keegan Rembacz"
-        designation="Sales Manager - Aptive"
+        designation="Sales Manager"
         text="Handling objections used to be tough, but now it feels second nature. The face-to-face experience is invaluable."
         imageSrc="/Portraits/Keegan.webp"
       />
       <SubcomponentsTestimonial
         name="Bennett Crowley"
-        designation="Sales Rep - Vivint Solar"
+        designation="Sales Rep"
         text="Going door-to-door has sharpened my communication and closing skills. It’s the best way to learn real sales."
         imageSrc="/Portraits/Bennett.webp"
       />

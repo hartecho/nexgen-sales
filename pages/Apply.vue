@@ -8,30 +8,13 @@
         <p class="application-description">
           We're excited that you're interested in joining our team! Please fill out the form below with your details, and we'll get back to you shortly.
         </p>
-        <div class="info-box">
-          <div class="icon-wrap">
-            <img src="/Graphics/Location.svg" alt="location icon" class="icon" />
-          </div>
-          <div class="text-wrap">
-            <h4>Office Location</h4>
-            <p>5830 E 2ND ST PMB 7000 Casper WY 82609</p>
-          </div>
-        </div>
-        <div class="info-box">
-          <div class="icon-wrap">
-            <img src="/Graphics/Phone.svg" alt="phone icon" class="icon" />
-          </div>
-          <div class="text-wrap">
-            <h4>Contact Number</h4>
-            <p>+1 (949) 547-3815</p>
-          </div>
-        </div>
+     
         <div class="info-box">
           <div class="icon-wrap">
             <img src="/Graphics/EmailLogo.svg" alt="mail icon" class="icon" />
           </div>
           <div class="text-wrap">
-            <h4>Email Us</h4>
+            <h4>Questions? Email Us</h4>
             <p>Support@Nexgensalepro.com</p>
           </div>
         </div>
