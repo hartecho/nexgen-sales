@@ -15,7 +15,7 @@
         <SubcomponentsTeamMemberCard
           name="Beau Ruffner"
           title="CEO of Nexgen"
-          description="With over 5 years in the door-to-door sales industry, Beau has mastered the art of persuasion and closing deals."
+          description="With over 6 years in the sales industry, Beau has mastered the art of persuasion and closing deals."
           imageSrc="/Portraits/Beau.webp"
           instagramLink="https://www.instagram.com/beauyadig/"
           linkedinLink="https://www.linkedin.com/in/beau-ruffner-1b2528318"
