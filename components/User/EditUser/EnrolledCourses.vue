@@ -32,6 +32,23 @@
           />
           <label>Current Training Index</label>
         </div>
+
+        <!-- Test Results Section -->
+        <div
+          v-if="enrollment.testResults && enrollment.testResults.length > 0"
+          class="test-results"
+        >
+          <h3>Test Results</h3>
+          <div
+            v-for="(result, testIndex) in enrollment.testResults"
+            :key="testIndex"
+            class="test-result-item"
+          >
+            <p><strong>Question:</strong> {{ result.question }}</p>
+            <p><strong>Answer:</strong> {{ result.answer }}</p>
+          </div>
+        </div>
+
         <button @click="removeEnrollment(index)" class="delete-button">
           Remove
         </button>
@@ -42,8 +59,8 @@
     </button>
   </div>
 </template>
-  
-  <script setup>
+
+<script setup>
 const props = defineProps({
   selectedUser: Object,
 });
@@ -69,6 +86,7 @@ function addNewEnrollment() {
   const newEnrollment = {
     course: "",
     currentTrainingIndex: 0,
+    testResults: [], // Initialize empty test results for new enrollments
   };
   const updatedEnrollments = [
     ...props.selectedUser.enrolledCourses,
@@ -92,8 +110,8 @@ function removeEnrollment(index) {
   emit("updateUser", updatedUser);
 }
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .section {
   padding: 2rem;
   background: #fff;
@@ -184,5 +202,27 @@ h2 {
 .delete-button:hover {
   background-color: #c0392b;
 }
+
+.test-results {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+}
+
+.test-result-item {
+  margin-bottom: 1rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.test-result-item p {
+  margin: 0.5rem 0;
+}
+
+.test-result-item strong {
+  color: #333;
+}
 </style>
-  

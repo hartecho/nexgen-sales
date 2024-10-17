@@ -5,8 +5,22 @@
   >
     <div class="overlay">
       <h1>{{ course?.name || "Loading..." }}</h1>
-      <button v-if="isEnrolled" @click="resumeCourse" class="resume-button">
-        {{ isCourseCompleted ? "Restart Course" : "Resume Course" }}
+      <button
+        v-if="isEnrolled && !areTrainingsCompleted"
+        @click="resumeCourse"
+        class="resume-button"
+      >
+        Resume Course
+      </button>
+      <button
+        v-if="isEnrolled && areTrainingsCompleted && !isCourseCompleted"
+        @click="takeTest"
+        class="resume-button"
+      >
+        Take Course Test
+      </button>
+      <button v-if="isEnrolled && isCourseCompleted" class="resume-button">
+        Course Completed!
       </button>
     </div>
   </div>
@@ -25,16 +39,27 @@ const props = defineProps({
   image: {
     type: String,
   },
+  areTrainingsCompleted: {
+    type: Boolean,
+    required: true,
+  },
   isCourseCompleted: {
     type: Boolean,
     required: true,
   },
 });
 
-const emit = defineEmits(["resume-course"]);
+console.log("props.areTrainingsCompleted: " + props.areTrainingsCompleted);
+console.log("props.isCourseCompleted: " + props.isCourseCompleted);
+
+const emit = defineEmits(["resume-course", "take-test"]);
 
 const resumeCourse = () => {
   emit("resume-course");
+};
+
+const takeTest = () => {
+  emit("take-test");
 };
 </script>
 

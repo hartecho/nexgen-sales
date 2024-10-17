@@ -3,38 +3,56 @@
     <CourseHero
       :course="course || {}"
       :isEnrolled="isEnrolled"
+      :areTrainingsCompleted="areTrainingsCompleted"
       :isCourseCompleted="isCourseCompleted"
       :image="course?.image"
       @resume-course="resumeCourse"
+      @take-test="test = true"
       :loading="loading"
     />
-    <div class="course-page">
-      <CourseSearchBreadcrumbs
-        :currentCourseTitle="course?.name || 'Current Course'"
-      />
-      <div class="course-content">
-        <div class="course-details">
-          <h2 class="title">{{ course?.name || "Loading..." }}</h2>
-          <CourseTrainings
-            :trainings="trainings"
-            :currentTrainingIndex="currentTrainingIndex"
-            :loading="loading"
-            :courseId="courseId || ''"
-          />
-        </div>
+    <transition name="fade" mode="out-in">
+      <div v-if="!test" class="course-page">
+        <CourseSearchBreadcrumbs
+          :currentCourseTitle="course?.name || 'Current Course'"
+        />
+        <div class="course-content">
+          <div class="course-details">
+            <h2 class="title">{{ course?.name || "Loading..." }}</h2>
+            <CourseTrainings
+              :trainings="trainings"
+              :currentTrainingIndex="currentTrainingIndex"
+              :loading="loading"
+              :courseId="courseId || ''"
+            />
+          </div>
 
-        <div class="sidebar">
-          <CourseSidebar
-            :completedTrainings="currentTrainingIndex"
-            :totalTrainings="totalTrainings"
-            :completionPercentage="completionPercentage"
-            :instructor="course?.instructor"
-            :image="getNextTrainingImage"
-            :loading="loading"
-          />
+          <div class="sidebar">
+            <CourseSidebar
+              :completedTrainings="currentTrainingIndex"
+              :totalTrainings="totalTrainings"
+              :completionPercentage="completionPercentage"
+              :instructor="course?.instructor"
+              :image="getNextTrainingImage"
+              :loading="loading"
+            />
+            <CourseTestDash
+              :completed="completionPercentage == 100"
+              :loading="loading"
+              :testResults="currentTestResults()"
+              @takeTest="test = true"
+            />
+          </div>
         </div>
       </div>
-    </div>
+      <div v-else>
+        <CourseTest
+          :test="course.test"
+          :courseId="courseId"
+          :userId="userStore.user._id"
+          :currentScore="currentTestScore()"
+        />
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -46,9 +64,16 @@ const courseStore = useCourseStore();
 const userStore = useUserStore();
 const router = useRouter();
 const loading = ref(true);
+const test = ref(false);
 
 onMounted(async () => {
   courseId.value = router.currentRoute.value.params.id;
+
+  // Check if the query parameter 'test' is set to true
+  if (router.currentRoute.value.query.test === "true") {
+    test.value = true;
+  }
+
   await fetchAndSetCourses();
   loading.value = false;
 });
@@ -74,6 +99,30 @@ const fetchAndSetCourses = async () => {
   }
 
   loading.value = false;
+};
+
+const currentTestScore = () => {
+  const currentCourse = userStore.user.enrolledCourses.find(
+    (c) => c.course === courseId.value
+  );
+  if (currentCourse) {
+    return currentCourse.testScore;
+  }
+  return null;
+};
+
+const currentTestResults = () => {
+  const currentCourse = userStore.user.enrolledCourses.find(
+    (c) => c.course === courseId.value
+  );
+  if (
+    currentCourse &&
+    currentCourse.testResults != null &&
+    currentCourse.testResults.length > 0
+  ) {
+    return currentCourse.testResults;
+  }
+  return null;
 };
 
 const fetchAndSetTrainings = async () => {
@@ -141,6 +190,10 @@ const completionPercentage = computed(() => {
 });
 
 const isCourseCompleted = computed(() => {
+  return areTrainingsCompleted.value && currentTestResults() != null;
+});
+
+const areTrainingsCompleted = computed(() => {
   return currentTrainingIndex.value === totalTrainings.value;
 });
 

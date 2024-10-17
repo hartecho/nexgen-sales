@@ -30,6 +30,11 @@
         @delete-course="deleteCourse"
       />
     </div>
+    <!-- Add/Remove Test -->
+    <CourseEditCourseTest
+      :selectedCourse="selectedCourse"
+      @updateCourse="updateSelectedCourse"
+    />
 
     <!-- Notification Popup -->
     <SubcomponentsNotificationPopup

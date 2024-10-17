@@ -2,10 +2,7 @@
   <nav class="breadcrumb" aria-label="Breadcrumb">
     <ul class="breadcrumb-list">
       <li class="breadcrumb-item">
-        <NuxtLink to="/">Home</NuxtLink>
-      </li>
-      <li class="breadcrumb-item">
-        <NuxtLink to="/portal">Portal</NuxtLink>
+        <NuxtLink to="/portal">Dashboard</NuxtLink>
       </li>
       <li class="breadcrumb-item active" aria-current="page">
         {{ currentCourseTitle }}

@@ -8,6 +8,7 @@
           :loadedImages="loadedImages"
           :selectedTag="selectedTag"
           @view-course="goToCourse"
+          @take-course-test="goToCourseTest"
           @update:loadedImages="updateLoadedImages"
         />
       </div>
@@ -73,6 +74,13 @@ const paginatedCourses = computed(() => {
 // Handle course navigation
 const goToCourse = (courseId) => {
   router.push(`/course/${courseId}`);
+};
+
+const goToCourseTest = (courseId) => {
+  router.push({
+    path: `/course/${courseId}`,
+    query: { test: true },
+  });
 };
 
 // Handle image loading status

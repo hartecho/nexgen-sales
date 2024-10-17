@@ -32,7 +32,7 @@
           <span v-if="isTrainingCompleted(index)" class="completed-checkmark">
             ✔
           </span>
-          <div class="arrow-indicator">➡️</div>
+          <div v-else class="arrow-indicator">➡️</div>
         </NuxtLink>
         <div v-else class="training-link">
           <div class="training-thumbnail">

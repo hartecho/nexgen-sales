@@ -50,8 +50,31 @@
                 {{ calculateCompletion(course._id) }}% completed
               </span>
             </div>
-            <button class="view-course-button" @click="goToCourse(course._id)">
+            <button
+              v-if="!areTrainingsCompleted(course._id)"
+              class="view-course-button"
+              @click="goToCourse(course._id)"
+            >
               Resume Course
+            </button>
+
+            <button
+              v-else-if="
+                areTrainingsCompleted(course._id) &&
+                !isCourseCompleted(course._id)
+              "
+              class="view-course-button"
+              @click="goToCourseTest(course._id)"
+            >
+              Take Course Test
+            </button>
+
+            <button
+              v-else-if="isCourseCompleted(course._id)"
+              class="view-course-button"
+              @click="goToCourse(course._id)"
+            >
+              View Course
             </button>
 
             <!-- Show completion message if course is completed -->
@@ -82,10 +105,18 @@ const props = defineProps({
 });
 
 const userStore = useUserStore();
-const emit = defineEmits(["view-course", "update:loadedImages"]);
+const emit = defineEmits([
+  "view-course",
+  "take-course-test",
+  "update:loadedImages",
+]);
 
 const goToCourse = (courseId) => {
   emit("view-course", courseId);
+};
+
+const goToCourseTest = (courseId) => {
+  emit("take-course-test", courseId);
 };
 
 // Check if the user is already enrolled in a course
@@ -119,8 +150,28 @@ function calculateCompletion(courseId) {
 }
 
 // Check if the course is completed
-function isCourseCompleted(courseId) {
+function areTrainingsCompleted(courseId) {
   return calculateCompletion(courseId) === 100;
+}
+
+function isCourseCompleted(courseId) {
+  const enrolledCourse = userStore.user?.enrolledCourses?.find(
+    (enrolled) => enrolled.course === courseId
+  );
+
+  const totalTrainings = props.paginatedCourses.find(
+    (course) => course._id === courseId
+  )?.trainings.length;
+
+  if (!enrolledCourse || !totalTrainings) return 0;
+
+  const currentTrainingIndex = enrolledCourse.currentTrainingIndex;
+  const trainingsCompleted = currentTrainingIndex == totalTrainings;
+
+  const testTaken =
+    enrolledCourse.testResults != null && enrolledCourse.testResults.length > 0;
+
+  return trainingsCompleted && testTaken;
 }
 
 // Enroll in a course
@@ -295,6 +346,7 @@ const onImageLoad = (index) => {
 .completed-status {
   color: green;
   font-weight: bold;
+  margin-left: 1rem;
 }
 
 @media (max-width: 1100px) {
@@ -321,6 +373,11 @@ const onImageLoad = (index) => {
 
   .view-course-button {
     width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .completed-status {
+    margin-left: 0;
   }
 }
 </style>

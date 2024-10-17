@@ -115,6 +115,18 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0,
       },
+      testResults: [
+        {
+          question: {
+            type: String,
+            required: true,
+          },
+          answer: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
     },
   ],
   created_at: {

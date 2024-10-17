@@ -71,21 +71,33 @@ export default defineEventHandler(async (event) => {
       const updatedEnrolledCourses = body.enrolledCourses.map((course) => ({
         course: course.course, // Use the existing course ID directly
         currentTrainingIndex: course.currentTrainingIndex || 0,
+        testScore: course.testScore || null, // Add the testScore update
+        testResults: course.testResults || [] // Store questions and answers
       }));
       existingUser.enrolledCourses = updatedEnrolledCourses;
     }
 
     // Increment the current training index for the specific course if courseId is provided
-    if (body.courseId && body.currentTrainingIndex) {
+    if (body.courseId) {
       console.log("Current training index: " + body.currentTrainingIndex);
       const courseIndex = existingUser.enrolledCourses.findIndex(
         (course) => course.course.toString() === body.courseId
       );
 
       if (courseIndex > -1) {
+        // Update the currentTrainingIndex if provided
         if (body.currentTrainingIndex > existingUser.enrolledCourses[courseIndex].currentTrainingIndex) {
-          existingUser.enrolledCourses[courseIndex].currentTrainingIndex = body.currentTrainingIndex; // Increment index if we just took the latest training.
+          existingUser.enrolledCourses[courseIndex].currentTrainingIndex = body.currentTrainingIndex;
+        }
 
+        // Update the testScore if provided and it's different
+        if (body.testScore !== null && body.testScore !== existingUser.enrolledCourses[courseIndex].testScore) {
+          existingUser.enrolledCourses[courseIndex].testScore = body.testScore;
+        }
+
+        // Handle test questions and answers submission
+        if (Array.isArray(body.testResults)) {
+          existingUser.enrolledCourses[courseIndex].testResults = body.testResults;
         }
       } else {
         console.error(`Error: Course with id ${body.courseId} not found in enrolledCourses`);

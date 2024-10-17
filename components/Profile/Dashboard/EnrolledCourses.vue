@@ -45,7 +45,7 @@
 
           <div v-if="course.trainings.length" class="next-training-section">
             <p>
-              <b>Next Training:</b>
+              <b>Next Training: </b>
               {{
                 getNextTraining(course)?.mainTitle || "All Trainings Completed"
               }}
@@ -59,12 +59,35 @@
           </div>
 
           <button
-            v-if="getNextTraining(course)"
+            v-if="!areTrainingsCompleted(course)"
             class="view-course-button"
-            @click="$emit('view-course', course._id)"
+            @click="goToCourse(course)"
           >
             Resume Course
           </button>
+
+          <button
+            v-else-if="
+              areTrainingsCompleted(course) && !isCourseCompleted(course)
+            "
+            class="view-course-button"
+            @click="goToCourseTest(course._id)"
+          >
+            Take Course Test
+          </button>
+
+          <button
+            v-else-if="isCourseCompleted(course)"
+            class="view-course-button"
+            @click="goToCourse(course._id)"
+          >
+            View Course
+          </button>
+
+          <!-- Show completion message if course is completed -->
+          <span v-if="isCourseCompleted(course)" class="completed-status">
+            Course Completed!
+          </span>
         </div>
       </div>
     </div>
@@ -72,9 +95,6 @@
 </template>
   
   <script setup>
-import { useCourseStore } from "@/stores/courseStore";
-import { useUserStore } from "@/stores/userStore";
-
 const props = defineProps({
   enrolledCourses: {
     type: Array,
@@ -84,6 +104,7 @@ const props = defineProps({
 
 const courseStore = useCourseStore();
 const userStore = useUserStore();
+const router = useRouter();
 
 const getNextTraining = (course) => {
   const currentTrainingIndex = getCurrentTrainingIndex(course);
@@ -110,6 +131,52 @@ const calculateCompletion = (course) => {
   const currentTrainingIndex = getCurrentTrainingIndex(course);
   if (currentTrainingIndex === null || !course.trainings.length) return 0;
   return ((currentTrainingIndex / course.trainings.length) * 100).toFixed(0);
+};
+
+function areTrainingsCompleted(course) {
+  const enrolledCourse = userStore.user?.enrolledCourses?.find(
+    (enrolled) => enrolled.course === course._id
+  );
+
+  const totalTrainings = props.enrolledCourses?.find(
+    (enrolled) => enrolled._id === course._id
+  ).trainings?.length;
+
+  if (!enrolledCourse || !totalTrainings) return 0;
+
+  const currentTrainingIndex = enrolledCourse.currentTrainingIndex;
+  return currentTrainingIndex == totalTrainings;
+}
+
+function isCourseCompleted(course) {
+  const enrolledCourse = userStore.user?.enrolledCourses?.find(
+    (enrolled) => enrolled.course === course._id
+  );
+
+  const totalTrainings = props.enrolledCourses?.find(
+    (enrolled) => enrolled._id === course._id
+  ).trainings?.length;
+
+  if (!enrolledCourse || !totalTrainings) return 0;
+
+  const currentTrainingIndex = enrolledCourse.currentTrainingIndex;
+  const trainingsCompleted = currentTrainingIndex == totalTrainings;
+
+  const testTaken =
+    enrolledCourse.testResults != null && enrolledCourse.testResults.length > 0;
+
+  return trainingsCompleted && testTaken;
+}
+
+const goToCourse = (courseId) => {
+  router.push(`/course/${courseId}`);
+};
+
+const goToCourseTest = (courseId) => {
+  router.push({
+    path: `/course/${courseId}`,
+    query: { test: true },
+  });
 };
 </script>
   
@@ -229,7 +296,7 @@ const calculateCompletion = (course) => {
   border: none;
   cursor: pointer;
   border-radius: 5px;
-  /* margin-top: 10px; */
+  margin-top: 10px;
   width: 11rem;
 }
 
@@ -241,6 +308,12 @@ const calculateCompletion = (course) => {
   text-align: center;
   font-size: 1.1rem;
   color: #888;
+}
+
+.completed-status {
+  color: green;
+  font-weight: bold;
+  margin-top: 1rem;
 }
 
 @media (max-width: 1100px) {
@@ -267,6 +340,10 @@ const calculateCompletion = (course) => {
 
   .view-course-button {
     width: 100%;
+  }
+
+  .completed-status {
+    margin-top: 0;
   }
 }
 </style>
