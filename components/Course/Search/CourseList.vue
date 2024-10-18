@@ -32,7 +32,7 @@
           <button
             v-if="!isEnrolled(course._id)"
             class="enroll-button"
-            @click="enrollInCourse(course._id)"
+            @click="enrollInCourse(course._id, course.name)"
           >
             Enroll
           </button>
@@ -175,14 +175,14 @@ function isCourseCompleted(courseId) {
 }
 
 // Enroll in a course
-async function enrollInCourse(courseId) {
+async function enrollInCourse(courseId, courseName) {
   try {
     const enrolledCourses = userStore.user.enrolledCourses || [];
 
     // Create or update the enrolledCourses array, adding a new course with its correct ID
     const updatedEnrolledCourses = [
       ...enrolledCourses,
-      { course: courseId, currentTrainingIndex: 0 }, // Pass the correct courseId
+      { course: courseId, currentTrainingIndex: 0, name: courseName }, // Pass the correct courseId
     ];
 
     // Update user with the new course

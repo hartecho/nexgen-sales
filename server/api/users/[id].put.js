@@ -22,9 +22,8 @@ export default defineEventHandler(async (event) => {
 
   try {
     // Retrieve the current user by id
-    console.log("userId sent to server: " + userId);
+    // console.log("userId sent to server: " + userId);
     const existingUser = await User.findById(userId);
-    console.log("User fetched: " + existingUser);
 
     if (!existingUser) {
       console.error(`Error: User with id ${userId} not found`);
@@ -77,6 +76,26 @@ export default defineEventHandler(async (event) => {
       existingUser.enrolledCourses = updatedEnrolledCourses;
     }
 
+    if (body.grade) {
+      existingUser.grade = body.grade;
+    }
+
+    if (body.adminDescription) {
+      existingUser.adminDescription = body.adminDescription;
+    }
+
+    if (body.preferredName) {
+      existingUser.preferredName = body.preferredName;
+    }
+
+    if (body.dateOfBirth) {
+      existingUser.dateOfBirth = body.dateOfBirth;
+    }
+
+    if (body.contact) {
+      existingUser.contact = body.contact;
+    }
+
     // Increment the current training index for the specific course if courseId is provided
     if (body.courseId) {
       console.log("Current training index: " + body.currentTrainingIndex);
@@ -109,6 +128,7 @@ export default defineEventHandler(async (event) => {
     // Update basic fields
     existingUser.name = body.name || existingUser.name;
     existingUser.email = body.email || existingUser.email;
+    existingUser.role = body.role || existingUser.role; // Update the user role if provided
 
     // Update password if provided
     if (body.password) {

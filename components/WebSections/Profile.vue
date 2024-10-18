@@ -4,11 +4,12 @@
       <div class="logo-wrapper">
         <img src="/Logos/NexgenLogo.webp" alt="Logo" />
       </div>
+      <!-- Use computedSections and apply the active class similar to the first component -->
       <div
-        v-for="section in sections"
+        v-for="section in computedSections"
         :key="section.name"
         class="nav-item"
-        :class="{ active: isActive(section.name) }"
+        :class="{ active: isActive(section.name, false) }"
         @click="
           section.name === 'logout'
             ? handleLogout()
@@ -30,7 +31,7 @@
             v-for="sub in section.subSections"
             :key="sub.name"
             class="sub-item"
-            :class="{ active: isActive(sub.name) }"
+            :class="{ active: isActive(sub.name, true) }"
             @click="setActiveSection(sub.name)"
           >
             {{ sub.title }}
@@ -51,20 +52,46 @@
         <ProfileCourses v-else-if="currentSection == 'courses'" />
         <ProfileShop v-else-if="currentSection == 'shop'" />
         <ProfileSupport v-else-if="currentSection == 'support'" />
+        <ProfileAdminReps
+          v-else-if="currentSection == 'reps' && userStore.user.role == 'admin'"
+        />
+        <ProfileAdminEditUsers
+          v-else-if="
+            currentSection == 'edit-users' && userStore.user.role == 'admin'
+          "
+        />
+        <ProfileAdminEditCourses
+          v-else-if="
+            currentSection == 'edit-courses' && userStore.user.role == 'admin'
+          "
+        />
+        <ProfileAdminEditTrainings
+          v-else-if="
+            currentSection == 'edit-trainings' && userStore.user.role == 'admin'
+          "
+        />
+        <ProfileAdminEditBlogs
+          v-else-if="
+            currentSection == 'edit-blogs' && userStore.user.role == 'admin'
+          "
+        />
       </transition>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useRouter } from "vue-router"; // Import router to handle routes
 
+const router = useRouter();
 const currentSection = ref("dashboard");
 const dropdowns = ref({});
 const userStore = useUserStore();
 
 const isSidebarVisible = ref(false);
 
+// Admin and regular sections
 const sections = [
   { name: "dashboard", hasDropdown: false, title: "Dashboard", icon: "Dash" },
   { name: "courses", hasDropdown: false, title: "Courses", icon: "Wishlist" },
@@ -78,23 +105,81 @@ const sections = [
   { name: "logout", hasDropdown: false, title: "Logout", icon: "Logout" },
 ];
 
-const isActive = (section) =>
-  currentSection.value === section ||
-  currentSection.value.startsWith(section) ||
-  isSubsectionActive(section);
+const adminSections = [
+  { name: "dashboard", hasDropdown: false, title: "Dashboard", icon: "Dash" },
+  { name: "courses", hasDropdown: false, title: "Courses", icon: "Wishlist" },
+  {
+    name: "profile",
+    hasDropdown: false,
+    title: "Profile & Preferences",
+    icon: "Profile",
+  },
+  { name: "support", hasDropdown: false, title: "Support", icon: "Support" },
+  { name: "logout", hasDropdown: false, title: "Logout", icon: "Logout" },
+  {
+    name: "admin",
+    hasDropdown: true,
+    title: "Admin Console",
+    icon: "Orders",
+    subSections: [
+      { name: "reps", title: "Reps" },
+      { name: "edit-users", title: "Edit Users" },
+      { name: "edit-courses", title: "Edit Courses" },
+      { name: "edit-trainings", title: "Edit Trainings" },
+      { name: "edit-blogs", title: "Edit Blogs" },
+    ],
+  },
+];
 
-const toggleDropdown = (section) => {
-  if (sections.find((s) => s.name === section)?.hasDropdown) {
-    dropdowns.value[section] = !dropdowns.value[section];
+// Computed sections based on user role
+const computedSections = computed(() => {
+  const role = userStore.user.role;
+  return role === "admin" ? adminSections : sections;
+});
+
+// Function to check if a section or subsection is active
+const isActive = (sectionName, isSubsection = false) => {
+  // Check if it's a subsection
+  if (isSubsection) {
+    return currentSection.value === sectionName;
+  }
+  // Check if the parent section is active or if any of its subsections are active
+  const hasActiveChild = isSubsectionActive(sectionName);
+  return currentSection.value === sectionName || hasActiveChild;
+};
+
+// Toggle dropdown visibility for sections with subsections
+const toggleDropdown = (sectionName) => {
+  const section = computedSections.value.find((s) => s.name === sectionName);
+
+  if (section?.hasDropdown) {
+    dropdowns.value[sectionName] = !dropdowns.value[sectionName];
   } else {
-    setActiveSection(section);
+    setActiveSection(sectionName);
   }
 };
 
-const handleLogout = () => {
-  userStore.logout();
+// Check if any subsection is active
+const isSubsectionActive = (parentSection) => {
+  return computedSections.value
+    .find((s) => s.name === parentSection)
+    ?.subSections?.some((sub) => currentSection.value === sub.name);
 };
 
+// Set the active section or subsection
+const setActiveSection = (sectionName) => {
+  currentSection.value = sectionName;
+
+  // Close all dropdowns after setting the active section
+  Object.keys(dropdowns.value).forEach((key) => {
+    dropdowns.value[key] = false;
+  });
+
+  // Hide the sidebar on mobile devices
+  isSidebarVisible.value = false;
+};
+
+// Get the appropriate arrow icon for sections with dropdowns
 const getArrowSrc = (section) => {
   const isDropdownOpen = dropdowns.value[section];
   const hasActiveSubsection = isSubsectionActive(section);
@@ -107,20 +192,13 @@ const getArrowSrc = (section) => {
     : `/ProfilePics/DownArrow.svg`;
 };
 
+// Get the icon source for sections
 const getImageSrc = (baseName, section) =>
   `/ProfilePics/${isActive(section) ? baseName + "Active" : baseName}.svg`;
 
-const isSubsectionActive = (parentSection) =>
-  sections
-    .find((s) => s.name === parentSection)
-    ?.subSections?.some((sub) => currentSection.value === sub.name);
-
-const setActiveSection = (section) => {
-  currentSection.value = section;
-  Object.keys(dropdowns.value).forEach((key) => {
-    dropdowns.value[key] = false;
-  });
-  isSidebarVisible.value = false;
+// Handle logout
+const handleLogout = () => {
+  userStore.logout();
 };
 
 const emit = defineEmits(["hide-loading"]);
@@ -205,6 +283,17 @@ h3 {
 .sub-menu {
   padding-left: 1rem;
   padding-top: 0.5rem;
+}
+
+.sub-item {
+  margin-bottom: 1rem;
+  cursor: pointer;
+  color: #aaaaaa;
+  font-size: 1rem;
+}
+
+.sub-item.active {
+  color: white;
 }
 
 .content-section {

@@ -4,7 +4,7 @@
 
     <h2>
       This test contains a series of open-ended questions that will give us a
-      better idea of how well you understood the course and your ability to
+      better idea of how well you understand the course and your ability to
       apply the knowledge to real-world situations.
     </h2>
 
@@ -39,14 +39,14 @@
     <!-- Modal Popup when test is submitted -->
     <div v-if="submitted" class="modal-overlay">
       <div class="modal-content">
-        <h2>Test Submitted</h2>
+        <h2>Test Submitted!</h2>
         <p>
           Your test results have been submitted for review. Please make sure all
           your documents are also submitted. You will be notified once your
           results are available.
         </p>
-        <button @click="returnToCourse" class="return-button">
-          Return to Course
+        <button @click="returnToDashboard" class="return-button">
+          Return to Dashboard
         </button>
       </div>
     </div>
@@ -102,8 +102,8 @@ async function submitTest() {
 }
 
 // Refresh the page to simulate returning to the course
-function returnToCourse() {
-  window.location.reload();
+function returnToDashboard() {
+  useRouter().push("/portal");
 }
 </script>
 
@@ -157,13 +157,13 @@ h3 {
 }
 
 .submit-button {
-  padding: 1rem 2rem;
+  padding: 10px 20px;
   font-size: 1.2rem;
   font-weight: 600;
   background-color: #4caf50;
   color: white;
   border: none;
-  border-radius: 6px;
+  /* border-radius: 6px; */
   cursor: pointer;
   transition: background-color 0.3s, box-shadow 0.3s;
 }
@@ -214,11 +214,10 @@ h3 {
 }
 
 .return-button {
-  padding: 1rem 2.5rem;
+  padding: 10px 20px;
   background-color: #2196f3;
   color: white;
   border: none;
-  border-radius: 6px;
   cursor: pointer;
   font-size: 1.2rem;
   font-weight: 600;

@@ -6,6 +6,22 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  preferredName: {
+    type: String,
+    required: false
+  },
+  dateOfBirth: {
+    type: Date,
+    required: false, // Set to true if you want to make it mandatory
+    validate: {
+      validator: function(value) {
+        // Ensure the date of birth is in the past
+        return value <= new Date();
+      },
+      message: 'Date of birth must be in the past.',
+    },
+    default: null, // Can be null initially, no default date
+  },
   email: {
     type: String,
     required: true,
@@ -23,6 +39,28 @@ const userSchema = new mongoose.Schema({
   bio: {
     type: String,
     default: '',
+  },
+  contact: {
+    phone: {
+      type: String,
+      default: '',
+    },
+    street: {
+      type: String,
+      default: '',
+    },
+    city: {
+      type: String,
+      default: '',
+    },
+    state: {
+      type: String,
+      default: '',
+    },
+    zip: {
+      type: String,
+      default: '',
+    },
   },
   shippingAddresses: [
     {
@@ -111,6 +149,10 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course',
       },
+      name: {
+        type: String,
+        default: ''
+      },
       currentTrainingIndex: {
         type: Number,
         default: 0,
@@ -129,6 +171,16 @@ const userSchema = new mongoose.Schema({
       ],
     },
   ],
+  // New grade and adminDescription fields
+  grade: {
+    type: String,
+    enum: ['Highly Promising', 'Promising', 'Average', 'Needs Improvement', 'Not Suitable', 'Ungraded'],
+    default: 'Ungraded', // Default value for new users
+  },
+  adminDescription: {
+    type: String,
+    default: '', // Admin feedback about the user's potential
+  },
   created_at: {
     type: Date,
     default: Date.now,

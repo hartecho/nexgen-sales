@@ -12,6 +12,7 @@
     <!-- Enrolled Courses Section -->
     <ProfileDashboardEnrolledCourses
       :enrolledCourses="enrolledCourses"
+      :loading="loading"
       @view-course="goToCourse"
     />
   </div>
@@ -22,9 +23,11 @@ const courseStore = useCourseStore();
 const userStore = useUserStore();
 const router = useRouter();
 const enrolledCourses = ref([]);
+const loading = ref(true);
 
 onMounted(async () => {
   await fetchEnrolledCoursesAndTrainings();
+  loading.value = false;
 });
 
 const fetchEnrolledCoursesAndTrainings = async () => {

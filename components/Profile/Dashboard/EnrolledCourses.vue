@@ -2,10 +2,13 @@
   <section class="course-list">
     <h2 class="course-list__header">Your Enrolled Courses</h2>
 
-    <div v-if="!enrolledCourses">
-      <p>Loading...</p>
+    <div v-if="loading" class="spinner-wrapper">
+      <div class="spinner"></div>
     </div>
-    <div v-else-if="enrolledCourses.length === 0" class="no-courses">
+    <div
+      v-else-if="!loading && enrolledCourses.length === 0"
+      class="no-courses"
+    >
       <p>You are not enrolled in any courses.</p>
     </div>
     <div v-else>
@@ -100,6 +103,10 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  loading: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 const courseStore = useCourseStore();
@@ -186,6 +193,30 @@ const goToCourseTest = (courseId) => {
   margin-bottom: 2rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.spinner-wrapper {
+  min-height: 15rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #007bff;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .course-entry {

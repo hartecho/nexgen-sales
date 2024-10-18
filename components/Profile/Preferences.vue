@@ -13,9 +13,7 @@
         <div class="profile-image-wrapper" @click="triggerFileInput">
           <img
             class="profile-image"
-            :src="
-              userStore.user.profilePicture || 'https://via.placeholder.com/150'
-            "
+            :src="userStore.user.profilePicture || '/Logos/NexgenLogo.webp'"
             alt="Profile Image"
           />
           <div class="edit-icon">
@@ -79,24 +77,8 @@
     <div class="personal-section">
       <div class="input-grid three-columns">
         <div class="input-field">
-          <label for="first-name">First Name</label>
-          <input
-            type="text"
-            id="first-name"
-            v-model="userStore.user.firstName"
-          />
-        </div>
-        <div class="input-field">
-          <label for="middle-name">Middle Name</label>
-          <input
-            type="text"
-            id="middle-name"
-            v-model="userStore.user.middleName"
-          />
-        </div>
-        <div class="input-field">
-          <label for="last-name">Last Name</label>
-          <input type="text" id="last-name" v-model="userStore.user.lastName" />
+          <label for="first-name">Full Name</label>
+          <input type="text" id="first-name" v-model="userStore.user.name" />
         </div>
         <div class="input-field">
           <label for="preferred-name">Preferred Name</label>
@@ -108,7 +90,7 @@
         </div>
         <div class="input-field">
           <label for="dob">Date of Birth</label>
-          <input type="date" id="dob" v-model="userStore.user.dateOfBirth" />
+          <input type="date" id="dob" v-model="formattedDateOfBirth" />
         </div>
       </div>
       <button class="confirm-button" @click="savePersonalChanges">
@@ -129,24 +111,36 @@
           <input
             type="tel"
             id="phone-number"
-            v-model="userStore.user.phoneNumber"
+            v-model="userStore.user.contact.phone"
           />
         </div>
         <div class="input-field">
           <label for="address">Address</label>
-          <input type="text" id="address" v-model="userStore.user.address" />
+          <input
+            type="text"
+            id="address"
+            v-model="userStore.user.contact.street"
+          />
         </div>
         <div class="input-field">
           <label for="city">City</label>
-          <input type="text" id="city" v-model="userStore.user.city" />
+          <input type="text" id="city" v-model="userStore.user.contact.city" />
         </div>
         <div class="input-field">
           <label for="state">State</label>
-          <input type="text" id="state" v-model="userStore.user.state" />
+          <input
+            type="text"
+            id="state"
+            v-model="userStore.user.contact.state"
+          />
         </div>
         <div class="input-field">
           <label for="zip-code">Zip Code</label>
-          <input type="text" id="zip-code" v-model="userStore.user.zipCode" />
+          <input
+            type="text"
+            id="zip-code"
+            v-model="userStore.user.contact.zip"
+          />
         </div>
       </div>
       <button class="confirm-button" @click="saveContactChanges">
@@ -157,12 +151,26 @@
 </template>
 
 <script setup>
+import { ref, computed } from "vue";
+
 const userStore = useUserStore();
 const fileInput = ref(null);
 const password = ref("");
 const confirmPassword = ref("");
 const notificationMessage = ref("");
 const notificationType = ref("info");
+
+// Computed property to format the date for the input field
+const formattedDateOfBirth = computed({
+  get() {
+    return userStore.user.dateOfBirth
+      ? new Date(userStore.user.dateOfBirth).toISOString().split("T")[0]
+      : "";
+  },
+  set(value) {
+    userStore.user.dateOfBirth = value ? new Date(value).toISOString() : null;
+  },
+});
 
 // Trigger the hidden file input
 const triggerFileInput = () => {
@@ -203,13 +211,7 @@ const uploadImage = async (event) => {
               method: "DELETE",
               body: { key: oldKey },
             });
-            console.log(
-              `Old profile picture (${oldKey}) deleted successfully.`
-            );
           } catch (deleteError) {
-            console.error(
-              `Failed to delete old profile picture: ${deleteError.message}`
-            );
             showNotification(
               "New profile image uploaded, but failed to delete the old one.",
               "warning"
@@ -219,14 +221,10 @@ const uploadImage = async (event) => {
 
         showNotification("Profile image updated successfully!", "success");
       } catch (updateError) {
-        console.error(
-          "Error updating user profile image: " + updateError.message
-        );
         showNotification("Error updating user profile image.", "error");
       }
     }
   } catch (uploadError) {
-    console.error("Failed to upload image: " + uploadError.message);
     showNotification("Failed to upload image.", "error");
   }
 };
@@ -251,12 +249,30 @@ const saveAccountChanges = async () => {
 
 // Save Personal Changes
 const savePersonalChanges = async () => {
-  showNotification("Personal details updated successfully!", "success");
+  try {
+    const userResponse = await $fetch(`/api/users/${userStore.user._id}`, {
+      method: "PUT",
+      body: userStore.user,
+    });
+    userStore.setUser(userResponse);
+    showNotification("Personal details updated successfully!", "success");
+  } catch (error) {
+    showNotification("Error updating personal changes.", "error");
+  }
 };
 
 // Save Contact Changes
 const saveContactChanges = async () => {
-  showNotification("Contact details updated successfully!", "success");
+  try {
+    const userResponse = await $fetch(`/api/users/${userStore.user._id}`, {
+      method: "PUT",
+      body: userStore.user,
+    });
+    userStore.setUser(userResponse);
+    showNotification("Contact details updated successfully!", "success");
+  } catch (error) {
+    showNotification("Error updating contact changes.", "error");
+  }
 };
 
 // Show Notification

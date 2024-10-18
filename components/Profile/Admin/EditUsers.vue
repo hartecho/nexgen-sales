@@ -77,39 +77,78 @@
     />
   </div>
 </template>
-
-<script setup>
+  
+  <script setup>
 import { ref, onMounted } from "vue";
 
 // State management
 const users = ref([]);
 const selectedUser = ref({
   name: "",
+  preferredName: "",
+  dateOfBirth: null, // Ensure this is null initially
   email: "",
-  password: "",
+  password: "lakshop8208ydgfu839yWOUGDFasd08y23089yqwe", // Default password
   profilePicture: "",
   bio: "",
-  shippingAddresses: [],
+  contact: {
+    phone: "",
+    street: "",
+    city: "",
+    state: "",
+    zip: "",
+  },
+  shippingAddresses: [
+    {
+      street: "",
+      city: "",
+      state: "",
+      zip: "",
+      country: "",
+      isPrimary: false,
+    },
+  ],
   orders: [],
-  cart: [],
+  cart: [
+    {
+      product: null, // This will store the ObjectId reference to the 'Item' model
+      quantity: 1,
+    },
+  ],
   wishlist: [],
   recentlyViewedItems: [],
-  paymentMethods: [],
+  paymentMethods: [
+    {
+      cardType: "",
+      last4Digits: "",
+      expirationDate: "",
+      cardholderName: "",
+      billingAddress: {
+        street: "",
+        city: "",
+        state: "",
+        zip: "",
+        country: "",
+      },
+    },
+  ],
   accountSettings: {
     emailPreferences: {
       marketingEmails: true,
       offerEmails: true,
       transactionalEmails: true,
+      newsletterEmails: true,
     },
     browserNotifications: {
-      newProductAlerts: true,
-      priceDropAlerts: false,
-      orderStatusUpdates: true,
+      promotional: true,
+      orderUpdates: true,
+      newFeatures: true,
+      personalizedRecommendations: true,
     },
     appPreferences: {
-      theme: "light", // Options: "light", "dark"
-      language: "English",
-      timeZone: "UTC",
+      theme: "light", // Default to "light" theme
+      language: "en", // Default to "en" (English)
+      timeZone: "UTC", // Default timezone
     },
     dataPrivacy: {
       allowPersonalization: true,
@@ -119,8 +158,21 @@ const selectedUser = ref({
       enableAllNotifications: true,
     },
   },
-  role: "customer", // Options: "customer", "admin"
-  enrolledCourses: [],
+  role: "customer", // Default role is customer
+  enrolledCourses: [
+    {
+      course: null, // This will store the ObjectId reference to the 'Course' model
+      currentTrainingIndex: 0,
+      testResults: [
+        {
+          question: "",
+          answer: "",
+        },
+      ],
+    },
+  ],
+  grade: "Ungraded", // Default value for new users
+  adminDescription: "", // Admin feedback about the user's potential
   created_at: new Date().toISOString(),
   updated_at: new Date().toISOString(),
 });
@@ -170,7 +222,6 @@ async function addUser() {
 async function updateUser() {
   try {
     if (selectedUser.value._id) {
-      console.log("selected user role: " + selectedUser.value.role);
       await $fetch(`/api/users/${selectedUser.value._id}`, {
         method: "PUT",
         body: selectedUser.value,
@@ -212,8 +263,8 @@ function updateSelectedUser(updatedUser) {
   selectedUser.value = updatedUser;
 }
 </script>
-
-<style scoped>
+  
+  <style scoped>
 .wrapper {
   padding: 2rem;
   width: 100%;
@@ -259,3 +310,4 @@ h2 {
   text-align: center;
 }
 </style>
+  

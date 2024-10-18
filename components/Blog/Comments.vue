@@ -90,7 +90,6 @@ const submitComment = () => {
   margin-top: 3rem;
   padding: 2rem;
   background: #f9f9f9;
-  border-radius: 8px;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
