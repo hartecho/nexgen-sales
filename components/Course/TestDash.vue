@@ -4,7 +4,7 @@
     <div v-if="!loading">
       <div class="sidebar-graphic">
         <!-- Placeholder graphic for the test instead of an image -->
-        <img src="/graphics/Test.webp" alt="" />
+        <img src="/Graphics/Test.webp" alt="" />
         <div class="test-graphic">
           <span v-if="!completed" class="incomplete-message">
             Complete all trainings to take the test.
