@@ -56,6 +56,9 @@
 <script setup>
 import { ref, computed } from "vue";
 
+const lambdaURL =
+  "https://qkjdq6efid.execute-api.us-east-2.amazonaws.com/default/nexgen-fiber-completion-email";
+
 const props = defineProps({
   test: Array, // The test object passed as a prop
   courseId: String,
@@ -73,7 +76,7 @@ const canSubmit = computed(() => {
   return userAnswers.value.every((answer) => answer.trim() !== "");
 });
 
-// Submit the test
+// Submit the test // ADD TO THIS THE COMPLETION EMAIL WITH CORRECT JOTFORM LINK
 async function submitTest() {
   if (!canSubmit.value) return;
 

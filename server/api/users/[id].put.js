@@ -98,7 +98,6 @@ export default defineEventHandler(async (event) => {
 
     // Increment the current training index for the specific course if courseId is provided
     if (body.courseId) {
-      console.log("Current training index: " + body.currentTrainingIndex);
       const courseIndex = existingUser.enrolledCourses.findIndex(
         (course) => course.course.toString() === body.courseId
       );

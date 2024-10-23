@@ -50,10 +50,6 @@
 </template>
   
   <script setup>
-import { ref, computed, onMounted } from "vue";
-import { useRoute } from "vue-router"; // Import useRoute to access URL parameters
-import { useUserStore } from "@/stores/userStore"; // Assuming you have a user store
-
 const newPassword = ref("");
 const confirmPassword = ref("");
 const message = ref("");
@@ -107,13 +103,13 @@ const handleChangePassword = async () => {
   try {
     // Send the new password along with the userId to update the user's password
     const response = await $fetch(`/api/users/${userId}`, {
-      method: "POST",
-      body: {
-        body: { password: newPassword.value },
-      },
+      method: "PUT",
+      body: { password: newPassword.value },
     });
 
-    if (response.success) {
+    console.log("Response: " + response.password);
+
+    if (response) {
       message.value = "Password changed successfully!";
       messageType.value = "success";
     } else {
