@@ -1,11 +1,15 @@
 import User from '~/server/models/User.js';
+import Transaction from '~/server/models/Transaction.js';
 import { connectDB } from '~/server/utils/dbConnect';
 import { disconnectDB } from '~/server/utils/dbDisconnect';
 
 export default defineEventHandler(async (event) => {
   await connectDB(); // Ensure DB connection
 
+
   try {
+    const randomTransaction = await Transaction.findOne({}); // To ensure User model is registered
+
     // Extract the user ID from the event context (route params)
     const { id } = event.context.params;
 

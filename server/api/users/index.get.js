@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     // Fetch users and populate related fields
-    const transaction = new Transaction();
+    const randomTransaction = await Transaction.findOne({}); // To ensure User model is registered
     const users = await User.find()
       .populate('orders') // Populating orders with Transaction model references
       .populate({
