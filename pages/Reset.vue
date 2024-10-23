@@ -1,18 +1,8 @@
 <template>
   <div class="change-password-container full-width">
-    <!-- Wrapper for the back arrow in the top-left corner -->
-    <div class="back-arrow-wrapper">
-      <img
-        @click="handleBackClick"
-        src="/Graphics/LeftArrowWhite.webp"
-        alt="Back"
-        class="back-arrow"
-      />
-    </div>
-
     <!-- Main Content (Form, Images, etc.) -->
     <div class="change-password-content">
-      <img src="/Graphics/LockIcon.png" alt="Lock Icon" />
+      <img src="/Graphics/EditPencil.svg" alt="Lock Icon" />
       <h2>Reset Your Password</h2>
       <form @submit.prevent="handleChangePassword" class="change-password-form">
         <div class="input-wrapper">
@@ -145,24 +135,9 @@ const handleChangePassword = async () => {
 .change-password-container {
   width: 100%;
   position: relative;
-}
-
-.back-arrow-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 10;
-}
-
-.back-arrow {
-  width: 2.5rem;
-  height: 2.5rem;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.back-arrow:hover {
-  transform: scale(1.1);
+  background: black;
+  width: 100%;
+  height: 100vh;
 }
 
 .change-password-content {
@@ -180,6 +155,7 @@ img {
   height: 3rem;
   width: 3rem;
   margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 h2 {
