@@ -38,8 +38,12 @@ const userStore = useUserStore();
 
 onMounted(async () => {
   if (userStore.user) {
-    const response = await $fetch(`/api/users/${userStore.user._id}`);
-    userStore.setUser(response);
+    try {
+      const response = await $fetch(`/api/users/${userStore.user._id}`);
+      userStore.setUser(response);
+    } catch (e) {
+      console.error("Failed to fetch user data on page load (app.vue): ", e);
+    }
   }
 });
 

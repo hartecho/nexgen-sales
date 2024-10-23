@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
 
         // If no user is found, or the password does not match
         if (!user || !(await bcrypt.compare(password, user.password))) {
-            throw createError({ statusCode: 401, message: 'Invalid credentials' });
+            throw createError({ statusCode: 401, message: 'Invalid Credentials' });
         }
 
         // Creating a JWT for the user
@@ -34,7 +34,7 @@ export default defineEventHandler(async (event) => {
     } catch (error) {
         console.error('Error in POST /api/auth/login:', error);
         if (error.statusCode === 401) {
-            throw createError({ statusCode: 401, message: 'Invalid credentials' });
+            throw createError({ statusCode: 401, message: 'Invalid Credentials' });
         }
         throw createError({ statusCode: 500, message: 'An unexpected error occurred. Please try again later.' });
     } finally {

@@ -163,7 +163,7 @@ const notificationType = ref("info");
 // Computed property to format the date for the input field
 const formattedDateOfBirth = computed({
   get() {
-    return userStore.user.dateOfBirth
+    return userStore.user?.dateOfBirth
       ? new Date(userStore.user.dateOfBirth).toISOString().split("T")[0]
       : "";
   },

@@ -1,4 +1,5 @@
 import User from '~/server/models/User.js';
+import Transaction from '~/server/models/Transaction.js';
 import { connectDB } from '~/server/utils/dbConnect';
 import { disconnectDB } from '~/server/utils/dbDisconnect';
 
@@ -7,6 +8,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     // Fetch users and populate related fields
+    const transaction = new Transaction();
     const users = await User.find()
       .populate('orders') // Populating orders with Transaction model references
       .populate({

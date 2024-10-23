@@ -23,6 +23,9 @@
         @click="handleEmailLogin"
         text="Login"
       />
+      <div class="forgot">
+        <h3 @click="handleForgotPassword">Forgot Your Password?</h3>
+      </div>
       <transition name="fade">
         <div v-if="loginError.general" class="error-message">
           {{ loginError.general }}
@@ -46,7 +49,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["emailLogin", "back"]);
+const emit = defineEmits(["emailLogin", "back", "forgot-password"]);
 
 const email = ref("");
 const password = ref("");
@@ -58,6 +61,10 @@ const handleEmailLogin = () => {
 
 const handleBackClick = () => {
   emit("back");
+};
+
+const handleForgotPassword = () => {
+  emit("forgot-password");
 };
 
 const backArrowSrc = "/BackArrow.svg";
@@ -152,6 +159,21 @@ input:focus::placeholder {
 
 input:disabled::placeholder {
   color: #888; /* Placeholder style for disabled inputs */
+}
+
+.forgot h3 {
+  color: green;
+  font-weight: bold;
+  width: 100%;
+  text-align: right;
+  background: none;
+  border: none;
+  font-size: 1rem;
+}
+
+.forgot h3:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .error-message {

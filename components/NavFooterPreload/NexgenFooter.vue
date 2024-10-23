@@ -78,7 +78,10 @@
 
     <!-- Footer Bottom -->
     <div class="footer-bottom">
-      <p>Copyright 2022 © All Rights Reserved Design by Nexgen Sales LLC</p>
+      <p>
+        Copyright 2022 © All Rights Reserved Design by HARTECHO Digital
+        Marketing
+      </p>
     </div>
   </footer>
 </template>

@@ -1,11 +1,17 @@
 <template>
   <div class="form-container">
     <div class="form-content">
-      <NavFooterPreloadLoginForm
-        :isLoading="isLoading"
-        :loginError="loginError"
-        @emailLogin="handleEmailLogin"
-      />
+      <transition name="fade" mode="out-in">
+        <NavFooterPreloadLoginForm
+          v-if="!forgot"
+          :isLoading="isLoading"
+          :loginError="loginError"
+          @emailLogin="handleEmailLogin"
+          @forgot-password="forgot = true"
+        />
+
+        <NavFooterPreloadLoginForgotPassword v-else @back="forgot = false" />
+      </transition>
 
       <!-- <div class="divider">
         <div class="divider-text">
@@ -33,6 +39,7 @@ const config = useRuntimeConfig();
 const isLoading = ref(false);
 const loginError = ref({});
 const userStore = useUserStore();
+const forgot = ref(false);
 
 const emit = defineEmits([
   "emailSignIn",
