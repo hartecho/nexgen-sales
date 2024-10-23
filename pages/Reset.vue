@@ -138,6 +138,7 @@ const handleChangePassword = async () => {
   background: black;
   width: 100%;
   height: 100vh;
+  padding: 0 1rem;
 }
 
 .change-password-content {

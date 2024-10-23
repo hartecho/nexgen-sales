@@ -4,7 +4,7 @@
     <div class="back-arrow-wrapper">
       <img
         @click="handleBackClick"
-        src="/Graphics/LeftArrowWhite.webp"
+        src="/Graphics/leftArrowWhite.webp"
         alt="Back"
         class="back-arrow"
       />
