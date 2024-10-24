@@ -98,9 +98,9 @@ onMounted(async () => {
 .courses-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   padding: 2rem 0;
-  /* overflow: auto; */
+  min-height: 100vh;
+  height: -webkit-fill-available;
 }
 
 .content-container {

@@ -390,6 +390,7 @@ const showNotification = (message, type) => {
 .personal-section,
 .contact-section {
   padding: 1rem;
+  background-color: #f0f0f0;
 }
 
 .input-grid.two-columns,

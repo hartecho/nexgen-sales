@@ -206,14 +206,6 @@ const handleLogout = () => {
   userStore.logout();
 };
 
-watch(isSidebarVisible, (newVal) => {
-  if (newVal) {
-    document.body.classList.add("locked");
-  } else {
-    document.body.classList.remove("locked");
-  }
-});
-
 const emit = defineEmits(["hide-loading"]);
 emit("hide-loading");
 </script>
@@ -313,7 +305,6 @@ h3 {
   flex: 1;
   background-color: #f0f0f0;
   height: 100vh;
-  /* overflow: auto; */
   transition: margin-left 0.3s ease;
   margin-left: 275px;
   transition: transform 0.3s ease;
@@ -341,7 +332,7 @@ h3 {
 
   .content-section {
     margin-left: 0;
-    overflow-y: auto; /* Ensure that only vertical scrolling is applied */
+    height: -webkit-fill-available;
   }
 
   /* Adjust margins for buttons and other elements */

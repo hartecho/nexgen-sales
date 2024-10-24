@@ -42,9 +42,8 @@ emit("hide-loading");
 
 <style scoped>
 .wrapper {
-  min-height: 100vh;
   background: black;
-  overflow: auto;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on Safari */
 }
 
