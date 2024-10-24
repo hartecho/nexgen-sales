@@ -100,6 +100,7 @@ onMounted(async () => {
   flex-direction: column;
   padding: 2rem 0;
   min-height: 100vh;
+  height: auto;
   height: -webkit-fill-available;
 }
 

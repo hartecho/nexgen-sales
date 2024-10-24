@@ -10,7 +10,17 @@
         <NavFooterPreloadLoginModal />
       </div>
       <div v-else>
-        <WebSectionsProfile />
+        <ProfileSidebar
+          :isSidebarVisible="isSidebarVisible"
+          :currentSection="currentSection"
+          @toggle-sidebar="isSidebarVisible = !isSidebarVisible"
+          @change-section="changeSection"
+        />
+        <WebSectionsProfile
+          :isSidebarVisible="isSidebarVisible"
+          :currentSection="currentSection"
+          @toggle-sidebar="isSidebarVisible = !isSidebarVisible"
+        />
       </div>
     </transition>
   </div>
@@ -20,6 +30,13 @@
 const userStore = useUserStore(); // Assuming you have a user store to check if the user is logged in
 const isLoggedIn = computed(() => !!userStore.token);
 const hydrated = ref(false);
+
+const currentSection = ref("dashboard");
+const isSidebarVisible = ref("true");
+
+const changeSection = (newSection) => {
+  currentSection.value = newSection;
+};
 
 onMounted(() => {
   hydrated.value = true;
@@ -45,7 +62,7 @@ emit("hide-loading");
   min-height: 100vh;
   background: black;
   overflow-y: scroll;
-  overflow-x: none;
+  overflow-x: hidden;
 }
 
 .login-form {

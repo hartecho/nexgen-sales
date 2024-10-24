@@ -4,6 +4,7 @@
       <div class="logo-wrapper">
         <img src="/Logos/NexgenLogo.webp" alt="Logo" />
       </div>
+      <!-- Use computedSections and apply the active class similar to the first component -->
       <div
         v-for="section in computedSections"
         :key="section.name"
@@ -41,14 +42,20 @@
   </transition>
 </template>
   
-  <script setup>
+<script setup>
 import { ref, computed } from "vue";
+import { useRouter } from "vue-router"; // Import router to handle routes
 
-const currentSection = ref("dashboard");
+const router = useRouter();
 const dropdowns = ref({});
 const userStore = useUserStore();
 
-const isSidebarVisible = ref(true);
+const props = defineProps({
+  isSidebarVisible: Boolean,
+  currentSection: String,
+});
+
+const emit = defineEmits(["toggle-sidebar", "change-section"]);
 
 // Admin and regular sections
 const sections = [
@@ -98,32 +105,46 @@ const computedSections = computed(() => {
 
 // Function to check if a section or subsection is active
 const isActive = (sectionName, isSubsection = false) => {
-  if (isSubsection) return currentSection.value === sectionName;
-  return (
-    currentSection.value === sectionName || isSubsectionActive(sectionName)
-  );
+  // Check if it's a subsection
+  if (isSubsection) {
+    return props.currentSection === sectionName;
+  }
+  // Check if the parent section is active or if any of its subsections are active
+  const hasActiveChild = isSubsectionActive(sectionName);
+  return props.currentSection === sectionName || hasActiveChild;
 };
 
 // Toggle dropdown visibility for sections with subsections
 const toggleDropdown = (sectionName) => {
   const section = computedSections.value.find((s) => s.name === sectionName);
-  if (section?.hasDropdown)
+
+  if (section?.hasDropdown) {
     dropdowns.value[sectionName] = !dropdowns.value[sectionName];
-  else setActiveSection(sectionName);
+  } else {
+    setActiveSection(sectionName);
+  }
 };
 
 // Check if any subsection is active
 const isSubsectionActive = (parentSection) => {
   return computedSections.value
     .find((s) => s.name === parentSection)
-    ?.subSections?.some((sub) => currentSection.value === sub.name);
+    ?.subSections?.some((sub) => props.currentSection === sub.name);
 };
 
 // Set the active section or subsection
 const setActiveSection = (sectionName) => {
-  currentSection.value = sectionName;
-  Object.keys(dropdowns.value).forEach((key) => (dropdowns.value[key] = false));
-  if (window.innerWidth <= 768) isSidebarVisible.value = false;
+  emit("change-section", sectionName);
+
+  // Close all dropdowns after setting the active section
+  Object.keys(dropdowns.value).forEach((key) => {
+    dropdowns.value[key] = false;
+  });
+
+  // Hide the sidebar on mobile devices
+  if (window.innerWidth <= 768) {
+    emit("toggle-sidebar");
+  }
 };
 
 // Get the appropriate arrow icon for sections with dropdowns
@@ -144,7 +165,9 @@ const getImageSrc = (baseName, section) =>
   `/ProfilePics/${isActive(section) ? baseName + "Active" : baseName}.svg`;
 
 // Handle logout
-const handleLogout = () => userStore.logout();
+const handleLogout = () => {
+  userStore.logout();
+};
 </script>
   
   <style scoped>
@@ -159,7 +182,6 @@ const handleLogout = () => userStore.logout();
   top: 0;
   left: 0;
   z-index: 10;
-  overflow: hidden;
 }
 
 .logo-wrapper {
@@ -173,6 +195,20 @@ const handleLogout = () => userStore.logout();
 .logo-wrapper img {
   height: 100%;
   width: 100%;
+}
+
+img {
+  height: 20px;
+  width: 20px;
+}
+
+h3 {
+  font-size: 1rem;
+}
+
+.arrow {
+  height: 15px;
+  width: 15px;
 }
 
 .nav-item {
@@ -213,19 +249,13 @@ const handleLogout = () => userStore.logout();
   color: white;
 }
 
-img {
-  height: 20px;
-  width: 20px;
-}
-
-.arrow {
-  height: 15px;
-  width: 15px;
-}
-
 @media (max-width: 768px) {
   .sidebar {
     width: 225px;
+  }
+
+  h3 {
+    font-size: 0.8rem;
   }
 }
 </style>
