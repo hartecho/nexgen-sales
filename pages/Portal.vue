@@ -44,7 +44,8 @@ emit("hide-loading");
 .wrapper {
   min-height: 100vh;
   background: black;
-  overflow: hidden;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on Safari */
 }
 
 .login-form {
