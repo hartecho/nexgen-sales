@@ -162,7 +162,7 @@ input:disabled::placeholder {
 }
 
 .forgot h3 {
-  color: green;
+  color: #28a745;
   font-weight: bold;
   width: 100%;
   text-align: right;

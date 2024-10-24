@@ -48,7 +48,9 @@
         <CourseTest
           :test="course.test"
           :courseId="courseId"
+          :courseName="course.name"
           :userId="userStore.user._id"
+          :userEmail="userStore.user.email"
           :currentScore="currentTestScore()"
         />
       </div>

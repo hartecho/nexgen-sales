@@ -41,12 +41,6 @@
         placeholder="Your Comment"
         class="textarea-field"
       ></textarea>
-      <input
-        type="text"
-        v-model="newComment.url"
-        placeholder="Optional: Your Website URL"
-        class="input-field"
-      />
       <button class="cta-button" @click="submitComment">Submit Comment</button>
     </div>
   </div>
@@ -88,11 +82,8 @@ const submitComment = () => {
 .comments-section {
   margin-top: 3rem;
   padding: 2rem;
-  background: #f9f9f9;
-  border-radius: 8px;
+  background: #f4f4f4;
   max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .comments-section h2 {
@@ -172,7 +163,6 @@ const submitComment = () => {
   background-color: #005ba0;
   color: white;
   padding: 0.75rem 1.5rem;
-  border-radius: 5px;
   font-size: 0.9rem;
   font-weight: bold;
   transition: background-color 0.3s ease-in-out;

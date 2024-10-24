@@ -57,6 +57,13 @@
                 <CourseTrainingReferences :references="post.references" />
               </div>
             </div>
+            <div class="comments">
+              <CourseTrainingComments
+                v-if="post"
+                :comments="post?.comments"
+                @addComment="addComment"
+              />
+            </div>
           </div>
         </div>
 
@@ -70,14 +77,6 @@
           />
         </div>
       </div>
-    </div>
-
-    <div class="comments">
-      <CourseTrainingComments
-        v-if="post"
-        :comments="post?.comments"
-        @addComment="addComment"
-      />
     </div>
   </div>
 </template>
@@ -384,7 +383,6 @@ p {
 
 .comments {
   max-width: 1350px;
-  margin: 0 auto;
 }
 
 @media (max-width: 1024px) {
@@ -430,10 +428,6 @@ p {
 
   .meta-info {
     gap: 1rem;
-  }
-
-  .comments {
-    padding: 0 1rem;
   }
 }
 </style>

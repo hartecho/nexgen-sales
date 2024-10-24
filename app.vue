@@ -178,13 +178,9 @@ form button {
 </style>
   
   <style>
-@import "./css/Dividers/PointBot.css";
-@import "./css/ButtonStyles/DarkButton.css";
-@import "./css/ButtonStyles/ResonateButtonDark.css";
-@import "./css/ButtonStyles/BubbleButton.css";
-@import "./css/ButtonStyles/OrangeButton.css";
 @import "./css/ButtonStyles/ContactBannerButton.css";
 @import "./css/Transitions/Fade.css";
+@import "./css/Transitions/Slide.css";
 
 *,
 html {

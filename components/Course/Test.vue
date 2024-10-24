@@ -41,9 +41,10 @@
       <div class="modal-content">
         <h2>Test Submitted!</h2>
         <p>
-          Your test results have been submitted for review. Please make sure all
-          your documents are also submitted. You will be notified once your
-          results are available.
+          Your test results have been submitted for review. Please check your
+          email (the email associated with this account) for a final application
+          link. Once the application is submitted, we will evaluate your results
+          and get back to you shortly. Thank you!
         </p>
         <button @click="returnToDashboard" class="return-button">
           Return to Dashboard
@@ -56,16 +57,28 @@
 <script setup>
 import { ref, computed } from "vue";
 
-const lambdaURL =
-  "https://qkjdq6efid.execute-api.us-east-2.amazonaws.com/default/nexgen-fiber-completion-email";
+const APIGatewayURL =
+  "https://my5jf6zaii.execute-api.us-east-2.amazonaws.com/default";
 
 const props = defineProps({
   test: Array, // The test object passed as a prop
   courseId: String,
+  courseName: String,
   userId: String,
+  userEmail: String,
 });
 
 const emit = defineEmits(["submissionComplete"]);
+
+const testCompletionEmailPath = () => {
+  const cleanCourseName = props.courseName.trim();
+
+  if (cleanCourseName === "Fiber Onboarding") {
+    return "/nexgen-fiber-completion-email";
+  } else {
+    return "";
+  }
+};
 
 // Local state
 const userAnswers = ref(Array(props.test.length).fill("")); // Track user's answers
@@ -94,7 +107,6 @@ async function submitTest() {
       },
     });
 
-    console.log("Test answers submitted successfully:", result);
     emit("submissionComplete", result); // Emit an event if needed
   } catch (error) {
     console.error("Error submitting test answers:", error);
@@ -102,6 +114,29 @@ async function submitTest() {
   }
 
   submitted.value = true;
+  try {
+    const response = await fetch(
+      `${APIGatewayURL}${testCompletionEmailPath()}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          to: props.userEmail,
+          from: "support@nexgensalepro.com",
+          link: "https://form.jotform.com/242871220608049",
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  } catch (error) {
+    console.log("Error in sendResetEmail:", error.message);
+    throw error;
+  }
 }
 
 // Refresh the page to simulate returning to the course

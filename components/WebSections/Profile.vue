@@ -1,44 +1,47 @@
 <template>
-  <div class="dashboard" :class="{ shifted: isSidebarVisible }">
-    <div class="sidebar">
-      <div class="logo-wrapper">
-        <img src="/Logos/NexgenLogo.webp" alt="Logo" />
-      </div>
-      <!-- Use computedSections and apply the active class similar to the first component -->
-      <div
-        v-for="section in computedSections"
-        :key="section.name"
-        class="nav-item"
-        :class="{ active: isActive(section.name, false) }"
-        @click="
-          section.name === 'logout'
-            ? handleLogout()
-            : toggleDropdown(section.name)
-        "
-      >
-        <div class="section-title">
-          <img :src="getImageSrc(section.icon, section.name)" alt="Icon" />
-          <h3>{{ section.title }}</h3>
-          <img
-            v-if="section.hasDropdown"
-            :src="getArrowSrc(section.name)"
-            class="arrow"
-            alt="Dropdown Arrow"
-          />
+  <div class="dashboard">
+    <transition name="slide">
+      <div v-if="isSidebarVisible" class="sidebar">
+        <div class="logo-wrapper">
+          <img src="/Logos/NexgenLogo.webp" alt="Logo" />
         </div>
-        <div v-if="dropdowns[section.name]" class="sub-menu">
-          <div
-            v-for="sub in section.subSections"
-            :key="sub.name"
-            class="sub-item"
-            :class="{ active: isActive(sub.name, true) }"
-            @click="setActiveSection(sub.name)"
-          >
-            {{ sub.title }}
+        <!-- Use computedSections and apply the active class similar to the first component -->
+        <div
+          v-for="section in computedSections"
+          :key="section.name"
+          class="nav-item"
+          :class="{ active: isActive(section.name, false) }"
+          @click="
+            section.name === 'logout'
+              ? handleLogout()
+              : toggleDropdown(section.name)
+          "
+        >
+          <div class="section-title">
+            <img :src="getImageSrc(section.icon, section.name)" alt="Icon" />
+            <h3>{{ section.title }}</h3>
+            <img
+              v-if="section.hasDropdown"
+              :src="getArrowSrc(section.name)"
+              class="arrow"
+              alt="Dropdown Arrow"
+            />
+          </div>
+          <div v-if="dropdowns[section.name]" class="sub-menu">
+            <div
+              v-for="sub in section.subSections"
+              :key="sub.name"
+              class="sub-item"
+              :class="{ active: isActive(sub.name, true) }"
+              @click="setActiveSection(sub.name)"
+            >
+              {{ sub.title }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </transition>
+
     <div class="content-section" :class="{ shifted: isSidebarVisible }">
       <button
         class="toggle-sidebar"
@@ -89,7 +92,7 @@ const currentSection = ref("dashboard");
 const dropdowns = ref({});
 const userStore = useUserStore();
 
-const isSidebarVisible = ref(false);
+const isSidebarVisible = ref(true);
 
 // Admin and regular sections
 const sections = [
@@ -176,7 +179,9 @@ const setActiveSection = (sectionName) => {
   });
 
   // Hide the sidebar on mobile devices
-  isSidebarVisible.value = false;
+  if (window.innerWidth <= 768) {
+    isSidebarVisible.value = false;
+  }
 };
 
 // Get the appropriate arrow icon for sections with dropdowns
@@ -211,7 +216,6 @@ emit("hide-loading");
   font-family: Montserrat;
   font-weight: bold;
   transition: transform 0.3s ease;
-  /* overflow: hidden; */
 }
 
 .sidebar {
@@ -225,10 +229,7 @@ emit("hide-loading");
   top: 0;
   left: 0;
   z-index: 10;
-  transition: transform 0.3s ease;
   overflow: hidden;
-  overscroll-behavior: contain; /* Prevents scrolling propagation */
-  touch-action: none; /* Disables touch gestures on mobile */
 }
 
 .logo-wrapper {
@@ -302,7 +303,7 @@ h3 {
   height: 100vh;
   overflow: auto;
   transition: margin-left 0.3s ease;
-  margin-left: 0;
+  margin-left: 275px;
   transition: transform 0.3s ease;
 }
 
@@ -323,12 +324,11 @@ h3 {
 
 @media (max-width: 768px) {
   .sidebar {
-    transform: translateX(-275px);
     width: 225px;
   }
 
-  .dashboard.shifted .sidebar {
-    transform: translateX(0);
+  .content-section {
+    margin-left: 0;
   }
 
   .content-section.shifted {
@@ -356,7 +356,7 @@ h3 {
   }
 
   .content-section {
-    margin-left: 275px;
+    /* margin-left: 275px; */
   }
 }
 </style>

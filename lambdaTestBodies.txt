@@ -1,0 +1,13 @@
+// Course completion test email
+
+// API gateway version
+{
+    "to":"thomas@hartecho.com",
+    "from":"support@nexgensalepro.com",
+    "link":"https://www.nexgensalepro.com"
+}
+
+// Lambda version
+{
+  "body": "{\"from\":\"support@nexgensalepro.com\",\"to\":\"thomas@hartecho.com\",\"link\":\"https://www.nexgensalepro.com\"}"
+}
