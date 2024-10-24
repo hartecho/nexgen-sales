@@ -42,9 +42,10 @@ emit("hide-loading");
 
 <style scoped>
 .wrapper {
+  min-height: 100vh;
   background: black;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on Safari */
+  overflow-y: scroll;
+  overflow-x: none;
 }
 
 .login-form {
