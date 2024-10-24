@@ -206,11 +206,23 @@ const handleLogout = () => {
   userStore.logout();
 };
 
+watch(isSidebarVisible, (newVal) => {
+  if (newVal) {
+    document.body.classList.add("locked");
+  } else {
+    document.body.classList.remove("locked");
+  }
+});
+
 const emit = defineEmits(["hide-loading"]);
 emit("hide-loading");
 </script>
 
 <style scoped>
+body.locked {
+  overflow: hidden;
+}
+
 .dashboard {
   display: flex;
   font-family: Montserrat;
@@ -329,6 +341,12 @@ h3 {
 
   .content-section {
     margin-left: 0;
+    overflow-y: auto; /* Ensure that only vertical scrolling is applied */
+  }
+
+  /* Adjust margins for buttons and other elements */
+  .toggle-sidebar {
+    margin: 1rem; /* Ensure there's space from the viewport edges */
   }
 
   .content-section.shifted {
