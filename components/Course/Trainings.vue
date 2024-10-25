@@ -175,7 +175,7 @@ h3 {
 .training-thumbnail img {
   width: 100%;
   height: auto;
-  transform: scale(1.2);
+  transform: scale(1.05);
 }
 
 .training-thumbnail img.image-loaded {
