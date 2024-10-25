@@ -1,4 +1,4 @@
-import Course from '~/server/models/Course.js'; 
+import Course from '~/server/models/Course.js';
 import { connectDB } from '~/server/utils/dbConnect';
 import { disconnectDB } from '~/server/utils/dbDisconnect';
 
@@ -8,13 +8,15 @@ export default defineEventHandler(async (event) => {
         const body = await readBody(event);
         const courseId = event.context.params.id;
 
-        const course = await Course.findById(courseId);
+        const course = await Course.findByIdAndUpdate(courseId, body, {
+            new: true, // Return the updated document
+            runValidators: true, // Ensures that all validators are applied
+        });
+
         if (!course) {
             throw createError({ statusCode: 404, message: 'Course not found' });
         }
 
-        Object.assign(course, body);
-        await course.save();
         await disconnectDB();
         return course;
     } catch (error) {

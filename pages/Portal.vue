@@ -32,7 +32,7 @@ const isLoggedIn = computed(() => !!userStore.token);
 const hydrated = ref(false);
 
 const currentSection = ref("dashboard");
-const isSidebarVisible = ref("true");
+const isSidebarVisible = ref(true);
 
 const changeSection = (newSection) => {
   currentSection.value = newSection;

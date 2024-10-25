@@ -39,6 +39,8 @@
 </template>
 
 <script setup>
+const userStore = useUserStore();
+
 const props = defineProps({
   isSidebarVisible: Boolean,
   currentSection: String,

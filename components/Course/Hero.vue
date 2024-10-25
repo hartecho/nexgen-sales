@@ -49,9 +49,6 @@ const props = defineProps({
   },
 });
 
-console.log("props.areTrainingsCompleted: " + props.areTrainingsCompleted);
-console.log("props.isCourseCompleted: " + props.isCourseCompleted);
-
 const emit = defineEmits(["resume-course", "take-test"]);
 
 const resumeCourse = () => {

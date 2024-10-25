@@ -42,9 +42,11 @@
         <h2>Test Submitted!</h2>
         <p>
           Your test results have been submitted for review. Please check your
-          email (the email associated with this account) for a final application
-          link. Once the application is submitted, we will evaluate your results
-          and get back to you shortly. Thank you!
+          email (the email associated with this account) for a link to book your
+          final call. Once you've scheduled and completed the call, we will
+          evaluate your test results along with the call discussion to determine
+          your eligibility. Thank you for your efforts, and we look forward to
+          speaking with you soon!
         </p>
         <button @click="returnToDashboard" class="return-button">
           Return to Dashboard
@@ -58,26 +60,33 @@
 import { ref, computed } from "vue";
 
 const APIGatewayURL =
-  "https://my5jf6zaii.execute-api.us-east-2.amazonaws.com/default";
+  "https://kgatbpjhmc.execute-api.us-east-2.amazonaws.com/default";
 
 const props = defineProps({
   test: Array, // The test object passed as a prop
   courseId: String,
   courseName: String,
   userId: String,
+  userName: String,
   userEmail: String,
 });
 
 const emit = defineEmits(["submissionComplete"]);
 
-const testCompletionEmailPath = () => {
-  const cleanCourseName = props.courseName.trim();
+const userEmailPath = () => {
+  return "/nexgen-calendly-email";
 
-  if (cleanCourseName === "Fiber Onboarding") {
-    return "/nexgen-fiber-completion-email";
-  } else {
-    return "";
-  }
+  // USE IF DIFFERENT TRIGGERS FOR DIFFERENT COURSES
+  // const cleanCourseName = props.courseName.trim();
+  // if (cleanCourseName === "Fiber Onboarding") {
+  //   return "/nexgen-fiber-completion-email";
+  // } else {
+  //   return "";
+  // }
+};
+
+const adminEmailPath = () => {
+  return "/nexgen-user-done-with-course-email";
 };
 
 // Local state
@@ -115,26 +124,43 @@ async function submitTest() {
 
   submitted.value = true;
   try {
-    const response = await fetch(
-      `${APIGatewayURL}${testCompletionEmailPath()}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          to: props.userEmail,
-          from: "support@nexgensalepro.com",
-          link: "https://form.jotform.com/242871220608049",
-        }),
-      }
-    );
+    const response = await fetch(`${APIGatewayURL}${userEmailPath()}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        to: props.userEmail,
+        from: "support@nexgensalepro.com",
+      }),
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
   } catch (error) {
-    console.log("Error in sendResetEmail:", error.message);
+    console.log("Error in sendUserEmail:", error.message);
+    throw error;
+  }
+
+  try {
+    const response = await fetch(`${APIGatewayURL}${adminEmailPath()}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        to: "thomas@hartecho.com",
+        from: "support@nexgensalepro.com",
+        name: props.userName,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  } catch (error) {
+    console.log("Error in sendAdminEmail:", error.message);
     throw error;
   }
 }
@@ -232,11 +258,10 @@ h3 {
 .modal-content {
   background: white;
   padding: 2rem;
-  border-radius: 8px;
   text-align: center;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   width: 90%;
-  max-width: 500px;
+  max-width: 700px;
 }
 
 .modal-content h2 {

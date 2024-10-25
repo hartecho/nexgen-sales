@@ -234,7 +234,8 @@ const goToCourseTest = (courseId) => {
 
 .course-entry__thumbnail {
   width: 20rem;
-  height: 15rem;
+  /* height: 100%; */
+  min-height: 100%;
   overflow: hidden;
   cursor: pointer;
 }

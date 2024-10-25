@@ -150,6 +150,11 @@
       />
     </div>
 
+    <CourseTrainingEditTrainingAddComments
+      :selectedTraining="selectedTraining"
+      @addComments="addComments"
+    />
+
     <!-- Notification Popup -->
     <SubcomponentsNotificationPopup
       v-if="notificationMessage"
@@ -310,8 +315,16 @@ const addComment = () => {
     name: "New Commenter",
     comment: "New comment text",
     date: new Date().toISOString(),
-    url: "",
   });
+};
+
+const addComments = (comments) => {
+  // Append the new comments to the existing list
+  selectedTraining.value.comments = selectedTraining.value.comments.concat(
+    comments.map((comment) => ({
+      ...comment,
+    }))
+  );
 };
 
 const removeComment = (index) => {

@@ -88,7 +88,6 @@ const commentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  url: String
 });
 
 const trainingSchema = new mongoose.Schema({

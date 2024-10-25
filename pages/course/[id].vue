@@ -50,6 +50,7 @@
           :courseId="courseId"
           :courseName="course.name"
           :userId="userStore.user._id"
+          :userName="userStore.user.name"
           :userEmail="userStore.user.email"
           :currentScore="currentTestScore()"
         />

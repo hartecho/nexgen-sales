@@ -1,4 +1,4 @@
-import Blog from '~/server/models/Blog.js'; 
+import Blog from '~/server/models/Blog.js';
 import { connectDB } from '~/server/utils/dbConnect';
 import { disconnectDB } from '~/server/utils/dbDisconnect';
 
@@ -8,13 +8,15 @@ export default defineEventHandler(async (event) => {
         const body = await readBody(event);
         const blogId = event.context.params.id;
 
-        const blog = await Blog.findById(blogId);
+        const blog = await Blog.findByIdAndUpdate(blogId, body, {
+            new: true, // Return the updated document
+            runValidators: true, // Ensure validation is run
+        });
+
         if (!blog) {
             throw createError({ statusCode: 404, message: 'Blog not found' });
         }
 
-        Object.assign(blog, body);
-        await blog.save();
         await disconnectDB();
         return blog;
     } catch (error) {

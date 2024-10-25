@@ -93,7 +93,7 @@ const handleForgotPassword = async () => {
 const sendResetEmail = async (userId) => {
   try {
     const response = await fetch(
-      "https://vv0fvfjhgl.execute-api.us-east-2.amazonaws.com/default/nexgen-forgot-password-email",
+      "https://kgatbpjhmc.execute-api.us-east-2.amazonaws.com/default/nexgen-forgot-password-email",
       {
         method: "POST",
         headers: {

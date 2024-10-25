@@ -1,4 +1,4 @@
-import Item from '~/server/models/Item.js'; 
+import Item from '~/server/models/Item.js';
 import { connectDB } from '~/server/utils/dbConnect';
 import { disconnectDB } from '~/server/utils/dbDisconnect';
 
@@ -8,13 +8,15 @@ export default defineEventHandler(async (event) => {
         const body = await readBody(event);
         const itemId = event.context.params.id;
 
-        const item = await Item.findById(itemId);
+        const item = await Item.findByIdAndUpdate(itemId, body, {
+            new: true, // Return the updated document
+            runValidators: true, // Ensures all validators are applied
+        });
+
         if (!item) {
             throw createError({ statusCode: 404, message: 'Item not found' });
         }
 
-        Object.assign(item, body);
-        await item.save();
         await disconnectDB();
         return item;
     } catch (error) {

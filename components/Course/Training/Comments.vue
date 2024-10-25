@@ -1,9 +1,28 @@
 <template>
   <div class="comments-section">
+    <!-- Add Comment Form -->
+    <div class="add-comment-form">
+      <h3>Leave a Comment</h3>
+      <input
+        type="text"
+        v-model="newComment.name"
+        placeholder="Your Name"
+        class="input-field uneditable-input"
+        readonly
+      />
+      <textarea
+        v-model="newComment.comment"
+        placeholder="Your Comment"
+        class="textarea-field"
+      ></textarea>
+      <button class="cta-button" @click="submitComment">Submit Comment</button>
+    </div>
+
     <h2>Comments</h2>
-    <div v-if="comments && comments.length" class="comments-list">
+
+    <div v-if="sortedComments.length" class="comments-list">
       <div
-        v-for="(comment, index) in comments"
+        v-for="(comment, index) in sortedComments"
         :key="'comment-' + index"
         class="comment-item"
       >
@@ -26,40 +45,24 @@
     <div v-else>
       <p class="no-comments">No comments yet. Be the first to comment!</p>
     </div>
-
-    <!-- Add Comment Form -->
-    <div class="add-comment-form">
-      <h3>Leave a Comment</h3>
-      <input
-        type="text"
-        v-model="newComment.name"
-        placeholder="Your Name"
-        class="input-field"
-      />
-      <textarea
-        v-model="newComment.comment"
-        placeholder="Your Comment"
-        class="textarea-field"
-      ></textarea>
-      <button class="cta-button" @click="submitComment">Submit Comment</button>
-    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 const props = defineProps({
   comments: {
     type: Array,
     required: true,
   },
+  name: String,
 });
 
 const emit = defineEmits(["addComment"]);
 
 const newComment = ref({
-  name: "",
+  name: props.name,
   comment: "",
   url: "",
 });
@@ -76,7 +79,13 @@ const submitComment = () => {
     alert("Please enter your name and comment.");
   }
 };
+
+// Computed property to sort comments by date (newest first)
+const sortedComments = computed(() =>
+  [...props.comments].sort((a, b) => new Date(b.date) - new Date(a.date))
+);
 </script>
+
 
 <style scoped>
 .comments-section {
@@ -136,7 +145,8 @@ const submitComment = () => {
 }
 
 .add-comment-form {
-  margin-top: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
 }
 
 .add-comment-form h3 {
@@ -150,6 +160,13 @@ const submitComment = () => {
   padding: 0.75rem;
   margin-bottom: 1rem;
   border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.uneditable-input {
+  pointer-events: none;
+  color: #777; /* Optional: change text color to indicate it's disabled */
+  background-color: #f4f4f4; /* Optional: change background to a light gray */
   border: 1px solid #ccc;
 }
 

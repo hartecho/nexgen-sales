@@ -61,6 +61,7 @@
               <CourseTrainingComments
                 v-if="post"
                 :comments="post?.comments"
+                :name="userStore.user.name"
                 @addComment="addComment"
               />
             </div>
@@ -229,7 +230,6 @@ const addComment = async (newComment) => {
       name: newComment.name,
       comment: newComment.comment,
       date: new Date().toISOString(),
-      url: newComment.url,
     });
     await updateContent();
   } else {

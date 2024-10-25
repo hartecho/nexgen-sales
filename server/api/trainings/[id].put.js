@@ -1,4 +1,4 @@
-import Training from '~/server/models/Training.js'; 
+import Training from '~/server/models/Training.js';
 import { connectDB } from '~/server/utils/dbConnect';
 import { disconnectDB } from '~/server/utils/dbDisconnect';
 
@@ -8,13 +8,15 @@ export default defineEventHandler(async (event) => {
         const body = await readBody(event);
         const trainingId = event.context.params.id;
 
-        const training = await Training.findById(trainingId);
+        const training = await Training.findByIdAndUpdate(trainingId, body, {
+            new: true, // Return the updated document
+            runValidators: true, // Ensure validation is run
+        });
+
         if (!training) {
             throw createError({ statusCode: 404, message: 'Training not found' });
         }
 
-        Object.assign(training, body);
-        await training.save();
         await disconnectDB();
         return training;
     } catch (error) {
