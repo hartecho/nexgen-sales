@@ -5,7 +5,7 @@
       :isEnrolled="isEnrolled"
       :areTrainingsCompleted="areTrainingsCompleted"
       :isCourseCompleted="isCourseCompleted"
-      :image="course?.image"
+      :image="course?.image || null"
       @resume-course="resumeCourse"
       @take-test="test = true"
       :loading="loading"
@@ -52,6 +52,7 @@
           :userId="userStore.user._id"
           :userName="userStore.user.name"
           :userEmail="userStore.user.email"
+          t
           :currentScore="currentTestScore"
         />
       </div>
@@ -229,12 +230,6 @@ useSeoMeta({
   ogDescription: course?.description
     ? `${course.description.substring(0, 155)}...`
     : "Join Nexgen's door-to-door sales training courses to master essential sales skills. Get expert guidance, training modules, and practical resources to excel.",
-  ogImage: course?.image
-    ? `/CoursePics/${course.image}`
-    : "/Logos/NexgenLogo.webp",
-  twitterCard: course?.image
-    ? `/CoursePics/${course.image}`
-    : "/Logos/NexgenLogo.webp",
 });
 
 const emit = defineEmits(["hide-loading"]);

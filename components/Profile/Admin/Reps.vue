@@ -5,23 +5,13 @@
         <h2>User List</h2>
 
         <!-- Filter Section -->
-        <div class="filters">
-          <label for="sortBy">Sort By:</label>
-          <select id="sortBy" v-model="sortBy">
-            <option value="">None</option>
-            <option value="age">Age</option>
-            <option value="grade">Grade</option>
-            <option value="hasTestResults">Has Test Results</option>
-          </select>
-
-          <label for="filterByGrade">Filter by Grade:</label>
-          <select id="filterByGrade" v-model="filterGrade">
-            <option value="">All Grades</option>
-            <option v-for="grade in grades" :key="grade" :value="grade">
-              {{ grade }}
-            </option>
-          </select>
-        </div>
+        <ProfileAdminRepsUserFilters
+          :sortBy="sortBy"
+          :filterGrade="filterGrade"
+          :grades="grades"
+          @updateSort="updateSort"
+          @updateFilter="updateFilter"
+        />
 
         <!-- User List Labels -->
         <div class="user-list-labels">
@@ -78,9 +68,9 @@
   </div>
 </template>
   
-  <script setup>
+<script setup>
 import { ref, onMounted, computed } from "vue";
-import { useRouter } from "vue-router"; // Import the router
+import { useRouter } from "vue-router";
 
 const users = ref([]);
 const sortBy = ref("");
@@ -88,14 +78,14 @@ const filterGrade = ref("");
 const list = ref(true);
 
 const notificationMessage = ref("");
-const notificationType = ref("info");
+const notificationType = ref("");
 
 const selectedUser = ref({
   name: "",
   preferredName: "",
-  dateOfBirth: null, // Ensure this is null initially
+  dateOfBirth: null,
   email: "",
-  password: "lakshop8208ydgfu839yWOUGDFasd08y23089yqwe", // Default password
+  password: "default_password",
   profilePicture: "",
   bio: "",
   contact: {
@@ -118,7 +108,7 @@ const selectedUser = ref({
   orders: [],
   cart: [
     {
-      product: null, // This will store the ObjectId reference to the 'Item' model
+      product: null,
       quantity: 1,
     },
   ],
@@ -153,9 +143,9 @@ const selectedUser = ref({
       personalizedRecommendations: true,
     },
     appPreferences: {
-      theme: "light", // Default to "light" theme
-      language: "en", // Default to "en" (English)
-      timeZone: "UTC", // Default timezone
+      theme: "light",
+      language: "en",
+      timeZone: "UTC",
     },
     dataPrivacy: {
       allowPersonalization: true,
@@ -165,10 +155,10 @@ const selectedUser = ref({
       enableAllNotifications: true,
     },
   },
-  role: "customer", // Default role is customer
+  role: "customer",
   enrolledCourses: [
     {
-      course: null, // This will store the ObjectId reference to the 'Course' model
+      course: null,
       currentTrainingIndex: 0,
       testResults: [
         {
@@ -178,8 +168,8 @@ const selectedUser = ref({
       ],
     },
   ],
-  grade: "Ungraded", // Default value for new users
-  adminDescription: "", // Admin feedback about the user's potential
+  grade: "Ungraded",
+  adminDescription: "",
   created_at: new Date().toISOString(),
   updated_at: new Date().toISOString(),
 });
@@ -193,7 +183,6 @@ const grades = [
   "Ungraded",
 ];
 
-// Fetch users on mount
 onMounted(async () => {
   await getUsers();
 });
@@ -207,14 +196,22 @@ async function getUsers() {
   }
 }
 
-// Calculate age based on date of birth
+// In UserList.vue
+
+const updateSort = (newSort) => {
+  sortBy.value = newSort;
+};
+
+const updateFilter = (newFilter) => {
+  filterGrade.value = newFilter;
+};
+
 const calculateAge = (dob) => {
   const diff = Date.now() - new Date(dob).getTime();
   const age = new Date(diff).getUTCFullYear() - 1970;
   return age;
 };
 
-// Get grade class to apply color
 const getGradeClass = (grade) => {
   switch (grade) {
     case "Highly Promising":
@@ -234,30 +231,25 @@ const getGradeClass = (grade) => {
 };
 
 const hasTestResults = (enrolledCourses) => {
-  const courseWithTestResults = enrolledCourses.find(
+  return enrolledCourses.some(
     (course) => course.testResults && course.testResults.length > 0
   );
-  return courseWithTestResults ? true : false;
 };
 
-// Function to navigate to the user's page
 const selectUser = (userId) => {
   selectedUser.value = users.value.find((user) => user._id == userId);
   list.value = false;
 };
 
-// Computed property to filter and sort users
 const sortedAndFilteredUsers = computed(() => {
-  let filteredUsers = users.value;
+  let filteredUsers = users.value.filter((user) => user.role !== "admin"); // Exclude admins
 
-  // Filter by grade
   if (filterGrade.value) {
     filteredUsers = filteredUsers.filter(
       (user) => user.grade === filterGrade.value
     );
   }
 
-  // Sort users based on selected option
   if (sortBy.value === "age") {
     filteredUsers.sort(
       (a, b) => calculateAge(a.dateOfBirth) - calculateAge(b.dateOfBirth)
@@ -276,7 +268,6 @@ const sortedAndFilteredUsers = computed(() => {
   return filteredUsers;
 });
 
-// Update user
 async function updateUser() {
   try {
     if (selectedUser.value._id) {
@@ -302,6 +293,7 @@ function updateSelectedUser(updatedUser) {
   console.log("selected user grade: " + selectedUser.value.grade);
 }
 </script>
+
   
   <style scoped>
 h2 {

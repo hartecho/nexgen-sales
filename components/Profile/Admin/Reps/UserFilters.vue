@@ -1,0 +1,79 @@
+<template>
+  <div class="filters">
+    <label for="sortBy">Sort By:</label>
+    <select id="sortBy" v-model="localSortBy" @change="updateSort">
+      <option value="">None</option>
+      <option value="age">Age</option>
+      <option value="grade">Grade</option>
+      <option value="hasTestResults">Has Test Results</option>
+    </select>
+
+    <label for="filterByGrade">Filter by Grade:</label>
+    <select
+      id="filterByGrade"
+      v-model="localFilterGrade"
+      @change="updateFilter"
+    >
+      <option value="">All Grades</option>
+      <option v-for="grade in grades" :key="grade" :value="grade">
+        {{ grade }}
+      </option>
+    </select>
+  </div>
+</template>
+  
+  <script setup>
+import { defineProps, defineEmits, ref, watch } from "vue";
+
+const props = defineProps({
+  sortBy: String,
+  filterGrade: String,
+  grades: Array,
+});
+
+const emit = defineEmits(["updateSort", "updateFilter"]);
+
+// Local reactive variables for sorting and filtering
+const localSortBy = ref(props.sortBy);
+const localFilterGrade = ref(props.filterGrade);
+
+// Emit events when sort or filter changes
+const updateSort = () => {
+  emit("updateSort", localSortBy.value);
+};
+
+const updateFilter = () => {
+  emit("updateFilter", localFilterGrade.value);
+};
+
+// Watch for changes to props and update local state
+watch(
+  () => props.sortBy,
+  (newSortBy) => {
+    localSortBy.value = newSortBy;
+  }
+);
+
+watch(
+  () => props.filterGrade,
+  (newFilterGrade) => {
+    localFilterGrade.value = newFilterGrade;
+  }
+);
+</script>
+  
+  <style scoped>
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+
+.filters select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+</style>
+  
