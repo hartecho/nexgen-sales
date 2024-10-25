@@ -64,7 +64,7 @@
           <button
             v-if="!areTrainingsCompleted(course)"
             class="view-course-button"
-            @click="goToCourse(course)"
+            @click="goToCourse(course._id)"
           >
             Resume Course
           </button>
