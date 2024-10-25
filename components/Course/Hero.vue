@@ -1,7 +1,7 @@
 <template>
   <div
     class="course-hero"
-    :style="{ backgroundImage: `url(/CoursePics/${image})` }"
+    :style="{ backgroundImage: `url(${getBackgroundImage})` }"
   >
     <div class="overlay">
       <h1>{{ course?.name || "Loading..." }}</h1>
@@ -50,6 +50,13 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["resume-course", "take-test"]);
+
+const getBackgroundImage = computed(() => {
+  if (props.image) {
+    return `/CoursePics/${props.image}`;
+  }
+  return "/Logos/NexgenLogo.webp";
+});
 
 const resumeCourse = () => {
   emit("resume-course");
