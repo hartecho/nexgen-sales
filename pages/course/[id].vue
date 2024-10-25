@@ -38,7 +38,7 @@
             <CourseTestDash
               :completed="completionPercentage == 100"
               :loading="loading"
-              :testResults="currentTestResults()"
+              :testResults="currentTestResults"
               @takeTest="test = true"
             />
           </div>
@@ -52,7 +52,7 @@
           :userId="userStore.user._id"
           :userName="userStore.user.name"
           :userEmail="userStore.user.email"
-          :currentScore="currentTestScore()"
+          :currentScore="currentTestScore"
         />
       </div>
     </transition>
@@ -104,33 +104,25 @@ const fetchAndSetCourses = async () => {
   loading.value = false;
 };
 
-const currentTestScore = () => {
+const currentTestScore = computed(() => {
   const user = userStore.user;
   if (!user || !user.enrolledCourses) return null;
-  const currentCourse = userStore.user?.enrolledCourses.find(
+  const currentCourse = user.enrolledCourses.find(
     (c) => c.course === courseId.value
   );
-  if (currentCourse) {
-    return currentCourse.testScore;
-  }
-  return null;
-};
+  return currentCourse ? currentCourse.testScore : null;
+});
 
-const currentTestResults = () => {
+const currentTestResults = computed(() => {
   const user = userStore.user;
   if (!user || !user.enrolledCourses) return null;
-  const currentCourse = userStore.user?.enrolledCourses.find(
+  const currentCourse = user.enrolledCourses.find(
     (c) => c.course === courseId.value
   );
-  if (
-    currentCourse &&
-    currentCourse.testResults != null &&
-    currentCourse.testResults.length > 0
-  ) {
-    return currentCourse.testResults;
-  }
-  return null;
-};
+  return currentCourse?.testResults?.length > 0
+    ? currentCourse.testResults
+    : null;
+});
 
 const fetchAndSetTrainings = async () => {
   loading.value = true;
@@ -171,8 +163,7 @@ const getNextTraining = computed(() => {
     return null;
   }
 
-  const nextTraining = courseStore.getTrainingById(nextTrainingId);
-  return nextTraining;
+  return courseStore.getTrainingById(nextTrainingId);
 });
 
 const resumeCourse = () => {
@@ -197,7 +188,7 @@ const completionPercentage = computed(() => {
 });
 
 const isCourseCompleted = computed(() => {
-  return areTrainingsCompleted.value && currentTestResults() != null;
+  return areTrainingsCompleted.value && currentTestResults.value != null;
 });
 
 const areTrainingsCompleted = computed(() => {
@@ -215,11 +206,7 @@ const currentTrainingIndex = computed(() => {
     (enrollment) => enrollment.course === courseId.value
   );
 
-  if (!enrollment) {
-    return 0;
-  }
-
-  return enrollment.currentTrainingIndex || 0;
+  return enrollment?.currentTrainingIndex || 0;
 });
 
 const totalTrainings = computed(() => trainings.value?.length || 0);
@@ -253,6 +240,7 @@ useSeoMeta({
 const emit = defineEmits(["hide-loading"]);
 emit("hide-loading");
 </script>
+
 
 <style scoped>
 .course-page-wrapper {
