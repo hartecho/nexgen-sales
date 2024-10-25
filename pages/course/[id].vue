@@ -105,7 +105,9 @@ const fetchAndSetCourses = async () => {
 };
 
 const currentTestScore = () => {
-  const currentCourse = userStore.user.enrolledCourses.find(
+  const user = userStore.user;
+  if (!user || !user.enrolledCourses) return null;
+  const currentCourse = userStore.user?.enrolledCourses.find(
     (c) => c.course === courseId.value
   );
   if (currentCourse) {
@@ -115,7 +117,9 @@ const currentTestScore = () => {
 };
 
 const currentTestResults = () => {
-  const currentCourse = userStore.user.enrolledCourses.find(
+  const user = userStore.user;
+  if (!user || !user.enrolledCourses) return null;
+  const currentCourse = userStore.user?.enrolledCourses.find(
     (c) => c.course === courseId.value
   );
   if (
