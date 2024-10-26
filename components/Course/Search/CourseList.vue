@@ -2,7 +2,7 @@
   <section class="course-list">
     <!-- Dynamic Header -->
     <h2 class="course-list__header">
-      {{ selectedTag ? selectedTag : "All" }} Courses
+      {{ selectedTag ? selectedTag : "Your Available " }} Courses
     </h2>
 
     <div
@@ -29,13 +29,22 @@
         <!-- Enrollment or Progress Bar -->
         <div class="enroll-container">
           <!-- Show Enroll Button if not enrolled -->
+
           <button
             v-if="!isEnrolled(course._id)"
-            class="enroll-button"
+            :disabled="isEnrolled(course._id)"
+            :class="[
+              'enroll-button',
+              { 'enroll-button-disabled': !isEnrolled(course._id) },
+            ]"
             @click="enrollInCourse(course._id, course.name)"
           >
             Enroll
           </button>
+
+          <h4 v-if="!isEnrolled(course._id)">
+            You are not eligible to enroll in this course
+          </h4>
 
           <!-- Show Progress Bar and View Course Button if enrolled -->
           <div v-else>
@@ -308,11 +317,28 @@ const onImageLoad = (index) => {
   cursor: pointer;
   border-radius: 5px;
   margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
 .enroll-button:hover,
 .view-course-button:hover {
   background-color: #0056b3;
+}
+
+.enroll-button-disabled {
+  background-color: #ccc;
+  color: #777;
+  cursor: not-allowed;
+}
+
+.enroll-button:disabled {
+  background-color: #ccc;
+  color: #777;
+  cursor: not-allowed;
+}
+
+h4 {
+  color: red;
 }
 
 .progress-container {

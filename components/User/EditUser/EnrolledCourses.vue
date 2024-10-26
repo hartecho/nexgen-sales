@@ -7,10 +7,11 @@
         :key="index"
         class="enrollment-item"
       >
+        <h2>name: {{ enrollment.name }}</h2>
         <div class="input-wrapper">
           <input
             type="text"
-            :value="enrollment.course"
+            :value="enrollment.name"
             @input="onEnrollmentChange(index, 'course', $event.target.value)"
             placeholder="Course ID"
           />
@@ -54,6 +55,20 @@
         </button>
       </div>
     </div>
+
+    <!-- Dropdown for Adding New Enrollment -->
+    <div class="input-wrapper">
+      <select v-model="newEnrollmentCourse" class="course-select">
+        <option disabled value="">Select Course</option>
+        <option
+          v-for="course in filteredCourses"
+          :key="course.id"
+          :value="course"
+        >
+          {{ course.name }}
+        </option>
+      </select>
+    </div>
     <button @click="addNewEnrollment" class="add-button">
       Add New Enrollment
     </button>
@@ -61,11 +76,29 @@
 </template>
 
 <script setup>
+import { useCourseStore } from "@/stores/courseStore";
+import { ref, computed } from "vue";
+
+const courseStore = useCourseStore();
+const allCourses = computed(() => courseStore.allCourses);
+
 const props = defineProps({
   selectedUser: Object,
 });
 
 const emit = defineEmits(["updateUser"]);
+
+const newEnrollmentCourse = ref("");
+
+// Filter out courses that have already been added
+const filteredCourses = computed(() => {
+  const enrolledCourseNames = props.selectedUser.enrolledCourses.map(
+    (enrollment) => enrollment.name
+  );
+  return allCourses.value.filter(
+    (course) => !enrolledCourseNames.includes(course.name)
+  );
+});
 
 // Handle changes to enrolled courses
 function onEnrollmentChange(index, field, value) {
@@ -83,20 +116,28 @@ function onEnrollmentChange(index, field, value) {
 
 // Add a new enrollment
 function addNewEnrollment() {
-  const newEnrollment = {
-    course: "",
-    currentTrainingIndex: 0,
-    testResults: [], // Initialize empty test results for new enrollments
-  };
-  const updatedEnrollments = [
-    ...props.selectedUser.enrolledCourses,
-    newEnrollment,
-  ];
-  const updatedUser = {
-    ...props.selectedUser,
-    enrolledCourses: updatedEnrollments,
-  };
-  emit("updateUser", updatedUser);
+  if (newEnrollmentCourse.value) {
+    const newEnrollment = {
+      course: newEnrollmentCourse.value._id,
+      name: newEnrollmentCourse.value.name, // Use the selected course name
+      currentTrainingIndex: 0,
+      testResults: [], // Initialize empty test results for new enrollments
+    };
+    const updatedEnrollments = [
+      ...props.selectedUser.enrolledCourses,
+      newEnrollment,
+    ];
+    const updatedUser = {
+      ...props.selectedUser,
+      enrolledCourses: updatedEnrollments,
+    };
+    emit("updateUser", updatedUser);
+
+    // Reset selection
+    newEnrollmentCourse.value = "";
+  } else {
+    alert("Please select a course to add.");
+  }
 }
 
 // Remove an enrollment
@@ -138,10 +179,12 @@ h2 {
 
 .input-wrapper {
   position: relative;
+  margin-bottom: 1rem;
 }
 
 .input-wrapper input[type="text"],
-.input-wrapper input[type="number"] {
+.input-wrapper input[type="number"],
+.course-select {
   display: block;
   width: 100%;
   padding: 0.75rem;
@@ -151,8 +194,13 @@ h2 {
   transition: border-color 0.3s;
 }
 
+.course-select {
+  color: #333;
+}
+
 .input-wrapper input[type="text"]:focus,
-.input-wrapper input[type="number"]:focus {
+.input-wrapper input[type="number"]:focus,
+.course-select:focus {
   border-color: #4caf50;
   outline: none;
 }

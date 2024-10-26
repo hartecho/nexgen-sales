@@ -70,6 +70,7 @@ export default defineEventHandler(async (event) => {
       const updatedEnrolledCourses = body.enrolledCourses.map((course) => ({
         course: course.course, // Use the existing course ID directly
         currentTrainingIndex: course.currentTrainingIndex || 0,
+        name: course.name,
         testScore: course.testScore || null, // Add the testScore update
         testResults: course.testResults || [] // Store questions and answers
       }));
