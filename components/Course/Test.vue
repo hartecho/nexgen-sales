@@ -111,6 +111,7 @@ async function submitTest() {
     const result = await $fetch(`/api/users/${props.userId}`, {
       method: "PUT",
       body: {
+        completionDate: Date.now(),
         courseId: props.courseId,
         testResults: answersData,
       },

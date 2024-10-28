@@ -72,7 +72,8 @@ export default defineEventHandler(async (event) => {
         currentTrainingIndex: course.currentTrainingIndex || 0,
         name: course.name,
         testScore: course.testScore || null, // Add the testScore update
-        testResults: course.testResults || [] // Store questions and answers
+        testResults: course.testResults || [], // Store questions and answers
+        completionDate: course.completionDate || null
       }));
       existingUser.enrolledCourses = updatedEnrolledCourses;
     }
@@ -91,6 +92,10 @@ export default defineEventHandler(async (event) => {
 
     if (body.dateOfBirth) {
       existingUser.dateOfBirth = body.dateOfBirth;
+    }
+
+    if (body.onboardingStatus) {
+      existingUser.onboardingStatus = body.onboardingStatus;
     }
 
     if (body.contact) {
@@ -112,6 +117,10 @@ export default defineEventHandler(async (event) => {
         // Update the testScore if provided and it's different
         if (body.testScore !== null && body.testScore !== existingUser.enrolledCourses[courseIndex].testScore) {
           existingUser.enrolledCourses[courseIndex].testScore = body.testScore;
+        }
+
+        if (body.completionDate) {
+          existingUser.enrolledCourses[courseIndex].completionDate = body.completionDate;
         }
 
         // Handle test questions and answers submission

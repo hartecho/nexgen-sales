@@ -233,8 +233,8 @@ const goToCourseTest = (courseId) => {
 }
 
 .course-entry__thumbnail {
-  width: 20rem;
-  /* height: 100%; */
+  min-width: 20rem;
+  max-width: 20rem;
   min-height: 100%;
   overflow: hidden;
   cursor: pointer;
@@ -357,6 +357,7 @@ const goToCourseTest = (courseId) => {
   .course-entry__thumbnail {
     width: 100%;
     height: 15rem;
+    max-width: none;
   }
 
   .course-entry__content {

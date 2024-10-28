@@ -13,16 +13,7 @@
           @updateFilter="updateFilter"
         />
 
-        <!-- User List Labels -->
-        <div class="user-list-labels">
-          <span class="label">Profile Picture</span>
-          <span class="label">Name</span>
-          <span class="label">Age</span>
-          <span class="label">Grade</span>
-          <span class="label">Test Results</span>
-        </div>
-
-        <!-- User List Section -->
+        <ProfileAdminRepsUserListLabels />
         <div v-if="sortedAndFilteredUsers.length" class="user-list-container">
           <div
             v-for="user in sortedAndFilteredUsers"
@@ -30,25 +21,18 @@
             class="user-card"
             @click="selectUser(user._id)"
           >
-            <img
-              :src="user.profilePicture || '/Logos/NexgenLogo.webp'"
-              alt="Profile Picture"
-              class="profile-picture"
+            <ProfileAdminRepsUserCard
+              :user="user"
+              :selectUser="selectUser"
+              :calculateAge="calculateAge"
+              :getGradeClass="getGradeClass"
+              :hasTestResults="hasTestResults"
             />
-            <div class="user-details">{{ user.name }}</div>
-            <div class="user-details">{{ calculateAge(user.dateOfBirth) }}</div>
-            <div class="user-details grade">
-              <span :class="getGradeClass(user.grade)" class="grade-dot"></span>
-              {{ user.grade }}
-            </div>
-            <div class="user-details">
-              <p v-if="hasTestResults(user.enrolledCourses)">Yes</p>
-              <p v-else>No</p>
-            </div>
           </div>
         </div>
+        <div v-else-if="loading" class="spinner"></div>
         <div v-else>
-          <p>No users found.</p>
+          <p>No Reps found...</p>
         </div>
       </div>
       <div v-else>
@@ -67,11 +51,8 @@
     />
   </div>
 </template>
-  
-<script setup>
-import { ref, onMounted, computed } from "vue";
-import { useRouter } from "vue-router";
-
+    
+  <script setup>
 const users = ref([]);
 const sortBy = ref("");
 const filterGrade = ref("");
@@ -79,6 +60,8 @@ const list = ref(true);
 
 const notificationMessage = ref("");
 const notificationType = ref("");
+
+const loading = ref(false);
 
 const selectedUser = ref({
   name: "",
@@ -166,9 +149,11 @@ const selectedUser = ref({
           answer: "",
         },
       ],
+      completionData: null,
     },
   ],
   grade: "Ungraded",
+  onboardingStatus: "incomplete",
   adminDescription: "",
   created_at: new Date().toISOString(),
   updated_at: new Date().toISOString(),
@@ -188,11 +173,14 @@ onMounted(async () => {
 });
 
 async function getUsers() {
+  loading.value = true;
   try {
     const response = await $fetch("/api/users");
     users.value = response || [];
   } catch (error) {
     showNotification("Error fetching users: " + error.message, "error");
+  } finally {
+    loading.value = false;
   }
 }
 
@@ -269,6 +257,7 @@ const sortedAndFilteredUsers = computed(() => {
 });
 
 async function updateUser() {
+  console.log("selectedUser: " + JSON.stringify(selectedUser.value));
   try {
     if (selectedUser.value._id) {
       await $fetch(`/api/users/${selectedUser.value._id}`, {
@@ -290,12 +279,11 @@ function showNotification(message, type = "info") {
 
 function updateSelectedUser(updatedUser) {
   selectedUser.value = updatedUser;
-  console.log("selected user grade: " + selectedUser.value.grade);
 }
 </script>
-
   
-  <style scoped>
+    
+    <style scoped>
 h2 {
   margin-bottom: 2rem;
 }
@@ -305,6 +293,10 @@ h2 {
   margin: 0 auto;
   padding: 2rem;
   font-family: Arial, sans-serif;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  overflow-x: auto;
 }
 
 .filters {
@@ -336,69 +328,20 @@ h2 {
   gap: 0.5rem;
 }
 
-.user-card {
-  display: grid;
-  grid-template-columns: 80px 1fr 1fr 1fr 1fr;
-  gap: 1rem;
-  padding: 0.75rem;
-  border: 1px solid #e0e0e0;
-  background-color: #f9f9f9;
-  transition: background-color 0.3s;
-  cursor: pointer; /* Add cursor pointer */
-}
-
-.user-card:hover {
-  background-color: #e0e0e0;
-}
-
-.profile-picture {
-  width: 60px;
-  height: 60px;
+.spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  object-fit: cover;
+  border-top-color: black;
+  animation: spin 1s linear infinite;
 }
 
-.user-details {
-  display: flex;
-  align-items: center;
-}
-
-/* Grade Dot */
-.grade {
-  display: flex;
-  align-items: center;
-}
-
-.grade-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  margin-right: 0.5rem;
-}
-
-/* Grade colors */
-.grade-highly-promising {
-  background-color: #28a745;
-}
-
-.grade-promising {
-  background-color: #85e085;
-}
-
-.grade-average {
-  background-color: #ffc107;
-}
-
-.grade-needs-improvement {
-  background-color: #fd7e14;
-}
-
-.grade-not-suitable {
-  background-color: #dc3545;
-}
-
-.grade-ungraded {
-  background-color: #6c757d;
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>
-  
+    

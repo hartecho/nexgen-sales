@@ -22,15 +22,23 @@
             <strong>Name:</strong> <span>{{ user.name }}</span>
           </div>
           <div class="info-item">
+            <strong>Email:</strong> <span>{{ user.email }}</span>
+          </div>
+          <div class="info-item">
             <strong>Preferred Name:</strong>
             <span>{{ user.preferredName || "N/A" }}</span>
           </div>
           <div class="info-item">
             <strong>Date of Birth:</strong>
-            <span
+            <span v-if="user.dateOfBirth"
               >{{ formatDate(user.dateOfBirth) }} (Age:
               {{ calculateAge(user.dateOfBirth) }})</span
             >
+            <span v-else>N/A</span>
+          </div>
+          <div class="info-item">
+            <strong>Date of Recruiting Call:</strong>
+            <span>{{ formatDate(user.created_at) || "N/A" }}</span>
           </div>
         </div>
         <div class="info-section">
@@ -71,6 +79,14 @@
           class="course-section"
         >
           <h4>Course: {{ course.name }}</h4>
+          <h4 v-if="course.completionDate">
+            Completion Time:
+            {{
+              calculateCompletionDays(user.created_at, course.completionDate)
+            }}
+            days
+          </h4>
+
           <div v-if="course.testResults.length">
             <div
               v-for="(result, i) in course.testResults"
@@ -108,7 +124,7 @@
           </option>
         </select>
 
-        <label for="adminDescription">Admin Description</label>
+        <label for="adminDescription">Admin Notes</label>
         <textarea
           id="adminDescription"
           :value="user.adminDescription"
@@ -144,6 +160,14 @@ const grades = [
   "Not Suitable",
   "Ungraded",
 ];
+
+function calculateCompletionDays(createdAt, completionDate) {
+  const startDate = new Date(createdAt);
+  const endDate = new Date(completionDate);
+  const differenceInTime = endDate - startDate;
+  const differenceInDays = Math.floor(differenceInTime / (1000 * 60 * 60 * 24));
+  return differenceInDays;
+}
 
 // Helper function to format date
 const formatDate = (date) => {

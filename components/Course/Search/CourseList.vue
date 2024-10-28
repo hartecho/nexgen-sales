@@ -2,7 +2,7 @@
   <section class="course-list">
     <!-- Dynamic Header -->
     <h2 class="course-list__header">
-      {{ selectedTag ? selectedTag : "Your Available " }} Courses
+      {{ selectedTag ? selectedTag : "All" }} Courses
     </h2>
 
     <div
@@ -267,8 +267,9 @@ const onImageLoad = (index) => {
 }
 
 .course-entry__thumbnail {
-  height: 15rem;
-  width: 20rem;
+  min-width: 20rem;
+  max-width: 20rem;
+  min-height: 100%;
   overflow: hidden;
   cursor: pointer;
 }
@@ -384,6 +385,7 @@ h4 {
   .course-entry__thumbnail {
     width: 100%;
     height: 15rem;
+    max-width: none;
   }
 
   .course-entry__content {

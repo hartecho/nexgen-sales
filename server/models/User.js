@@ -157,6 +157,9 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 0,
       },
+      completionDate: {
+        type: Date,
+      },
       testResults: [
         {
           question: {
@@ -171,7 +174,11 @@ const userSchema = new mongoose.Schema({
       ],
     },
   ],
-  // New grade and adminDescription fields
+  onboardingStatus: {
+    type: String,
+    enum: ['incomplete', 'accepted', "rejected"],
+    default: 'incomplete',
+  },
   grade: {
     type: String,
     enum: ['Highly Promising', 'Promising', 'Average', 'Needs Improvement', 'Not Suitable', 'Ungraded'],
