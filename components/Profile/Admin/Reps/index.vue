@@ -8,9 +8,12 @@
         <ProfileAdminRepsUserFilters
           :sortBy="sortBy"
           :filterGrade="filterGrade"
+          :filterStatus="filterStatus"
           :grades="grades"
+          :statuses="statuses"
           @updateSort="updateSort"
-          @updateFilter="updateFilter"
+          @updateGradeFilter="updateGradeFilter"
+          @updateStatusFilter="updateStatusFilter"
         />
 
         <ProfileAdminRepsUserListLabels />
@@ -27,12 +30,13 @@
               :calculateAge="calculateAge"
               :getGradeClass="getGradeClass"
               :hasTestResults="hasTestResults"
+              :getStatusClass="getStatusClass"
             />
           </div>
         </div>
         <div v-else-if="loading" class="spinner"></div>
         <div v-else>
-          <p>No Reps found...</p>
+          <p class="none">No Reps found</p>
         </div>
       </div>
       <div v-else>
@@ -56,6 +60,7 @@
 const users = ref([]);
 const sortBy = ref("");
 const filterGrade = ref("");
+const filterStatus = ref("");
 const list = ref(true);
 
 const notificationMessage = ref("");
@@ -168,6 +173,8 @@ const grades = [
   "Ungraded",
 ];
 
+const statuses = ["accepted", "rejected", "incomplete"];
+
 onMounted(async () => {
   await getUsers();
 });
@@ -190,8 +197,12 @@ const updateSort = (newSort) => {
   sortBy.value = newSort;
 };
 
-const updateFilter = (newFilter) => {
+const updateGradeFilter = (newFilter) => {
   filterGrade.value = newFilter;
+};
+
+const updateStatusFilter = (newFilter) => {
+  filterStatus.value = newFilter;
 };
 
 const calculateAge = (dob) => {
@@ -218,6 +229,18 @@ const getGradeClass = (grade) => {
   }
 };
 
+const getStatusClass = (status) => {
+  console.log("Status: " + status);
+  switch (status) {
+    case "accepted":
+      return "accepted";
+    case "rejected":
+      return "rejected";
+    default:
+      return "incomplete";
+  }
+};
+
 const hasTestResults = (enrolledCourses) => {
   return enrolledCourses.some(
     (course) => course.testResults && course.testResults.length > 0
@@ -238,6 +261,12 @@ const sortedAndFilteredUsers = computed(() => {
     );
   }
 
+  if (filterStatus.value) {
+    filteredUsers = filteredUsers.filter(
+      (user) => user.onboardingStatus === filterStatus.value
+    );
+  }
+
   if (sortBy.value === "age") {
     filteredUsers.sort(
       (a, b) => calculateAge(a.dateOfBirth) - calculateAge(b.dateOfBirth)
@@ -245,6 +274,12 @@ const sortedAndFilteredUsers = computed(() => {
   } else if (sortBy.value === "grade") {
     filteredUsers.sort(
       (a, b) => grades.indexOf(a.grade) - grades.indexOf(b.grade)
+    );
+  } else if (sortBy.value === "status") {
+    filteredUsers.sort(
+      (a, b) =>
+        statuses.indexOf(a.onboardingStatus) -
+        grades.indexOf(b.onboardingStatus)
     );
   } else if (sortBy.value === "hasTestResults") {
     filteredUsers.sort(
@@ -257,10 +292,9 @@ const sortedAndFilteredUsers = computed(() => {
 });
 
 async function updateUser() {
-  console.log("selectedUser: " + JSON.stringify(selectedUser.value));
   try {
     if (selectedUser.value._id) {
-      await $fetch(`/api/users/${selectedUser.value._id}`, {
+      const response = await $fetch(`/api/users/${selectedUser.value._id}`, {
         method: "PUT",
         body: selectedUser.value,
       });
@@ -314,7 +348,7 @@ h2 {
 
 .user-list-labels {
   display: grid;
-  grid-template-columns: 80px 1fr 1fr 1fr 1fr;
+  grid-template-columns: 80px 1fr 1fr 1fr 1fr 1fr;
   gap: 1rem;
   padding: 1rem;
   background-color: #f0f0f0;
@@ -342,6 +376,10 @@ h2 {
   to {
     transform: rotate(360deg);
   }
+}
+
+.none {
+  margin-top: 1rem;
 }
 </style>
     

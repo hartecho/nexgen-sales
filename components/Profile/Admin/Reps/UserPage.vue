@@ -5,7 +5,12 @@
       <h2>User Evaluation</h2>
       <button @click="backToList()" class="back-btn">Back To List</button>
     </div>
-
+    <div v-if="user.onboardingStatus == 'accepted'" class="accepted">
+      Accepted
+    </div>
+    <div v-if="user.onboardingStatus == 'rejected'" class="rejected">
+      Rejected
+    </div>
     <!-- Profile Section -->
     <div class="profile-section">
       <div class="profile-image-container">
@@ -15,6 +20,7 @@
           class="profile-picture"
         />
       </div>
+
       <div class="user-info">
         <h3>User Information</h3>
         <div class="info-grid">
@@ -42,7 +48,7 @@
           </div>
         </div>
         <div class="info-section">
-          <h4>Contact Details</h4>
+          <h3>Contact Details</h3>
           <div class="info-grid contact-details">
             <div class="info-item">
               <strong>Phone:</strong>
@@ -133,15 +139,61 @@
           class="input-textarea"
         ></textarea>
 
-        <button @click="saveEvaluation" class="save-btn">
-          Save Evaluation
-        </button>
+        <div class="action-buttons">
+          <button @click="saveEvaluation" class="save-btn">
+            Save Evaluation
+          </button>
+          <div class="final-btns">
+            <button
+              class="accept-btn"
+              @click="
+                () => {
+                  popup = true;
+                  rejectOption = false;
+                  acceptOption = true;
+                }
+              "
+            >
+              Accept
+            </button>
+            <button
+              class="reject-btn"
+              @click="
+                () => {
+                  popup = true;
+                  acceptOption = false;
+                  rejectOption = true;
+                }
+              "
+            >
+              Reject
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="popup" class="popup-overlay">
+      <div class="popup">
+        <div v-if="rejectOption">
+          <h2>Are you sure you want to reject this applicant?</h2>
+          <button class="back-btn2" @click="popup = false">Back</button>
+          <button @click="confirmReject()" class="reject-btn">Confirm</button>
+        </div>
+        <div v-if="acceptOption">
+          <h2>Are you sure you want to accept this applicant?</h2>
+          <button class="back-btn2" @click="popup = false">Back</button>
+          <button @click="confirmAccept()" class="accept-btn">Confirm</button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+const popup = ref(false);
+const rejectOption = ref(false);
+const acceptOption = ref(false);
+
 const props = defineProps({
   user: {
     type: Object,
@@ -194,6 +246,18 @@ function onInputChange(field, value) {
   const updatedUser = { ...props.user, [field]: value };
   emit("updateUser", updatedUser);
 }
+
+function confirmReject() {
+  onInputChange("onboardingStatus", "rejected");
+  saveEvaluation();
+  popup.value = false;
+}
+
+function confirmAccept() {
+  onInputChange("onboardingStatus", "accepted");
+  saveEvaluation();
+  popup.value = false;
+}
 </script>
 
 <style scoped>
@@ -230,6 +294,16 @@ function onInputChange(field, value) {
 
 .back-btn:hover {
   background-color: #0056b3;
+}
+
+.accepted {
+  color: #28cc45;
+  font-size: 1.5rem;
+}
+
+.rejected {
+  color: #dc3545;
+  font-size: 1.5rem;
 }
 
 .profile-section {
@@ -302,7 +376,8 @@ function onInputChange(field, value) {
 
 .question-answer-pair {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
 }
 
 .question-number {
@@ -340,6 +415,13 @@ function onInputChange(field, value) {
   height: 120px;
 }
 
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
 .save-btn {
   align-self: flex-start;
   padding: 0.75rem 1.5rem;
@@ -354,10 +436,47 @@ function onInputChange(field, value) {
   background-color: #218838;
 }
 
+.final-btns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.accept-btn {
+  align-self: flex-start;
+  padding: 0.75rem 1.5rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.accept-btn:hover {
+  background-color: #218838;
+}
+
+.reject-btn {
+  align-self: flex-start;
+  padding: 0.75rem 1.5rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.reject-btn:hover {
+  background-color: #ff3545;
+}
+
 h2,
 h3,
 h4 {
   margin-bottom: 1rem;
+}
+
+h3 {
+  text-decoration: underline;
 }
 
 p,
@@ -367,5 +486,44 @@ li {
 
 p strong {
   font-weight: bold;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup {
+  background: white;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 700px;
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.back-btn2 {
+  background: transparent;
+  border: none;
+  color: #007bff;
+  margin-right: 2rem;
+  cursor: pointer;
+}
+
+.back-btn2:hover {
+  background: transparent;
+  text-decoration: underline;
 }
 </style>

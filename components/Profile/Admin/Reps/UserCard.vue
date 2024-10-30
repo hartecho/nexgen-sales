@@ -15,6 +15,13 @@
       <p v-if="hasTestResults(user.enrolledCourses)">Yes</p>
       <p v-else>No</p>
     </div>
+    <div class="user-details grade">
+      <span
+        :class="getStatusClass(user.onboardingStatus)"
+        class="grade-dot"
+      ></span>
+      {{ capitalizeFirstLetter(user.onboardingStatus) }}
+    </div>
   </div>
 </template>
   
@@ -26,17 +33,21 @@ const props = defineProps({
   calculateAge: Function,
   getGradeClass: Function,
   hasTestResults: Function,
+  getStatusClass: Function,
 });
 
-function selectUser() {
-  // Emit the selected user to the parent
+function capitalizeFirstLetter(word) {
+  if (typeof word !== "string") {
+    throw new Error("Input must be a string");
+  }
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
 </script>
   
   <style scoped>
 .user-card {
   display: grid;
-  grid-template-columns: 80px 1fr 1fr 1fr 1fr;
+  grid-template-columns: 80px 1fr 1fr 1fr 1fr 1fr;
   gap: 1rem;
   padding: 0.75rem;
   border: 1px solid #e0e0e0;
@@ -75,7 +86,8 @@ function selectUser() {
 }
 
 /* Grade colors */
-.grade-highly-promising {
+.grade-highly-promising,
+.accepted {
   background-color: #28a745;
 }
 
@@ -91,11 +103,13 @@ function selectUser() {
   background-color: #fd7e14;
 }
 
-.grade-not-suitable {
+.grade-not-suitable,
+.rejected {
   background-color: #dc3545;
 }
 
-.grade-ungraded {
+.grade-ungraded,
+.incomplete {
   background-color: #6c757d;
 }
 </style>
