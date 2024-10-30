@@ -54,6 +54,7 @@ function capitalizeFirstLetter(word) {
   background-color: #f9f9f9;
   transition: background-color 0.3s;
   cursor: pointer; /* Add cursor pointer */
+  min-width: 900px;
 }
 
 .user-card:hover {

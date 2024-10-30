@@ -12,6 +12,7 @@
         <ProfileSupport v-else-if="currentSection == 'support'" />
         <ProfileAdminReps
           v-else-if="currentSection == 'reps' && userStore.user.role == 'admin'"
+          @close-sidebar="closeSidebar()"
         />
         <ProfileAdminEditUsers
           v-else-if="
@@ -46,10 +47,14 @@ const props = defineProps({
   currentSection: String,
 });
 
-const emit = defineEmits(["toggle-sidebar", "change-section"]);
+const emit = defineEmits(["toggle-sidebar", "change-section", "close-sidebar"]);
 
 const toggleSidebar = () => {
   emit("toggle-sidebar");
+};
+
+const closeSidebar = () => {
+  emit("close-sidebar");
 };
 </script>
 
@@ -73,7 +78,7 @@ const toggleSidebar = () => {
 .toggle-sidebar {
   background: transparent;
   border: none;
-  position: absolute;
+  position: fixed;
   top: 1rem;
   left: 1rem;
   z-index: 1000;

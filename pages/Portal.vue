@@ -20,6 +20,7 @@
           :isSidebarVisible="isSidebarVisible"
           :currentSection="currentSection"
           @toggle-sidebar="isSidebarVisible = !isSidebarVisible"
+          @close-sidebar="isSidebarVisible = false"
         />
       </div>
     </transition>
@@ -38,8 +39,20 @@ const changeSection = (newSection) => {
   currentSection.value = newSection;
 };
 
+const handleResize = () => {
+  if (window.innerWidth > 768) {
+    isSidebarVisible.value = true;
+  }
+};
+
 onMounted(() => {
   hydrated.value = true;
+  window.addEventListener("resize", handleResize);
+  handleResize(); // Initial check when the component mounts
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", handleResize);
 });
 
 useSeoMeta({

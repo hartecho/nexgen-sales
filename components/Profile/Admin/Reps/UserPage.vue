@@ -103,7 +103,7 @@
                 <div class="question-number">{{ i + 1 }}.</div>
                 <div class="test-question-answer">
                   <p><strong>Question:</strong> {{ result.question }}</p>
-                  <p>{{ result.answer }}</p>
+                  <p class="answer">{{ result.answer }}</p>
                 </div>
               </div>
             </div>
@@ -148,6 +148,7 @@
               class="accept-btn"
               @click="
                 () => {
+                  closeSidebar();
                   popup = true;
                   rejectOption = false;
                   acceptOption = true;
@@ -160,6 +161,7 @@
               class="reject-btn"
               @click="
                 () => {
+                  closeSidebar();
                   popup = true;
                   acceptOption = false;
                   rejectOption = true;
@@ -201,7 +203,12 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["back-to-list", "updateUser", "dbUpdate"]);
+const emit = defineEmits([
+  "back-to-list",
+  "updateUser",
+  "dbUpdate",
+  "close-sidebar",
+]);
 
 // Admin evaluation fields
 const grades = [
@@ -232,6 +239,10 @@ const calculateAge = (dob) => {
   const diff = Date.now() - new Date(dob).getTime();
   const age = new Date(diff).getUTCFullYear() - 1970;
   return age;
+};
+
+const closeSidebar = () => {
+  emit("close-sidebar");
 };
 
 const backToList = () => {
@@ -349,6 +360,10 @@ function confirmAccept() {
 
 .info-item {
   margin-bottom: 1rem;
+}
+
+.answer {
+  font-weight: lighter;
 }
 
 .info-item strong {
@@ -525,5 +540,67 @@ p strong {
 .back-btn2:hover {
   background: transparent;
   text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .user-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .info-item {
+    text-align: left;
+  }
+
+  .profile-section {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-image-container {
+    flex: 0 0 auto;
+    margin-bottom: 1rem;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .final-btns {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-picture {
+    width: 120px;
+    height: 120px;
+  }
+
+  .back-btn,
+  .save-btn,
+  .accept-btn,
+  .reject-btn {
+    width: 100%;
+  }
+
+  .input-select,
+  .input-textarea {
+    font-size: 0.9rem;
+  }
 }
 </style>

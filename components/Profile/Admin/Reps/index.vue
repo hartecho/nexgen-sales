@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <transition name="fade" mode="out-in">
-      <div v-if="list" class="user-list">
+      <div v-if="list">
         <h2>User List</h2>
 
         <!-- Filter Section -->
@@ -15,28 +15,34 @@
           @updateGradeFilter="updateGradeFilter"
           @updateStatusFilter="updateStatusFilter"
         />
-
-        <ProfileAdminRepsUserListLabels />
-        <div v-if="sortedAndFilteredUsers.length" class="user-list-container">
-          <div
-            v-for="user in sortedAndFilteredUsers"
-            :key="user._id"
-            class="user-card"
-            @click="selectUser(user._id)"
-          >
-            <ProfileAdminRepsUserCard
-              :user="user"
-              :selectUser="selectUser"
-              :calculateAge="calculateAge"
-              :getGradeClass="getGradeClass"
-              :hasTestResults="hasTestResults"
-              :getStatusClass="getStatusClass"
-            />
+        <div class="user-list-wrapper">
+          <div class="user-list">
+            <ProfileAdminRepsUserListLabels />
+            <div
+              v-if="sortedAndFilteredUsers.length"
+              class="user-list-container"
+            >
+              <div
+                v-for="user in sortedAndFilteredUsers"
+                :key="user._id"
+                class="user-card"
+                @click="selectUser(user._id)"
+              >
+                <ProfileAdminRepsUserCard
+                  :user="user"
+                  :selectUser="selectUser"
+                  :calculateAge="calculateAge"
+                  :getGradeClass="getGradeClass"
+                  :hasTestResults="hasTestResults"
+                  :getStatusClass="getStatusClass"
+                />
+              </div>
+            </div>
+            <div v-else-if="loading" class="spinner"></div>
+            <div v-else>
+              <p class="none">No Reps found</p>
+            </div>
           </div>
-        </div>
-        <div v-else-if="loading" class="spinner"></div>
-        <div v-else>
-          <p class="none">No Reps found</p>
         </div>
       </div>
       <div v-else>
@@ -45,6 +51,7 @@
           @back-to-list="list = true"
           @updateUser="updateSelectedUser($event)"
           @dbUpdate="updateUser()"
+          @close-sidebar="closeSidebar()"
         />
       </div>
     </transition>
@@ -62,11 +69,15 @@ const sortBy = ref("");
 const filterGrade = ref("");
 const filterStatus = ref("");
 const list = ref(true);
-
 const notificationMessage = ref("");
 const notificationType = ref("");
-
 const loading = ref(false);
+
+const emit = defineEmits(["close-sidebar"]);
+
+const closeSidebar = () => {
+  emit("close-sidebar");
+};
 
 const selectedUser = ref({
   name: "",
@@ -318,19 +329,29 @@ function updateSelectedUser(updatedUser) {
   
     
     <style scoped>
+.wrapper {
+  padding: 2rem;
+}
+
 h2 {
   margin-bottom: 2rem;
 }
 
+.user-list-wrapper {
+  display: flex;
+  overflow-x: auto; /* Allows horizontal scroll */
+  width: 80vw; /* Bound to viewport width */
+  padding-bottom: 1rem; /* Add space for better scrolling experience */
+  padding-right: 1rem;
+}
+
 .user-list {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+  min-width: 1000px; /* Sets minimum width */
+  flex: 1; /* Allows content to grow and center within wrapper */
   font-family: Arial, sans-serif;
   justify-content: center;
   align-items: center;
   white-space: nowrap;
-  overflow-x: auto;
 }
 
 .filters {
@@ -380,6 +401,28 @@ h2 {
 
 .none {
   margin-top: 1rem;
+}
+
+@media (max-width: 1224px) {
+  .wrapper {
+    padding: 1rem;
+    margin-top: 4rem;
+  }
+
+  .user-list-wrapper {
+    width: 75vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 1rem;
+    margin-top: 4rem;
+  }
+
+  .user-list-wrapper {
+    width: 95vw;
+  }
 }
 </style>
     
