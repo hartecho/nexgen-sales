@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div v-if="visible" class="notification-popup" :class="type">
+    <div v-if="message" class="notification-popup" :class="type">
       <span>{{ message }}</span>
       <button class="close-button" @click="closePopup">×</button>
     </div>
@@ -8,38 +8,19 @@
 </template>
   
   <script setup>
-import { ref, watch } from "vue";
-
 const props = defineProps({
   message: String,
   type: {
     type: String,
     default: "info", // Can be 'info', 'success', 'warning', 'error'
   },
-  duration: {
-    type: Number,
-    default: 3000, // Duration in milliseconds
-  },
 });
 
-const visible = ref(true);
+const emit = defineEmits(["closePopup"]);
 
 const closePopup = () => {
-  visible.value = false;
+  emit("closePopup");
 };
-
-// Automatically hide the popup after a certain duration
-watch(
-  () => props.message,
-  (newMessage) => {
-    if (newMessage) {
-      visible.value = true;
-      setTimeout(() => {
-        visible.value = false;
-      }, props.duration);
-    }
-  }
-);
 </script>
   
   <style scoped>

@@ -5,6 +5,7 @@
       v-if="notificationMessage"
       :message="notificationMessage"
       :type="notificationType"
+      @close-popup="notificationMessage = null"
     />
 
     <!-- Profile Image and Edit Section -->

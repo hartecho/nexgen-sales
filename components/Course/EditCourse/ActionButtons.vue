@@ -2,7 +2,7 @@
   <div class="section action-buttons">
     <h2>Available Actions</h2>
     <button @click="addCourse" class="action-button">Add Course</button>
-    <button @click="updateCourse" class="action-button">Update Course</button>
+    <button @click="updateCourse" class="action-button">Apply Changes</button>
     <button @click="deleteCourse" class="action-button">Delete Course</button>
   </div>
 </template>

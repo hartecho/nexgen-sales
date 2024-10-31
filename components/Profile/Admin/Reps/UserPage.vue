@@ -562,7 +562,7 @@ p strong {
 
   .profile-section {
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     text-align: center;
   }
 
@@ -586,6 +586,10 @@ p strong {
 }
 
 @media (max-width: 480px) {
+  .user-evaluation {
+    padding: 1rem;
+  }
+
   .profile-picture {
     width: 120px;
     height: 120px;
@@ -601,6 +605,15 @@ p strong {
   .input-select,
   .input-textarea {
     font-size: 0.9rem;
+  }
+
+  .question-answer-pair {
+    flex-direction: column;
+  }
+
+  .question-number {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
   }
 }
 </style>

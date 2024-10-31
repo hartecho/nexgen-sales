@@ -59,6 +59,7 @@
       v-if="notificationMessage"
       :message="notificationMessage"
       :type="notificationType"
+      @close-popup="notificationMessage = null"
     />
   </div>
 </template>
@@ -320,6 +321,9 @@ async function updateUser() {
 function showNotification(message, type = "info") {
   notificationMessage.value = message;
   notificationType.value = type;
+  setTimeout(() => {
+    notificationMessage.value = null;
+  }, 5000);
 }
 
 function updateSelectedUser(updatedUser) {

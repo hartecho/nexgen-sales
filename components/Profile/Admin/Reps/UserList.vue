@@ -42,6 +42,7 @@
       v-if="notificationMessage"
       :message="notificationMessage"
       :type="notificationType"
+      @close-popup="notificationMessage = null"
     />
   </div>
 </template>
