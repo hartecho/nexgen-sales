@@ -74,7 +74,7 @@ emit("hide-loading");
 .wrapper {
   min-height: 100vh;
   background: black;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   overflow-x: hidden;
 }
 

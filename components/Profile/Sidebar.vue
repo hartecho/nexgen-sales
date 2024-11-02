@@ -89,6 +89,7 @@ const adminSections = [
     icon: "Orders",
     subSections: [
       { name: "reps", title: "Reps" },
+      { name: "tickets", title: "Tickets" },
       { name: "edit-users", title: "Edit Users" },
       { name: "edit-courses", title: "Edit Courses" },
       { name: "edit-trainings", title: "Edit Trainings" },

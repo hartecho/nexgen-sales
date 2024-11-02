@@ -116,6 +116,7 @@ watch(
   max-width: 15rem;
   width: 100%;
   margin-top: 0.5rem;
+  min-width: 15rem;
 }
 
 @media (max-width: 1224px) {

@@ -7,9 +7,7 @@ export default defineEventHandler(async (event) => {
     await connectDB(); // Ensure DB connection
 
     // Fetch all tickets and populate user and messages sender info
-    const tickets = await Ticket.find({})
-      .populate('user', 'name')
-      .populate('messages.sender', 'name');
+    const tickets = await Ticket.find({});
 
     await disconnectDB(); // Disconnect from DB after fetching data
     return tickets;

@@ -9,9 +9,18 @@
         <ProfilePreferences v-else-if="currentSection == 'profile'" />
         <ProfileCourses v-else-if="currentSection == 'courses'" />
         <ProfileShop v-else-if="currentSection == 'shop'" />
-        <ProfileSupport v-else-if="currentSection == 'support'" />
+        <ProfileTicketSupport
+          v-else-if="currentSection == 'support'"
+          @close-sidebar="closeSidebar()"
+        />
         <ProfileAdminReps
           v-else-if="currentSection == 'reps' && userStore.user.role == 'admin'"
+          @close-sidebar="closeSidebar()"
+        />
+        <ProfileAdminTickets
+          v-else-if="
+            currentSection == 'tickets' && userStore.user.role == 'admin'
+          "
           @close-sidebar="closeSidebar()"
         />
         <ProfileAdminEditUsers

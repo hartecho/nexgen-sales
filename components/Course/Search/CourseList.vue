@@ -386,6 +386,7 @@ h4 {
     width: 100%;
     height: 15rem;
     max-width: none;
+    min-width: 0;
   }
 
   .course-entry__content {

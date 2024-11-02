@@ -8,16 +8,58 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event); // Extract the request body
     const ticketId = event.context.params.id; // Get the ticket ID from the URL parameters
 
-    const { senderName, text, isUser } = body; // Assuming body contains `sender` and `text` fields for the new message
+    const { senderName, text, isUser, status, adminUnread, userUnread } = body; // Assuming body contains `sender` and `text` fields for the new message
 
-    if (!senderName || !text) {
-      throw createError({ statusCode: 400, message: 'Sender name and text are required for a new message.' });
+    if ((!senderName || !text) && !status && adminUnread == null && userUnread == null) {
+      throw createError({ statusCode: 400, message: 'Sender name and text are required for a new message, or need status update, or unread update.' });
     }
 
     let updatedTicket;
 
+    if (status) {
+      updatedTicket = await Ticket.findByIdAndUpdate(
+        ticketId,
+        {
+          status: status,
+          updatedAt: new Date(), // Update the ticket's updated timestamp
+        },
+        {
+          new: true, // Return the updated document
+          runValidators: true, // Ensure validation rules are applied
+        }
+      );
+    }
+
+    if (adminUnread != null) {
+      updatedTicket = await Ticket.findByIdAndUpdate(
+        ticketId,
+        {
+          adminUnread: adminUnread,
+          updatedAt: new Date(), // Update the ticket's updated timestamp
+        },
+        {
+          new: true, // Return the updated document
+          runValidators: true, // Ensure validation rules are applied
+        }
+      );
+    }
+
+    if (userUnread != null) {
+      updatedTicket = await Ticket.findByIdAndUpdate(
+        ticketId,
+        {
+          userUnread: userUnread,
+          updatedAt: new Date(), // Update the ticket's updated timestamp
+        },
+        {
+          new: true, // Return the updated document
+          runValidators: true, // Ensure validation rules are applied
+        }
+      );
+    }
+
     // Find the ticket and add the new message to the messages array
-    if (isUser) {
+    if (isUser && senderName && text) {
       updatedTicket = await Ticket.findByIdAndUpdate(
         ticketId,
         {
@@ -30,7 +72,7 @@ export default defineEventHandler(async (event) => {
           runValidators: true, // Ensure validation rules are applied
         }
       );
-    } else {
+    } else if (!isUser && senderName && text) {
       updatedTicket = await Ticket.findByIdAndUpdate(
         ticketId,
         {

@@ -1,17 +1,12 @@
 <template>
   <div>
     <div class="hero">
-      <h2>Support Center</h2>
+      <h2>Admin Support Center</h2>
     </div>
     <div class="support-wrapper">
-      <!-- Sidebar for tickets and Create Ticket button -->
+      <!-- Sidebar for managing tickets -->
       <div class="sidebar">
-        <div class="button-wrapper">
-          <button class="create-ticket-button" @click="openTicketModal">
-            + Create Support Ticket
-          </button>
-        </div>
-        <h3>Your Tickets</h3>
+        <h3>All Tickets</h3>
 
         <div class="ticket-section open-section">
           <h4>Open Tickets</h4>
@@ -29,8 +24,9 @@
               <span class="ticket-date">{{
                 formatDateTime(ticket.updatedAt)
               }}</span>
+              <span class="ticket-user">User: {{ ticket.userName }}</span>
             </div>
-            <span v-if="ticket.userUnread" class="unread-dot"></span>
+            <span v-if="ticket.adminUnread" class="unread-dot"></span>
           </div>
         </div>
 
@@ -48,15 +44,16 @@
             <div class="ticket-info">
               <strong>{{ ticket.title }}</strong>
               <span class="ticket-date">{{
-                formatDate(ticket.createdAt)
+                formatDateTime(ticket.updatedAt)
               }}</span>
+              <span class="ticket-user">User: {{ ticket.userName }}</span>
             </div>
-            <span v-if="ticket.userUnread" class="unread-dot"></span>
+            <span v-if="ticket.adminUnread" class="unread-dot"></span>
           </div>
         </div>
       </div>
 
-      <!-- Main content for conversation view -->
+      <!-- Main content for ticket conversation and admin actions -->
       <div class="conversation-view" v-if="selectedTicket">
         <h2>{{ selectedTicket.title }}</h2>
         <ul class="messages">
@@ -78,88 +75,67 @@
           v-model="newMessage"
           placeholder="Type your message here"
         ></textarea>
-        <button @click="sendMessage">Send</button>
+        <div class="action-buttons">
+          <button @click="sendMessage">Send Reply</button>
+          <button @click="toggleTicketStatus" class="right-button">
+            {{
+              selectedTicket.status === "open"
+                ? "Close Ticket"
+                : "Reopen Ticket"
+            }}
+          </button>
+          <button @click="attemptDelete" class="delete-button">
+            Delete Ticket
+          </button>
+        </div>
       </div>
 
-      <!-- Ticket creation modal -->
-      <div v-if="showModal" class="modal-overlay">
+      <!-- Delete confirmation modal -->
+      <div v-if="showDeleteModal" class="modal-overlay">
         <div class="modal-content">
-          <h2>Create a Support Ticket</h2>
-          <label for="title">Title:</label>
-          <input
-            type="text"
-            v-model="newTicket.title"
-            placeholder="Enter title"
-          />
-          <label for="description">Description:</label>
-          <textarea
-            v-model="newTicket.description"
-            placeholder="Describe your issue"
-          ></textarea>
+          <h3>Confirm Deletion</h3>
+          <p>Are you sure you want to delete this ticket?</p>
           <div class="modal-buttons">
-            <button @click="submitTicket">Submit Ticket</button>
-            <button @click="closeTicketModal" class="cancel-button">
-              Cancel
+            <button @click="deleteTicket" class="delete-confirm-button">
+              Yes, Delete
             </button>
+            <button @click="cancelDelete" class="cancel-button">Cancel</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
+  
+    
 <script setup>
 import { ref, computed, onMounted } from "vue";
-const userStore = useUserStore();
-
-const showModal = ref(false);
-const newTicket = ref({ title: "", description: "" });
 const tickets = ref([]);
 const selectedTicket = ref(null);
 const newMessage = ref("");
+const showDeleteModal = ref(false);
 
 const emit = defineEmits(["close-sidebar"]);
 
-const openTicketModal = () => {
-  if (window.innerWidth < 768) {
-    emit("close-sidebar");
-  }
-  showModal.value = true;
-};
-
-const closeTicketModal = () => {
-  showModal.value = false;
-  newTicket.value = { title: "", description: "" };
-};
-
-const submitTicket = async () => {
+// Fetch all tickets for the admin view
+const fetchTickets = async () => {
   try {
-    const ticketData = {
-      userId: userStore.user._id,
-      userName: userStore.user.name,
-      title: newTicket.value.title,
-      description: newTicket.value.description,
-    };
-    const data = await $fetch("/api/tickets", {
-      method: "POST",
-      body: ticketData,
-    });
-    tickets.value.push(data);
-    closeTicketModal();
+    tickets.value = await $fetch("/api/tickets");
   } catch (error) {
-    console.error("Error creating ticket:", error);
+    console.error("Error fetching tickets:", error);
   }
 };
 
+// Select a ticket to view conversation
 const selectTicket = async (ticket) => {
   selectedTicket.value = ticket;
-  if (selectedTicket.value.userUnread == true) {
-    selectedTicket.value.userUnread = false;
+  if (selectedTicket.value.adminUnread == true) {
+    selectedTicket.value.adminUnread = false;
     try {
       await $fetch(`/api/tickets/${selectedTicket.value._id}`, {
         method: "PUT",
         body: {
-          userUnread: false,
+          adminUnread: false,
         },
       });
     } catch (error) {
@@ -168,6 +144,7 @@ const selectTicket = async (ticket) => {
   }
 };
 
+// Send a reply to the selected ticket
 const sendMessage = async () => {
   if (newMessage.value.trim()) {
     try {
@@ -175,11 +152,7 @@ const sendMessage = async () => {
         `/api/tickets/${selectedTicket.value._id}`,
         {
           method: "PUT",
-          body: {
-            text: newMessage.value,
-            senderName: userStore.user.name,
-            isUser: true,
-          },
+          body: { text: newMessage.value, senderName: "Admin", isUser: false },
         }
       );
       selectedTicket.value = response;
@@ -191,11 +164,46 @@ const sendMessage = async () => {
   }
 };
 
-const fetchTickets = async () => {
+// Toggle ticket status between open and closed
+const toggleTicketStatus = async () => {
   try {
-    tickets.value = await $fetch(`/api/tickets/${userStore.user._id}`);
+    const newStatus =
+      selectedTicket.value.status === "open" ? "closed" : "open";
+    const response = await $fetch(`/api/tickets/${selectedTicket.value._id}`, {
+      method: "PUT",
+      body: { status: newStatus },
+    });
+    selectedTicket.value = response;
+    fetchTickets();
   } catch (error) {
-    console.error("Error fetching tickets:", error);
+    console.error("Error updating ticket status:", error);
+  }
+};
+
+// Show delete confirmation modal
+const attemptDelete = () => {
+  if (window.innerWidth < 768) {
+    emit("close-sidebar");
+  }
+  showDeleteModal.value = true;
+};
+
+// Cancel delete operation
+const cancelDelete = () => {
+  showDeleteModal.value = false;
+};
+
+// Delete the selected ticket
+const deleteTicket = async () => {
+  try {
+    await $fetch(`/api/tickets/${selectedTicket.value._id}`, {
+      method: "DELETE",
+    });
+    selectedTicket.value = null; // Deselect the deleted ticket
+    showDeleteModal.value = false; // Close the modal
+    fetchTickets(); // Refresh the ticket list
+  } catch (error) {
+    console.error("Error deleting ticket:", error);
   }
 };
 
@@ -219,13 +227,15 @@ const formatDateTime = (date) =>
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
-    hour12: true, // Set to false for 24-hour format, true for 12-hour format
+    hour12: true,
   });
 
 onMounted(fetchTickets);
 </script>
 
+    
 <style scoped>
+/* Reuse styling from the user's component */
 .hero {
   width: 100%;
   text-align: left;
@@ -258,23 +268,8 @@ onMounted(fetchTickets);
   margin-bottom: 1rem;
 }
 
-.create-ticket-button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  width: 100%;
-  font-size: 16px;
-}
-
 h3 {
-  margin-left: 10px;
-}
-
-.ticket-section {
-  margin-top: 20px;
+  margin: 1rem 0 1rem 10px;
 }
 
 .ticket-section h4 {
@@ -318,7 +313,8 @@ h3 {
   flex-direction: column;
 }
 
-.ticket-date {
+.ticket-date,
+.ticket-user {
   font-size: 12px;
   color: #888;
 }
@@ -390,10 +386,26 @@ button {
   transition: background-color 0.3s ease;
 }
 
+.right-button {
+  margin-left: 1rem;
+}
+
 button:hover {
   background-color: #0056b3;
 }
 
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+  margin-left: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+/* Delete confirmation modal styling */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -412,43 +424,33 @@ button:hover {
   border-radius: 8px;
   width: 400px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: 90%;
 }
 
-.modal-content h2 {
+.modal-content h3 {
   margin-top: 0;
   color: #333;
-  font-size: 18px;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
 }
 
-.modal-content label {
-  display: block;
-  margin: 10px 0 5px;
-  font-weight: bold;
+.modal-content p {
+  margin: 1rem 0;
+  font-size: 16px;
   color: #555;
-}
-
-.modal-content input,
-.modal-content textarea {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 14px;
 }
 
 .modal-buttons {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  margin-top: 20px;
 }
 
-.modal-buttons button {
-  font-size: 14px;
+.delete-confirm-button {
+  background-color: #dc3545;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.delete-confirm-button:hover {
+  background-color: #c82333;
 }
 
 .cancel-button {
@@ -460,7 +462,6 @@ button:hover {
   background-color: #5a6268;
 }
 
-/* Responsive styling */
 @media (max-width: 768px) {
   .support-wrapper {
     flex-direction: column;
@@ -500,5 +501,4 @@ button:hover {
   }
 }
 </style>
-
 
