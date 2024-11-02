@@ -1,70 +1,111 @@
 <template>
-  <div class="section">
+  <div class="sidebar">
     <h2>Select User</h2>
-    <select
-      v-model="selectedUserId"
-      @change="onUserSelected"
-      class="dropdown-button"
-    >
-      <option disabled value="">Please select one</option>
-      <option v-for="user in sortedUsers" :key="user._id" :value="user._id">
-        {{ user.name }} ({{ user.email }})
-      </option>
-    </select>
+    <div class="input-wrapper">
+      <input
+        type="text"
+        v-model="searchQuery"
+        placeholder="Search by name or email"
+        class="search-bar"
+      />
+    </div>
+    <ul class="user-list">
+      <li
+        v-for="user in filteredUsers"
+        :key="user._id"
+        :class="{ active: user._id === selectedUserId }"
+        @click="selectUser(user._id)"
+      >
+        <div v-html="highlightMatch(user.name)"></div>
+        <div class="email" v-html="highlightMatch(user.email)"></div>
+      </li>
+    </ul>
   </div>
 </template>
-  
-  <script setup>
+
+<script setup>
 import { ref, computed } from "vue";
 
-const props = defineProps({
-  users: Array, // Array of available users
-});
-
+const props = defineProps({ users: Array });
 const emit = defineEmits(["userSelected"]);
-
 const selectedUserId = ref("");
+const searchQuery = ref("");
 
-// Sort the users alphabetically by name
-const sortedUsers = computed(() => {
-  return [...props.users].sort((a, b) => a.name.localeCompare(b.name));
+// Sort and filter users based on the search query
+const filteredUsers = computed(() => {
+  return [...props.users]
+    .filter((user) => {
+      const searchLower = searchQuery.value.toLowerCase();
+      return (
+        user.name.toLowerCase().includes(searchLower) ||
+        user.email.toLowerCase().includes(searchLower)
+      );
+    })
+    .sort((a, b) => a.name.localeCompare(b.name));
 });
 
-// Emit the selected user ID to the parent component when a user is selected
-function onUserSelected() {
-  emit("userSelected", selectedUserId.value);
+// Highlight matching text in the name or email
+function highlightMatch(text) {
+  if (!searchQuery.value) return text;
+  const regex = new RegExp(`(${searchQuery.value})`, "gi");
+  return text.replace(regex, "<span class='highlight'>$1</span>");
+}
+
+function selectUser(userId) {
+  selectedUserId.value = userId;
+  emit("userSelected", userId);
 }
 </script>
-  
-  <style scoped>
-.section {
-  padding: 2rem;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
+
+<style scoped>
+.sidebar {
+  width: 300px;
+  background: #f4f5f7;
+  border-right: 1px solid #ddd;
 }
 
 h2 {
-  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  color: #333;
+  margin: 1rem 0 1rem 10px;
 }
 
-.dropdown-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 25px;
-  background-color: white;
-  cursor: pointer;
+.input-wrapper {
+  padding: 0 10px;
+}
+
+.search-bar {
   width: 100%;
-  text-align: left;
+  padding: 8px;
   margin-bottom: 1rem;
-  transition: background-color 0.3s, color 0.3s;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-.dropdown-button:hover {
-  background-color: #ff8210;
-  color: white;
+.user-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user-list li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-bottom: 1px solid #ddd;
+}
+
+.user-list li:hover,
+.user-list li.active {
+  background-color: #e6f7ff;
+}
+
+.email {
+  color: #777;
+}
+
+.highlight {
+  background-color: yellow;
+  font-weight: bold;
 }
 </style>
-  

@@ -1,9 +1,11 @@
 <template>
-  <div class="section action-buttons">
+  <div class="action-buttons">
     <h2>Available Actions</h2>
-    <button @click="addUser" class="action-button">Add User</button>
-    <button @click="updateUser" class="action-button">Update User</button>
-    <button @click="deleteUser" class="action-button">Delete User</button>
+    <button @click="addUser" class="action-button">Add New User</button>
+    <button @click="updateUser" class="action-button">Apply Changes</button>
+    <button @click="deleteUser" class="action-button">
+      Delete Current User
+    </button>
   </div>
 </template>
   
@@ -29,7 +31,12 @@ function deleteUser() {
   
   <style scoped>
 .action-buttons {
+  width: 300px;
+  background: #f4f5f7;
+  border-right: 1px solid #ddd;
   text-align: center;
+  padding: 1rem 10px;
+  margin-top: 5rem;
 }
 
 h2 {

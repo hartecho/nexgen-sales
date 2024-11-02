@@ -1,65 +1,8 @@
 <template>
-  <div class="wrapper">
-    <h1>Add/Update User</h1>
-
-    <div class="content">
-      <!-- Select User -->
+  <div class="user-management-wrapper">
+    <!-- Sidebar for managing users -->
+    <div>
       <UserEditUserSelectUser :users="users" @userSelected="selectUser" />
-
-      <!-- General Information -->
-      <UserEditUserGeneralInfo
-        :selectedUser="selectedUser"
-        @updateUser="updateSelectedUser($event)"
-      />
-
-      <!-- Manage Shipping Addresses -->
-      <UserEditUserShippingAddresses
-        :selectedUser="selectedUser"
-        @updateUser="updateSelectedUser($event)"
-      />
-
-      <!-- Manage Payment Methods -->
-      <UserEditUserPaymentMethods
-        :selectedUser="selectedUser"
-        @updateUser="updateSelectedUser($event)"
-      />
-
-      <!-- Manage Cart -->
-      <UserEditUserCart
-        :selectedUser="selectedUser"
-        @updateUser="updateSelectedUser($event)"
-      />
-
-      <!-- Manage Orders -->
-      <UserEditUserOrders
-        :selectedUser="selectedUser"
-        @updateUser="updateSelectedUser($event)"
-      />
-
-      <!-- Manage Wishlist -->
-      <UserEditUserWishlist
-        :selectedUser="selectedUser"
-        @updateUser="updateSelectedUser($event)"
-      />
-
-      <!-- Manage Recently Viewed Items -->
-      <UserEditUserRecentlyViewed
-        :selectedUser="selectedUser"
-        @updateUser="updateSelectedUser($event)"
-      />
-
-      <!-- Manage Enrolled Courses -->
-      <UserEditUserEnrolledCourses
-        :selectedUser="selectedUser"
-        @updateUser="updateSelectedUser($event)"
-      />
-
-      <!-- Manage Enrolled Courses -->
-      <UserEditUserPreferences
-        :selectedUser="selectedUser"
-        @updateUser="updateSelectedUser($event)"
-      />
-
       <!-- Action Buttons -->
       <UserEditUserActionButtons
         :user="selectedUser"
@@ -67,6 +10,60 @@
         @update-user="updateUser"
         @delete-user="deleteUser"
       />
+    </div>
+
+    <!-- Main content for user details and actions -->
+    <div class="user-details" v-if="selectedUser">
+      <h1>Add/Update User</h1>
+      <div class="content">
+        <!-- General Information -->
+        <UserEditUserGeneralInfo
+          :selectedUser="selectedUser"
+          @updateUser="updateSelectedUser($event)"
+        />
+
+        <!-- Manage Shipping Addresses -->
+        <UserEditUserShippingAddresses
+          :selectedUser="selectedUser"
+          @updateUser="updateSelectedUser($event)"
+        />
+
+        <!-- Manage Payment Methods -->
+        <UserEditUserPaymentMethods
+          :selectedUser="selectedUser"
+          @updateUser="updateSelectedUser($event)"
+        />
+
+        <!-- Manage Cart -->
+        <UserEditUserCart
+          :selectedUser="selectedUser"
+          @updateUser="updateSelectedUser($event)"
+        />
+
+        <!-- Manage Orders -->
+        <UserEditUserOrders
+          :selectedUser="selectedUser"
+          @updateUser="updateSelectedUser($event)"
+        />
+
+        <!-- Manage Wishlist -->
+        <UserEditUserWishlist
+          :selectedUser="selectedUser"
+          @updateUser="updateSelectedUser($event)"
+        />
+
+        <!-- Manage Recently Viewed Items -->
+        <UserEditUserRecentlyViewed
+          :selectedUser="selectedUser"
+          @updateUser="updateSelectedUser($event)"
+        />
+
+        <!-- Manage Enrolled Courses -->
+        <UserEditUserEnrolledCourses
+          :selectedUser="selectedUser"
+          @updateUser="updateSelectedUser($event)"
+        />
+      </div>
     </div>
 
     <!-- Notification Popup -->
@@ -78,6 +75,7 @@
     />
   </div>
 </template>
+
   
   <script setup>
 import { ref, onMounted } from "vue";
@@ -268,14 +266,26 @@ function updateSelectedUser(updatedUser) {
 }
 </script>
   
-  <style scoped>
-.wrapper {
-  padding: 2rem;
-  width: 100%;
-  margin: 0;
+<style scoped>
+.user-management-wrapper {
+  display: flex;
   min-height: 100vh;
   font-family: "Roboto", sans-serif;
   background-color: #f5f5f5;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.user-details {
+  flex: 1;
+  /* margin-left: 300px; */
+  padding: 2rem;
+  width: 100%;
 }
 
 h1 {
@@ -286,15 +296,10 @@ h1 {
   font-weight: 700;
 }
 
-h2 {
-  margin-bottom: 1rem;
-}
-
 .content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
-  width: 100%;
 }
 
 .section {
@@ -303,15 +308,6 @@ h2 {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
-.section h2 {
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
-  color: #333;
-}
-
-.action-buttons {
-  text-align: center;
-}
 </style>
+
   
