@@ -288,12 +288,13 @@ h3 {
   background-color: #e6f7ff;
   border-radius: 5px;
   margin-bottom: 1rem;
+  padding-bottom: 10px;
 }
 
 .closed-section {
   background-color: #f0f0f0;
   border-radius: 5px;
-  padding: 10px;
+  padding-bottom: 10px;
 }
 
 .ticket-tab {

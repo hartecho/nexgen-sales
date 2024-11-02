@@ -28,32 +28,51 @@
 </template>
 
 <script setup>
-const userStore = useUserStore(); // Assuming you have a user store to check if the user is logged in
+import { ref, computed, onMounted, onUnmounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+
+const userStore = useUserStore();
 const isLoggedIn = computed(() => !!userStore.token);
 const hydrated = ref(false);
 
 const currentSection = ref("dashboard");
 const isSidebarVisible = ref(true);
 
+const route = useRoute();
+const router = useRouter();
+
 const changeSection = (newSection) => {
   currentSection.value = newSection;
 };
+
+// Update the URL whenever `currentSection` changes
+watch(currentSection, (newSection) => {
+  router.replace({ query: { section: newSection } });
+});
+
+// Set `currentSection` based on the URL query parameter when the component mounts
+onMounted(() => {
+  hydrated.value = true;
+
+  // Set the initial section based on the URL, defaulting to "dashboard"
+  const sectionFromUrl = route.query.section;
+  if (sectionFromUrl) {
+    currentSection.value = sectionFromUrl;
+  }
+
+  window.addEventListener("resize", handleResize);
+  handleResize(); // Initial check for sidebar visibility
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", handleResize);
+});
 
 const handleResize = () => {
   if (window.innerWidth > 768) {
     isSidebarVisible.value = true;
   }
 };
-
-onMounted(() => {
-  hydrated.value = true;
-  window.addEventListener("resize", handleResize);
-  handleResize(); // Initial check when the component mounts
-});
-
-onUnmounted(() => {
-  window.removeEventListener("resize", handleResize);
-});
 
 useSeoMeta({
   title: "Nexgen Sales Portal - Access Your Door-to-Door Sales Training",
@@ -69,6 +88,7 @@ useSeoMeta({
 const emit = defineEmits(["hide-loading"]);
 emit("hide-loading");
 </script>
+
 
 <style scoped>
 .wrapper {
