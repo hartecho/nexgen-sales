@@ -4,55 +4,61 @@
     <div
       v-for="(payment, index) in selectedUser.paymentMethods"
       :key="index"
-      class="payment-wrapper"
+      class="payment-item"
     >
-      <div class="input-wrapper">
-        <input
-          type="text"
-          :value="payment.cardType"
-          @input="onPaymentChange(index, 'cardType', $event.target.value)"
-          placeholder="Card Type"
-        />
-        <label>Card Type</label>
+      <div class="payment-info">
+        <div class="input-group">
+          <label>Card Type</label>
+          <input
+            type="text"
+            :value="payment.cardType"
+            @input="onPaymentChange(index, 'cardType', $event.target.value)"
+            placeholder="Card Type"
+          />
+        </div>
+        <div class="input-group">
+          <label>Last 4 Digits</label>
+          <input
+            type="text"
+            :value="payment.last4Digits"
+            @input="onPaymentChange(index, 'last4Digits', $event.target.value)"
+            placeholder="Last 4 Digits"
+          />
+        </div>
+        <div class="input-group">
+          <label>Expiration Date</label>
+          <input
+            type="text"
+            :value="payment.expirationDate"
+            @input="
+              onPaymentChange(index, 'expirationDate', $event.target.value)
+            "
+            placeholder="Expiration Date"
+          />
+        </div>
+        <div class="input-group">
+          <label>Cardholder Name</label>
+          <input
+            type="text"
+            :value="payment.cardholderName"
+            @input="
+              onPaymentChange(index, 'cardholderName', $event.target.value)
+            "
+            placeholder="Cardholder Name"
+          />
+        </div>
+        <button @click="deletePaymentMethod(index)" class="delete-button">
+          Delete
+        </button>
       </div>
-      <div class="input-wrapper">
-        <input
-          type="text"
-          :value="payment.last4Digits"
-          @input="onPaymentChange(index, 'last4Digits', $event.target.value)"
-          placeholder="Last 4 Digits"
-        />
-        <label>Last 4 Digits</label>
-      </div>
-      <div class="input-wrapper">
-        <input
-          type="text"
-          :value="payment.expirationDate"
-          @input="onPaymentChange(index, 'expirationDate', $event.target.value)"
-          placeholder="Expiration Date"
-        />
-        <label>Expiration Date</label>
-      </div>
-      <div class="input-wrapper">
-        <input
-          type="text"
-          :value="payment.cardholderName"
-          @input="onPaymentChange(index, 'cardholderName', $event.target.value)"
-          placeholder="Cardholder Name"
-        />
-        <label>Cardholder Name</label>
-      </div>
-      <button @click="deletePaymentMethod(index)" class="delete-button">
-        Delete
-      </button>
     </div>
     <button @click="addNewPaymentMethod" class="add-button">
       Add New Payment Method
     </button>
   </div>
 </template>
-  
-  <script setup>
+
+<script setup>
 const props = defineProps({
   selectedUser: Object,
 });
@@ -97,95 +103,107 @@ function deletePaymentMethod(index) {
   emit("updateUser", updatedUser);
 }
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .section {
-  padding: 2rem;
-  background: #fff;
+  background: rgba(173, 216, 230, 0.15); /* Light transparent blue */
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
+  width: 100%;
+  padding: 1.5rem;
 }
 
 h2 {
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   color: #333;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
 }
 
-.payment-wrapper {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  background: #f9f9f9;
+.payment-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.5rem;
   padding: 1rem;
-  border-radius: 8px;
+  background: rgba(173, 216, 230, 0.1); /* Light blue background */
+  border: 1px solid #ddd;
+  border-radius: 6px;
   margin-bottom: 1rem;
 }
 
-.input-wrapper {
-  position: relative;
+.payment-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-.input-wrapper input[type="text"] {
-  display: block;
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
+.input-group {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  font-size: 0.8rem;
+  color: #333;
+  margin-bottom: 0.3rem;
+}
+
+.input-group input[type="text"] {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  color: #333;
+  background: rgba(255, 255, 255, 0.8);
   border: 1px solid #ccc;
   border-radius: 4px;
-  transition: border-color 0.3s;
-}
-
-.input-wrapper input[type="text"]:focus {
-  border-color: #4caf50;
-  outline: none;
-}
-
-.input-wrapper label {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
   transition: all 0.3s ease;
-  background: #f9f9f9;
-  padding: 0 5px;
-  color: #999;
-  pointer-events: none;
+  width: 100%;
 }
 
-.input-wrapper input:focus + label,
-.input-wrapper input:not(:placeholder-shown) + label {
-  top: -10px;
-  left: 5px;
-  font-size: 0.85rem;
-  color: #4caf50;
+.input-group input:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.3);
 }
 
 .add-button,
 .delete-button {
   padding: 10px 20px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 25px;
-  background-color: #ff8210;
-  color: white;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  text-align: center;
-  transition: background-color 0.3s, color 0.3s;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
 }
 
-.add-button:hover,
-.delete-button:hover {
-  background-color: #e66b00;
+.add-button {
+  background-color: #4a90e2;
+  color: white;
+  margin-top: 1rem;
+}
+
+.add-button:hover {
+  background-color: #357abd;
 }
 
 .delete-button {
   background-color: #e74c3c;
+  color: white;
+  padding: 0.6rem 1.2rem;
 }
 
 .delete-button:hover {
   background-color: #c0392b;
 }
+
+/* Alternate background colors for payment-item */
+.payment-item:nth-child(odd) {
+  background-color: rgba(240, 240, 240, 1); /* Light gray */
+}
+
+.payment-item:nth-child(even) {
+  background-color: rgba(200, 200, 255, 0.1); /* Light blue tint */
+}
 </style>
-  

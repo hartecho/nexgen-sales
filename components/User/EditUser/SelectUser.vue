@@ -67,7 +67,7 @@ function selectUser(userId) {
 h2 {
   font-size: 1.25rem;
   color: #333;
-  margin: 1rem 0 1rem 10px;
+  margin: 1rem 0 1rem 18px;
 }
 
 .input-wrapper {
@@ -86,10 +86,11 @@ h2 {
   list-style: none;
   padding: 0;
   margin: 0;
+  background: rgba(173, 216, 230, 0.15); /* Light transparent blue */
 }
 
 .user-list li {
-  padding: 10px;
+  padding: 10px 18px;
   cursor: pointer;
   transition: background-color 0.3s;
   border-bottom: 1px solid #ddd;
@@ -97,11 +98,12 @@ h2 {
 
 .user-list li:hover,
 .user-list li.active {
-  background-color: #e6f7ff;
+  background: rgba(74, 144, 226, 0.3); /* Active blue */
 }
 
 .email {
-  color: #777;
+  color: #444;
+  font-weight: lighter;
 }
 
 .highlight {

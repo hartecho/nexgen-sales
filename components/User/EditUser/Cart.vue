@@ -1,48 +1,87 @@
 <template>
   <div class="section">
-    <h2>Cart</h2>
-    <div v-if="selectedUser.cart.length > 0">
-      <div
-        v-for="(item, index) in selectedUser.cart"
-        :key="index"
-        class="cart-item"
-      >
-        <div class="input-wrapper">
-          <input
-            type="text"
-            :value="item.product"
-            @input="onCartItemChange(index, 'product', $event.target.value)"
-            placeholder="Product ID"
-          />
-          <label>Product ID</label>
-        </div>
-        <div class="input-wrapper">
-          <input
-            type="number"
-            :value="item.quantity"
-            @input="onCartItemChange(index, 'quantity', $event.target.value)"
-            placeholder="Quantity"
-            min="1"
-          />
-          <label>Quantity</label>
-        </div>
-        <button @click="removeCartItem(index)" class="delete-button">
-          Remove
-        </button>
-      </div>
+    <div class="section-header" @click="toggleCollapse" @mousedown.prevent>
+      <h2>Cart</h2>
+      <span :class="['collapse-icon', isCollapsed ? 'collapsed' : 'expanded']">
+        ▼
+      </span>
     </div>
-    <button @click="addNewCartItem" class="add-button">Add New Item</button>
+
+    <div
+      ref="content"
+      :style="{ maxHeight: isCollapsed ? '0px' : contentHeight }"
+      class="content"
+    >
+      <div v-if="selectedUser.cart.length > 0" class="input-grid">
+        <div
+          v-for="(item, index) in selectedUser.cart"
+          :key="index"
+          class="cart-item"
+        >
+          <!-- Product ID Input -->
+          <div class="input-group">
+            <label>Product ID</label>
+            <input
+              type="text"
+              :value="item.product"
+              @input="onCartItemChange(index, 'product', $event.target.value)"
+              placeholder="Product ID"
+            />
+          </div>
+
+          <!-- Quantity Input -->
+          <div class="input-group quantity-group">
+            <label>Quantity</label>
+            <input
+              type="number"
+              :value="item.quantity"
+              @input="onCartItemChange(index, 'quantity', $event.target.value)"
+              placeholder="Qty"
+              min="1"
+            />
+          </div>
+
+          <!-- Delete Button -->
+          <button @click="removeCartItem(index)" class="delete-button">
+            <img src="/Graphics/TrashBlue.svg" alt="Delete" />
+          </button>
+        </div>
+      </div>
+      <button @click="addNewCartItem" class="add-button">Add New Item</button>
+    </div>
   </div>
 </template>
-  
-  <script setup>
+
+<script setup>
+import { ref, onMounted, nextTick } from "vue";
+
 const props = defineProps({
   selectedUser: Object,
 });
 
 const emit = defineEmits(["updateUser"]);
 
-// Handle changes to cart items
+const isCollapsed = ref(true);
+const contentHeight = ref("0px");
+const content = ref(null);
+
+function toggleCollapse() {
+  isCollapsed.value = !isCollapsed.value;
+  adjustContentHeight();
+}
+
+function adjustContentHeight() {
+  nextTick(() => {
+    contentHeight.value = isCollapsed.value
+      ? "0px"
+      : `${content.value.scrollHeight}px`;
+  });
+}
+
+onMounted(() => {
+  adjustContentHeight();
+});
+
 function onCartItemChange(index, field, value) {
   const updatedCart = [...props.selectedUser.cart];
   updatedCart[index] = {
@@ -54,9 +93,9 @@ function onCartItemChange(index, field, value) {
     cart: updatedCart,
   };
   emit("updateUser", updatedUser);
+  adjustContentHeight(); // Adjust height after updating an item
 }
 
-// Add a new item to the cart
 function addNewCartItem() {
   const newCartItem = {
     product: "",
@@ -68,9 +107,9 @@ function addNewCartItem() {
     cart: updatedCart,
   };
   emit("updateUser", updatedUser);
+  adjustContentHeight(); // Adjust height after adding a new item
 }
 
-// Remove an item from the cart
 function removeCartItem(index) {
   const updatedCart = [...props.selectedUser.cart];
   updatedCart.splice(index, 1);
@@ -79,99 +118,137 @@ function removeCartItem(index) {
     cart: updatedCart,
   };
   emit("updateUser", updatedUser);
+  adjustContentHeight(); // Adjust height after removing an item
 }
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .section {
-  padding: 2rem;
-  background: #fff;
+  background: rgba(173, 216, 230, 0.15); /* Light transparent blue */
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
+  width: 100%;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 1rem;
+  user-select: none;
+  outline: none;
+}
+
+.section-header h2,
+.section-header .collapse-icon {
+  user-select: none;
+  outline: none;
+}
+
+.collapse-icon {
+  font-size: 1.2rem;
+  transition: transform 0.3s;
+}
+
+.collapsed {
+  transform: rotate(-90deg);
 }
 
 h2 {
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   color: #333;
+  font-weight: 500;
+  margin: 0;
+}
+
+.content {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.5s ease;
+}
+
+.input-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
 }
 
 .cart-item {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  background: #f9f9f9;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
+  grid-template-columns: 1fr auto auto;
+  max-width: 325px;
+  gap: 0.5rem;
+  padding: 0.8rem;
+  background: rgba(173, 216, 230, 0.1); /* Light blue background */
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  align-items: center;
 }
 
-.input-wrapper {
-  position: relative;
+.input-group {
+  display: flex;
+  flex-direction: column;
 }
 
-.input-wrapper input[type="text"],
-.input-wrapper input[type="number"] {
-  display: block;
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
+.input-group label {
+  font-size: 0.8rem;
+  color: #333;
+  margin-bottom: 0.3rem;
+}
+
+.input-group input[type="text"],
+.input-group input[type="number"] {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  color: #333;
+  background: rgba(255, 255, 255, 0.8);
   border: 1px solid #ccc;
-  border-radius: 4px;
-  transition: border-color 0.3s;
-}
-
-.input-wrapper input[type="text"]:focus,
-.input-wrapper input[type="number"]:focus {
-  border-color: #4caf50;
-  outline: none;
-}
-
-.input-wrapper label {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
   transition: all 0.3s ease;
-  background: #f9f9f9;
-  padding: 0 5px;
-  color: #999;
-  pointer-events: none;
 }
 
-.input-wrapper input:focus + label,
-.input-wrapper input:not(:placeholder-shown) + label {
-  top: -10px;
-  left: 5px;
-  font-size: 0.85rem;
-  color: #4caf50;
+.quantity-group input {
+  width: 60px;
 }
 
-.add-button,
-.delete-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 25px;
-  background-color: #ff8210;
+.input-group input:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.3);
+}
+
+.add-button {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  border: none;
+  background-color: #4a90e2;
   color: white;
   cursor: pointer;
-  text-align: center;
-  transition: background-color 0.3s, color 0.3s;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  margin: 1rem;
+  border-radius: 6px;
 }
 
-.add-button:hover,
-.delete-button:hover {
-  background-color: #e66b00;
+.add-button:hover {
+  background-color: #357abd;
 }
 
 .delete-button {
-  background-color: #e74c3c;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem;
+  transition: transform 0.2s ease;
+}
+
+.delete-button img {
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .delete-button:hover {
-  background-color: #c0392b;
+  transform: scale(1.1);
 }
 </style>
-  

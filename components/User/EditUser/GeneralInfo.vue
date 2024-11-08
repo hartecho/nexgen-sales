@@ -1,83 +1,107 @@
 <template>
   <div class="section">
-    <h2>General Information</h2>
-
-    <!-- User Name -->
-    <div class="input-wrapper">
-      <input
-        type="text"
-        :value="selectedUser.name"
-        @input="onInputChange('name', $event.target.value)"
-        placeholder=" "
-      />
-      <label>User Name</label>
+    <div class="section-header" @click="toggleCollapse" @mousedown.prevent>
+      <h2>General Information</h2>
+      <span :class="['collapse-icon', isCollapsed ? 'collapsed' : 'expanded']">
+        ▼
+      </span>
     </div>
 
-    <!-- User Email -->
-    <div class="input-wrapper">
-      <input
-        type="text"
-        :value="selectedUser.email"
-        @input="onInputChange('email', $event.target.value)"
-        placeholder=" "
-      />
-      <label>User Email</label>
-    </div>
+    <div
+      ref="content"
+      :style="{ maxHeight: isCollapsed ? '0px' : contentHeight }"
+      class="content"
+    >
+      <div class="input-grid">
+        <!-- User Name -->
+        <div class="input-group">
+          <label>User Name</label>
+          <input
+            type="text"
+            :value="selectedUser.name"
+            @input="onInputChange('name', $event.target.value)"
+            placeholder="User Name"
+          />
+        </div>
 
-    <!-- Profile Picture URL -->
-    <div class="input-wrapper">
-      <input
-        type="text"
-        :value="selectedUser.profilePicture"
-        @input="onInputChange('profilePicture', $event.target.value)"
-        placeholder=" "
-      />
-      <label>Profile Picture URL</label>
-    </div>
+        <!-- User Email -->
+        <div class="input-group">
+          <label>User Email</label>
+          <input
+            type="text"
+            :value="selectedUser.email"
+            @input="onInputChange('email', $event.target.value)"
+            placeholder="User Email"
+          />
+        </div>
 
-    <!-- User Bio -->
-    <div class="input-wrapper">
-      <textarea
-        :value="selectedUser.bio"
-        @input="onInputChange('bio', $event.target.value)"
-        placeholder=" "
-      ></textarea>
-      <label>User Bio</label>
-    </div>
+        <!-- Profile Picture URL -->
+        <div class="input-group">
+          <label>Profile Picture URL</label>
+          <input
+            type="text"
+            :value="selectedUser.profilePicture"
+            @input="onInputChange('profilePicture', $event.target.value)"
+            placeholder="Profile Picture URL"
+          />
+        </div>
 
-    <!-- User Role Dropdown -->
-    <div class="input-wrapper">
-      <select
-        :value="selectedUser.role"
-        @change="onInputChange('role', $event.target.value)"
-        class="dropdown-button"
-      >
-        <option value="customer">Customer</option>
-        <option value="admin">Admin</option>
-      </select>
-      <label>User Role</label>
-    </div>
+        <!-- User Bio -->
+        <div class="input-group">
+          <label>User Bio</label>
+          <textarea
+            :value="selectedUser.bio"
+            @input="onInputChange('bio', $event.target.value)"
+            placeholder="User Bio"
+          ></textarea>
+        </div>
 
-    <!-- Change Password -->
-    <div class="input-wrapper">
-      <input type="password" v-model="newPassword" placeholder=" " />
-      <label>New Password</label>
-    </div>
+        <!-- User Role Dropdown -->
+        <div class="input-group">
+          <label>User Role</label>
+          <select
+            :value="selectedUser.role"
+            @change="onInputChange('role', $event.target.value)"
+          >
+            <option value="customer">Customer</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
 
-    <div class="input-wrapper">
-      <input type="password" v-model="confirmPassword" placeholder=" " />
-      <label>Confirm New Password</label>
-    </div>
+        <!-- Password Fields -->
+        <div class="input-group">
+          <label>New Password</label>
+          <input
+            type="password"
+            v-model="newPassword"
+            placeholder="New Password"
+          />
+        </div>
 
-    <button @click="updatePassword" class="password-button">
-      Update Password
-    </button>
-    <p v-if="passwordError" class="error-message">{{ passwordError }}</p>
-    <p v-if="passwordSuccess" class="success-message">{{ passwordSuccess }}</p>
+        <div class="input-group">
+          <label>Confirm New Password</label>
+          <input
+            type="password"
+            v-model="confirmPassword"
+            placeholder="Confirm Password"
+          />
+        </div>
+      </div>
+
+      <button @click="updatePassword" class="password-button">
+        Update Password
+      </button>
+      <p v-if="passwordError" class="error-message">{{ passwordError }}</p>
+      <p v-if="passwordSuccess" class="success-message">
+        {{ passwordSuccess }}
+      </p>
+    </div>
   </div>
 </template>
 
 <script setup>
+import { ref, onMounted, nextTick } from "vue";
+
 const props = defineProps({
   selectedUser: Object,
 });
@@ -88,14 +112,32 @@ const newPassword = ref("");
 const confirmPassword = ref("");
 const passwordError = ref("");
 const passwordSuccess = ref("");
+const isCollapsed = ref(true);
+const contentHeight = ref("0px");
+const content = ref(null);
 
-// Function to handle input changes and emit the updated user object
+function toggleCollapse() {
+  isCollapsed.value = !isCollapsed.value;
+  adjustContentHeight();
+}
+
+function adjustContentHeight() {
+  nextTick(() => {
+    contentHeight.value = isCollapsed.value
+      ? "0px"
+      : `${content.value.scrollHeight}px`;
+  });
+}
+
+onMounted(() => {
+  adjustContentHeight();
+});
+
 function onInputChange(field, value) {
   const updatedUser = { ...props.selectedUser, [field]: value };
   emit("updateUser", updatedUser);
 }
 
-// Function to update the password
 function updatePassword() {
   if (
     newPassword.value === confirmPassword.value &&
@@ -119,103 +161,117 @@ function updatePassword() {
 
 <style scoped>
 .section {
-  padding: 2rem;
-  background: #fff;
+  background: white;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 1rem; /* Makes entire header clickable */
+  user-select: none; /* Prevents text selection */
+  outline: none; /* Prevents any focus outline */
+}
+
+.section-header h2,
+.section-header .collapse-icon {
+  user-select: none; /* Prevents selection on header text and icon */
+  outline: none; /* Prevents any focus outline */
+}
+
+.collapse-icon {
+  font-size: 1.2rem;
+  transition: transform 0.3s;
+}
+
+.collapsed {
+  transform: rotate(-90deg);
 }
 
 h2 {
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   color: #333;
+  font-weight: 500;
+  margin: 0;
 }
 
-.input-wrapper {
-  position: relative;
-  margin-bottom: 1.5rem;
+.content {
+  overflow: hidden;
+  transition: max-height 0.5s ease; /* Smooth collapse transition */
 }
 
-.input-wrapper input[type="text"],
-.input-wrapper input[type="password"],
-.input-wrapper textarea,
-.input-wrapper select {
-  display: block;
-  width: 100%;
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
   padding: 1rem;
-  font-size: 1rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.input-group label {
+  font-size: 0.8rem;
+  color: #333;
+  margin-bottom: 0.3rem;
+}
+
+.input-group input[type="text"],
+.input-group input[type="password"],
+.input-group textarea,
+.input-group select {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  color: #333;
+  background: rgba(255, 255, 255, 0.8);
   border: 1px solid #ccc;
-  border-radius: 4px;
-  transition: border-color 0.3s;
-}
-
-.input-wrapper input[type="text"]:focus,
-.input-wrapper input[type="password"]:focus,
-.input-wrapper textarea:focus,
-.input-wrapper select:focus {
-  border-color: #4caf50;
-  outline: none;
-}
-
-.input-wrapper label {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
   transition: all 0.3s ease;
-  background: #fff;
-  padding: 0 5px;
-  color: #999;
-  pointer-events: none;
+  width: 100%;
 }
 
-.input-wrapper input:focus + label,
-.input-wrapper input:not(:placeholder-shown) + label,
-.input-wrapper textarea:focus + label,
-.input-wrapper textarea:not(:placeholder-shown) + label,
-.input-wrapper select:focus + label,
-.input-wrapper select:not([value=""]) + label {
-  top: -10px;
-  left: 5px;
-  font-size: 0.85rem;
-  color: #4caf50;
-}
-
-.dropdown-button {
-  appearance: none;
-  background-color: white;
-  cursor: pointer;
-}
-
-.dropdown-button:hover {
-  border-color: #4caf50;
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.3);
 }
 
 .password-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: 1px solid #4caf50;
-  background-color: #4caf50;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  border: none;
+  background-color: #4a90e2;
   color: white;
-  border-radius: 25px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s ease;
+  font-weight: 500;
+  margin: 1rem;
 }
 
 .password-button:hover {
-  background-color: #388e3c;
+  background-color: #357abd;
+}
+
+.error-message,
+.success-message {
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
 }
 
 .error-message {
-  color: #e74c3c;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
+  color: #d9534f;
 }
 
 .success-message {
-  color: #4caf50;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
+  color: #5cb85c;
 }
 </style>
