@@ -110,4 +110,11 @@ h2 {
   background-color: yellow;
   font-weight: bold;
 }
+
+@media (max-width: 1160px) {
+  .sidebar {
+    width: 100%;
+    border-right: none;
+  }
+}
 </style>

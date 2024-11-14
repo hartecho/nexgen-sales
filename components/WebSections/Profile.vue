@@ -27,6 +27,7 @@
           v-else-if="
             currentSection == 'edit-users' && userStore.user.role == 'admin'
           "
+          @close-sidebar="closeSidebar()"
         />
         <ProfileAdminEditCourses
           v-else-if="

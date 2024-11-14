@@ -84,4 +84,12 @@ h2 {
   width: 20px;
   margin-right: 0.5rem;
 }
+
+@media (max-width: 1160px) {
+  .action-buttons {
+    width: 100%;
+    border-right: none;
+    margin: 2rem 0;
+  }
+}
 </style>

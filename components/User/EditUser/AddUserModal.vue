@@ -30,10 +30,10 @@
       />
 
       <div class="modal-buttons">
+        <button class="modal-cancel-button" @click="closeModal">Cancel</button>
         <button class="modal-add-button" @click="confirmAddUser">
           Add User
         </button>
-        <button class="modal-cancel-button" @click="closeModal">Cancel</button>
       </div>
     </div>
   </div>
@@ -99,13 +99,14 @@ function confirmAddUser() {
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  padding: 0 1rem;
 }
 
 .modal-content {
   background: #fff;
   padding: 2rem;
   border-radius: 8px;
-  width: 300px;
+  width: 400px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
 }

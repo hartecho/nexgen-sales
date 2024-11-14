@@ -15,7 +15,7 @@
           :user="selectedUser"
           @add-user="showAddUserModal"
           @update-user="updateUser"
-          @delete-user="deleteUser"
+          @delete-user="showDeleteUserModal"
         />
       </div>
 
@@ -82,9 +82,15 @@
       </div>
 
       <UserEditUserAddUserModal
-        :visible="showModal"
-        @close="closeModal"
+        :visible="showAddModal"
+        @close="closeAddModal"
         @add-user="addUser"
+      />
+
+      <UserEditUserDeleteUserModal
+        :visible="showDeleteModal"
+        @close="closeDeleteModal"
+        @delete-user="deleteUser"
       />
 
       <!-- Notification Popup -->
@@ -104,103 +110,14 @@ import { ref, onMounted } from "vue";
 
 // State management
 const users = ref([]);
-const selectedUser = ref({
-  name: "",
-  preferredName: "",
-  dateOfBirth: null, // Ensure this is null initially
-  email: "",
-  password: "lakshop8208ydgfu839yWOUGDFasd08y23089yqwe", // Default password
-  profilePicture: "",
-  bio: "",
-  contact: {
-    phone: "",
-    street: "",
-    city: "",
-    state: "",
-    zip: "",
-  },
-  shippingAddresses: [
-    {
-      street: "",
-      city: "",
-      state: "",
-      zip: "",
-      country: "",
-      isPrimary: false,
-    },
-  ],
-  orders: [],
-  cart: [
-    {
-      product: null, // This will store the ObjectId reference to the 'Item' model
-      quantity: 1,
-    },
-  ],
-  wishlist: [],
-  recentlyViewedItems: [],
-  paymentMethods: [
-    {
-      cardType: "",
-      last4Digits: "",
-      expirationDate: "",
-      cardholderName: "",
-      billingAddress: {
-        street: "",
-        city: "",
-        state: "",
-        zip: "",
-        country: "",
-      },
-    },
-  ],
-  accountSettings: {
-    emailPreferences: {
-      marketingEmails: true,
-      offerEmails: true,
-      transactionalEmails: true,
-      newsletterEmails: true,
-    },
-    browserNotifications: {
-      promotional: true,
-      orderUpdates: true,
-      newFeatures: true,
-      personalizedRecommendations: true,
-    },
-    appPreferences: {
-      theme: "light", // Default to "light" theme
-      language: "en", // Default to "en" (English)
-      timeZone: "UTC", // Default timezone
-    },
-    dataPrivacy: {
-      allowPersonalization: true,
-      shareDataWithPartners: false,
-    },
-    notifications: {
-      enableAllNotifications: true,
-    },
-  },
-  role: "customer", // Default role is customer
-  enrolledCourses: [
-    {
-      course: null, // This will store the ObjectId reference to the 'Course' model
-      currentTrainingIndex: 0,
-      testResults: [
-        {
-          question: "",
-          answer: "",
-        },
-      ],
-    },
-  ],
-  grade: "Ungraded", // Default value for new users
-  adminDescription: "", // Admin feedback about the user's potential
-  created_at: new Date().toISOString(),
-  updated_at: new Date().toISOString(),
-});
+const selectedUser = ref(null);
 const hasUnsavedChanges = ref(false);
 const notificationMessage = ref("");
 const notificationType = ref("info");
-const showModal = ref(false);
+const showAddModal = ref(false);
+const showDeleteModal = ref(false);
+
+const emit = defineEmits(["close-sidebar"]);
 
 onMounted(async () => {
   await getUsers();
@@ -303,12 +220,26 @@ function getDefaultUserFields() {
 
 // Show modal
 function showAddUserModal() {
-  showModal.value = true;
+  if (window.innerWidth < 768) {
+    emit("close-sidebar");
+  }
+  showAddModal.value = true;
 }
 
 // Close modal
-function closeModal() {
-  showModal.value = false;
+function closeAddModal() {
+  showAddModal.value = false;
+}
+
+function showDeleteUserModal() {
+  if (window.innerWidth < 768) {
+    emit("close-sidebar");
+  }
+  showDeleteModal.value = true;
+}
+
+function closeDeleteModal() {
+  showDeleteModal.value = false;
 }
 
 async function updateUser() {
@@ -462,6 +393,10 @@ h1 {
   .user-management-wrapper {
     flex-direction: column;
     /* padding: 1rem; */
+  }
+
+  .left {
+    width: 100%;
   }
 
   .user-details {
