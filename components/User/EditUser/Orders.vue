@@ -27,7 +27,7 @@
             <p><strong>Price:</strong> ${{ order.price }}</p>
           </div>
           <button @click="removeOrder(index)" class="remove-button">
-            Remove
+            <img src="/Graphics/TrashBlue.svg" alt="Remove" />
           </button>
         </div>
       </div>
@@ -77,9 +77,9 @@ function removeOrder(index) {
 
 <style scoped>
 .section {
-  background: rgba(173, 216, 230, 0.15);
+  background: white;
   border-radius: 8px;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   width: 100%;
 }
 
@@ -129,14 +129,15 @@ h2 {
 }
 
 .order-item {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  max-width: 400px;
   gap: 0.5rem;
   padding: 0.8rem;
-  background: rgba(173, 216, 230, 0.1);
+  background: rgba(173, 216, 230, 0.1); /* Light blue background */
   border: 1px solid #ddd;
   border-radius: 6px;
+  align-items: center;
 }
 
 .order-info {
@@ -146,33 +147,59 @@ h2 {
 
 .order-details {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 0.3rem;
 }
 
 .order-details p {
-  flex: 1 1 150px;
-  max-width: 250px;
   margin: 0.5rem 0;
 }
 
 .remove-button {
-  padding: 5px 10px;
-  font-size: 0.9rem;
+  background: none;
   border: none;
-  background-color: #e74c3c;
-  color: white;
-  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  padding: 0.3rem;
+  transition: transform 0.2s ease;
+}
+
+.remove-button img {
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .remove-button:hover {
-  background-color: #c0392b;
+  transform: scale(1.1);
 }
 
 p {
   margin-left: 1rem;
   margin-bottom: 1rem;
+}
+
+/* Responsive adjustments for screens 830px or smaller */
+@media (max-width: 830px) {
+  .section-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .order-item {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+
+  .remove-button {
+    align-self: flex-end;
+    margin-top: 0.5rem;
+  }
+
+  .order-info,
+  .order-details {
+    font-size: 0.9rem;
+  }
+
+  .order-details p {
+    margin: 0.3rem 0;
+  }
 }
 </style>

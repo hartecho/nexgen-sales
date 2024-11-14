@@ -12,6 +12,14 @@
       :style="{ maxHeight: isCollapsed ? '0px' : contentHeight }"
       class="content"
     >
+      <!-- Profile Picture Display -->
+      <div class="profile-picture">
+        <img
+          :src="selectedUser.profilePicture || '/Logos/NexgenLogo.webp'"
+          alt="Profile Picture"
+        />
+      </div>
+
       <div class="input-grid">
         <!-- User Name -->
         <div class="input-group">
@@ -112,7 +120,7 @@ const newPassword = ref("");
 const confirmPassword = ref("");
 const passwordError = ref("");
 const passwordSuccess = ref("");
-const isCollapsed = ref(true);
+const isCollapsed = ref(false);
 const contentHeight = ref("0px");
 const content = ref(null);
 
@@ -172,15 +180,15 @@ function updatePassword() {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  padding: 1rem; /* Makes entire header clickable */
-  user-select: none; /* Prevents text selection */
-  outline: none; /* Prevents any focus outline */
+  padding: 1rem;
+  user-select: none;
+  outline: none;
 }
 
 .section-header h2,
 .section-header .collapse-icon {
-  user-select: none; /* Prevents selection on header text and icon */
-  outline: none; /* Prevents any focus outline */
+  user-select: none;
+  outline: none;
 }
 
 .collapse-icon {
@@ -201,7 +209,21 @@ h2 {
 
 .content {
   overflow: hidden;
-  transition: max-height 0.5s ease; /* Smooth collapse transition */
+  transition: max-height 0.5s ease;
+}
+
+.profile-picture {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.profile-picture img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
 }
 
 .input-grid {
@@ -273,5 +295,27 @@ h2 {
 
 .success-message {
   color: #5cb85c;
+}
+
+/* Responsive adjustments for screens 830px or smaller */
+@media (max-width: 830px) {
+  .section-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .profile-picture img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .input-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .password-button {
+    width: 100%;
+    max-width: 200px;
+  }
 }
 </style>

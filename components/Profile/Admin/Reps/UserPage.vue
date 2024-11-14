@@ -144,32 +144,8 @@
             Save Evaluation
           </button>
           <div class="final-btns">
-            <button
-              class="accept-btn"
-              @click="
-                () => {
-                  closeSidebar();
-                  popup = true;
-                  rejectOption = false;
-                  acceptOption = true;
-                }
-              "
-            >
-              Accept
-            </button>
-            <button
-              class="reject-btn"
-              @click="
-                () => {
-                  closeSidebar();
-                  popup = true;
-                  acceptOption = false;
-                  rejectOption = true;
-                }
-              "
-            >
-              Reject
-            </button>
+            <button class="accept-btn" @click="clickAccept()">Accept</button>
+            <button class="reject-btn" @click="clickReject()">Reject</button>
           </div>
         </div>
       </div>
@@ -227,6 +203,24 @@ function calculateCompletionDays(createdAt, completionDate) {
   const differenceInDays = Math.floor(differenceInTime / (1000 * 60 * 60 * 24));
   return differenceInDays;
 }
+
+const clickAccept = () => {
+  if (window.innerWidth < 768) {
+    closeSidebar();
+  }
+  popup.value = true;
+  rejectOption.value = false;
+  acceptOption.value = true;
+};
+
+const clickReject = () => {
+  if (window.innerWidth < 768) {
+    closeSidebar();
+  }
+  popup.value = true;
+  acceptOption.value = false;
+  rejectOption.value = true;
+};
 
 // Helper function to format date
 const formatDate = (date) => {

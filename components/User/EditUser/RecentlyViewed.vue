@@ -1,40 +1,80 @@
 <template>
   <div class="section">
-    <h2>Recently Viewed Items</h2>
-    <div v-if="selectedUser.recentlyViewedItems.length > 0">
-      <div
-        v-for="(item, index) in selectedUser.recentlyViewedItems"
-        :key="index"
-        class="recently-viewed-item"
-      >
-        <div class="input-wrapper">
-          <input
-            type="text"
-            :value="item"
-            @input="onRecentlyViewedItemChange(index, $event.target.value)"
-            placeholder="Item ID"
-          />
-          <label>Item ID</label>
-        </div>
-        <button @click="removeRecentlyViewedItem(index)" class="delete-button">
-          Remove
-        </button>
-      </div>
+    <div class="section-header" @click="toggleCollapse" @mousedown.prevent>
+      <h2>Recently Viewed Items</h2>
+      <span :class="['collapse-icon', isCollapsed ? 'collapsed' : 'expanded']">
+        ▼
+      </span>
     </div>
-    <button @click="addNewRecentlyViewedItem" class="add-button">
-      Add New Item
-    </button>
+
+    <div
+      ref="content"
+      :style="{ maxHeight: isCollapsed ? '0px' : contentHeight }"
+      class="content"
+    >
+      <div
+        v-if="selectedUser.recentlyViewedItems.length > 0"
+        class="recently-viewed-items"
+      >
+        <div
+          v-for="(item, index) in selectedUser.recentlyViewedItems"
+          :key="index"
+          class="recently-viewed-item"
+        >
+          <div class="input-group">
+            <label>Item ID</label>
+            <input
+              type="text"
+              :value="item"
+              @input="onRecentlyViewedItemChange(index, $event.target.value)"
+              placeholder="Item ID"
+            />
+          </div>
+          <button
+            @click="removeRecentlyViewedItem(index)"
+            class="delete-button"
+          >
+            <img src="/Graphics/TrashBlue.svg" alt="Remove" />
+          </button>
+        </div>
+      </div>
+      <button @click="addNewRecentlyViewedItem" class="add-button">
+        Add New Item
+      </button>
+    </div>
   </div>
 </template>
-  
-  <script setup>
+
+<script setup>
+import { ref, nextTick, onMounted } from "vue";
+
 const props = defineProps({
   selectedUser: Object,
 });
 
 const emit = defineEmits(["updateUser"]);
 
-// Handle changes to recently viewed items
+const isCollapsed = ref(true);
+const contentHeight = ref("0px");
+const content = ref(null);
+
+function toggleCollapse() {
+  isCollapsed.value = !isCollapsed.value;
+  adjustContentHeight();
+}
+
+function adjustContentHeight() {
+  nextTick(() => {
+    contentHeight.value = isCollapsed.value
+      ? "0px"
+      : `${content.value.scrollHeight}px`;
+  });
+}
+
+onMounted(() => {
+  adjustContentHeight();
+});
+
 function onRecentlyViewedItemChange(index, value) {
   const updatedRecentlyViewed = [...props.selectedUser.recentlyViewedItems];
   updatedRecentlyViewed[index] = value;
@@ -43,9 +83,9 @@ function onRecentlyViewedItemChange(index, value) {
     recentlyViewedItems: updatedRecentlyViewed,
   };
   emit("updateUser", updatedUser);
+  adjustContentHeight(); // Adjust height after updating an item
 }
 
-// Add a new item to the recently viewed list
 function addNewRecentlyViewedItem() {
   const updatedRecentlyViewed = [...props.selectedUser.recentlyViewedItems, ""];
   const updatedUser = {
@@ -53,9 +93,9 @@ function addNewRecentlyViewedItem() {
     recentlyViewedItems: updatedRecentlyViewed,
   };
   emit("updateUser", updatedUser);
+  adjustContentHeight(); // Adjust height after adding a new item
 }
 
-// Remove an item from the recently viewed list
 function removeRecentlyViewedItem(index) {
   const updatedRecentlyViewed = [...props.selectedUser.recentlyViewedItems];
   updatedRecentlyViewed.splice(index, 1);
@@ -64,97 +104,161 @@ function removeRecentlyViewedItem(index) {
     recentlyViewedItems: updatedRecentlyViewed,
   };
   emit("updateUser", updatedUser);
+  adjustContentHeight(); // Adjust height after removing an item
 }
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .section {
-  padding: 2rem;
-  background: #fff;
+  background: white;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 1rem;
+  user-select: none;
+  outline: none;
+}
+
+.section-header h2,
+.section-header .collapse-icon {
+  user-select: none;
+  outline: none;
+}
+
+.collapse-icon {
+  font-size: 1.2rem;
+  transition: transform 0.3s;
+}
+
+.collapsed {
+  transform: rotate(-90deg);
 }
 
 h2 {
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   color: #333;
+  font-weight: 500;
+  margin: 0;
+}
+
+.content {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.5s ease;
+}
+
+.recently-viewed-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
 }
 
 .recently-viewed-item {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  background: #f9f9f9;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
+  grid-template-columns: 1fr auto;
+  max-width: 400px;
+  gap: 0.5rem;
+  padding: 0.8rem;
+  background: rgba(240, 240, 240, 1); /* Light gray background */
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  align-items: center;
 }
 
-.input-wrapper {
-  position: relative;
+.input-group {
+  display: flex;
+  flex-direction: column;
 }
 
-.input-wrapper input[type="text"] {
-  display: block;
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
+.input-group label {
+  font-size: 0.8rem;
+  color: #333;
+  margin-bottom: 0.3rem;
+}
+
+.input-group input[type="text"] {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  color: #333;
+  background: rgba(255, 255, 255, 0.8);
   border: 1px solid #ccc;
   border-radius: 4px;
-  transition: border-color 0.3s;
-}
-
-.input-wrapper input[type="text"]:focus {
-  border-color: #4caf50;
-  outline: none;
-}
-
-.input-wrapper label {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
   transition: all 0.3s ease;
-  background: #f9f9f9;
-  padding: 0 5px;
-  color: #999;
-  pointer-events: none;
+  width: 100%;
 }
 
-.input-wrapper input:focus + label,
-.input-wrapper input:not(:placeholder-shown) + label {
-  top: -10px;
-  left: 5px;
-  font-size: 0.85rem;
-  color: #4caf50;
+.input-group input:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.3);
 }
 
-.add-button,
-.delete-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 25px;
-  background-color: #ff8210;
+.add-button {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  border: none;
+  background-color: #4a90e2;
   color: white;
   cursor: pointer;
-  text-align: center;
-  transition: background-color 0.3s, color 0.3s;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  margin: 1rem;
+  border-radius: 6px;
 }
 
-.add-button:hover,
-.delete-button:hover {
-  background-color: #e66b00;
+.add-button:hover {
+  background-color: #357abd;
 }
 
 .delete-button {
-  background-color: #e74c3c;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem;
+  transition: transform 0.2s ease;
+}
+
+.delete-button img {
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .delete-button:hover {
-  background-color: #c0392b;
+  transform: scale(1.1);
+}
+
+/* Responsive adjustments for screens 830px or smaller */
+@media (max-width: 830px) {
+  .section-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .recently-viewed-item {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+
+  .delete-button {
+    align-self: flex-end;
+    margin-top: 0.5rem;
+  }
+
+  .input-group input[type="text"] {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .add-button {
+    width: 100%;
+    max-width: 200px;
+  }
 }
 </style>
-  

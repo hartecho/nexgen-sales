@@ -195,9 +195,9 @@ function removeEnrollment(index) {
 
 <style scoped>
 .section {
-  background: rgba(173, 216, 230, 0.15); /* Light transparent blue */
+  background: white;
   border-radius: 8px;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   width: 100%;
 }
 
@@ -368,6 +368,51 @@ h3 {
 
 select {
   margin: 1rem;
+}
+
+/* Responsive adjustments for screens 830px or smaller */
+@media (max-width: 830px) {
+  .section-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .enrollment-item {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0;
+  }
+
+  .course-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .input-group input[type="text"],
+  .input-group input[type="number"],
+  .course-select {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .add-button {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .test-results {
+    flex-direction: column;
+    padding: 0.5rem;
+  }
+
+  .test-result-item {
+    flex: 1 1 100%; /* Makes items take full width */
+    max-width: 100%;
+  }
+
+  .delete-button {
+    align-self: flex-end;
+    margin-top: 0.5rem;
+  }
 }
 </style>
 

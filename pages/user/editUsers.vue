@@ -212,6 +212,7 @@ h1 {
 
 .user-details {
   flex: 1;
+  width: 100%;
 }
 
 .section {

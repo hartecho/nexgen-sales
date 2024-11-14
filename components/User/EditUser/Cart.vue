@@ -124,9 +124,9 @@ function removeCartItem(index) {
 
 <style scoped>
 .section {
-  background: rgba(173, 216, 230, 0.15); /* Light transparent blue */
+  background: white;
   border-radius: 8px;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   width: 100%;
 }
 
@@ -250,5 +250,31 @@ h2 {
 
 .delete-button:hover {
   transform: scale(1.1);
+}
+
+/* Responsive adjustments for screens 830px or smaller */
+@media (max-width: 830px) {
+  .section-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .input-grid {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .cart-item {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+
+  .quantity-group input {
+    max-width: 100%;
+  }
+
+  .add-button {
+    width: 100%;
+    max-width: 200px;
+  }
 }
 </style>

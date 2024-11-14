@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
     <div class="hero">
       <h2>Add/Update User</h2>
     </div>
@@ -8,7 +8,7 @@
       <!-- Hero Section -->
 
       <!-- Sidebar for managing users -->
-      <div>
+      <div class="left">
         <UserEditUserSelectUser :users="users" @userSelected="selectUser" />
         <!-- Action Buttons -->
         <UserEditUserActionButtons
@@ -21,55 +21,53 @@
 
       <!-- Main content for user details and actions -->
       <div class="user-details" v-if="selectedUser">
-        <div class="content">
-          <!-- General Information -->
-          <UserEditUserGeneralInfo
-            :selectedUser="selectedUser"
-            @updateUser="handleUnsavedChanges($event)"
-          />
+        <!-- General Information -->
+        <UserEditUserGeneralInfo
+          :selectedUser="selectedUser"
+          @updateUser="handleUnsavedChanges($event)"
+        />
 
-          <!-- Manage Shipping Addresses -->
-          <UserEditUserShippingAddresses
-            :selectedUser="selectedUser"
-            @updateUser="handleUnsavedChanges($event)"
-          />
+        <!-- Manage Shipping Addresses -->
+        <UserEditUserShippingAddresses
+          :selectedUser="selectedUser"
+          @updateUser="handleUnsavedChanges($event)"
+        />
 
-          <!-- Manage Payment Methods -->
-          <UserEditUserPaymentMethods
-            :selectedUser="selectedUser"
-            @updateUser="handleUnsavedChanges($event)"
-          />
+        <!-- Manage Payment Methods -->
+        <UserEditUserPaymentMethods
+          :selectedUser="selectedUser"
+          @updateUser="handleUnsavedChanges($event)"
+        />
 
-          <!-- Manage Cart -->
-          <UserEditUserCart
-            :selectedUser="selectedUser"
-            @updateUser="handleUnsavedChanges($event)"
-          />
+        <!-- Manage Cart -->
+        <UserEditUserCart
+          :selectedUser="selectedUser"
+          @updateUser="handleUnsavedChanges($event)"
+        />
 
-          <!-- Manage Orders -->
-          <UserEditUserOrders
-            :selectedUser="selectedUser"
-            @updateUser="handleUnsavedChanges($event)"
-          />
+        <!-- Manage Orders -->
+        <UserEditUserOrders
+          :selectedUser="selectedUser"
+          @updateUser="handleUnsavedChanges($event)"
+        />
 
-          <!-- Manage Wishlist -->
-          <UserEditUserWishlist
-            :selectedUser="selectedUser"
-            @updateUser="handleUnsavedChanges($event)"
-          />
+        <!-- Manage Wishlist -->
+        <UserEditUserWishlist
+          :selectedUser="selectedUser"
+          @updateUser="handleUnsavedChanges($event)"
+        />
 
-          <!-- Manage Recently Viewed Items -->
-          <UserEditUserRecentlyViewed
-            :selectedUser="selectedUser"
-            @updateUser="handleUnsavedChanges($event)"
-          />
+        <!-- Manage Recently Viewed Items -->
+        <UserEditUserRecentlyViewed
+          :selectedUser="selectedUser"
+          @updateUser="handleUnsavedChanges($event)"
+        />
 
-          <!-- Manage Enrolled Courses -->
-          <UserEditUserEnrolledCourses
-            :selectedUser="selectedUser"
-            @updateUser="handleUnsavedChanges($event)"
-          />
-        </div>
+        <!-- Manage Enrolled Courses -->
+        <UserEditUserEnrolledCourses
+          :selectedUser="selectedUser"
+          @updateUser="handleUnsavedChanges($event)"
+        />
       </div>
 
       <!-- Unsaved Changes Popup -->
@@ -363,11 +361,20 @@ function handleUnsavedChanges(updatedUser) {
 </script>
 
 <style scoped>
+.wrapper {
+  max-width: 100vw;
+}
+
 .user-management-wrapper {
   display: flex;
   min-height: 100vh;
+  max-width: 100%;
   font-family: "Roboto", sans-serif;
   background-color: #f5f5f5;
+}
+
+.left {
+  max-width: 100%;
 }
 
 .hero {
@@ -437,9 +444,9 @@ function handleUnsavedChanges(updatedUser) {
 }
 
 .user-details {
-  flex: 1;
-  padding: 2rem;
   width: 100%;
+  padding: 2rem;
+  max-width: 100%; /* Allows .user-details to fully utilize the available space */
 }
 
 h1 {
@@ -450,25 +457,16 @@ h1 {
   font-weight: 700;
 }
 
-.content {
-  display: grid;
-  grid-template-columns: 3fr;
-  gap: 0rem;
-}
-
 /* Media query for tablets and smaller screens */
-@media (max-width: 1024px) {
+@media (max-width: 1160px) {
   .user-management-wrapper {
     flex-direction: column;
-    padding: 1rem;
+    /* padding: 1rem; */
   }
 
   .user-details {
-    padding: 1rem;
-  }
-
-  .content {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    padding: 1rem; /* Reduce padding for medium screens */
+    max-width: 100%;
   }
 
   .unsaved-changes-popup {
@@ -485,8 +483,9 @@ h1 {
   }
 
   .user-details {
-    padding: 1rem;
-    width: 100%;
+    padding: 0.5rem; /* Reduce padding further for smaller screens */
+    max-width: 100%; /* Ensure it takes full width of the container */
+    width: 100%; /* Overrides any inherited max-width */
   }
 
   .unsaved-changes-popup {
@@ -528,6 +527,12 @@ h1 {
 
   .popup-message {
     font-size: 0.8rem;
+  }
+
+  .user-details {
+    padding: 0.5rem;
+    width: 100%;
+    max-width: 100%;
   }
 
   .popup-save-button {
