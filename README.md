@@ -20,7 +20,8 @@ NexGen Sales is the public homepage and recruitment portal for a door‑to‑doo
 - Blog page for company news, tips, and updates  
 - Secure application form with validation and anti‑spam  
 - Client portal with courses, video trainings, and quizzes  
-- AWS S3 integration for hosting images and assets  
+- AWS S3 integration for hosting images and assets
+- AWS Lambda functions for sending emails and other operations
 - Google OAuth for user signup/login  
 - JWT‑secured API routes and session management  
 - reCAPTCHA v3 integration to block spam  
