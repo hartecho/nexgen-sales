@@ -66,6 +66,12 @@ const transactionSchema = new mongoose.Schema({
     paymentMethod: {
         type: String,
         required: true
+    },
+    trackingNumber: Number,
+    status: {
+        type: String,
+        required: true,
+        enum: ['Pending', 'Shipped', 'Delivered', 'Cancelled']
     }
 });
 

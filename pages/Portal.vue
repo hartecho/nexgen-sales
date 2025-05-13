@@ -7,7 +7,7 @@
             <img src="/Backgrounds/introBG2.webp" alt="" />
           </div>
         </div>
-        <NavFooterPreloadLoginModal />
+        <NavFooterPreloadLoginPage />
       </div>
       <div v-else>
         <ProfileSidebar
